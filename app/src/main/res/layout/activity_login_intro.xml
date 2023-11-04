@@ -34,7 +34,7 @@
         android:id="@+id/imageView"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:src="@drawable/update_documents"
+        android:src="@drawable/import_documents"
         app:layout_constraintBottom_toTopOf="@+id/txtLoginHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
