@@ -3,18 +3,14 @@ package com.example.itemsfinder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -96,35 +92,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupRecyclerView() {
-        itemListView = findViewById(R.id.itemsListView)
         itemList = mutableListOf()
         itemListAdapter = ItemListAdapter(itemList)
         itemListView.apply {
             adapter = itemListAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
-
-        val itemListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                itemList.clear()
-                for (snapshot in dataSnapshot.children) {
-                    val item = snapshot.getValue(Item::class.java)
-                    item?.let { itemList.add(it) }
-                }
-                itemListAdapter.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Failed to read data from Firebase",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        val itemContainerDetailsRef = database.child("Item_Container_Details")
-        itemContainerDetailsRef.addValueEventListener(itemListener)
     }
 
 
