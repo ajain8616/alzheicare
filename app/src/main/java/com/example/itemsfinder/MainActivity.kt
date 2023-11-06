@@ -1,44 +1,47 @@
 package com.example.itemsfinder
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-class MainActivity : AppCompatActivity(), ItemListAdapter.OnItemDeleteListener {
+class MainActivity : AppCompatActivity() {
     private lateinit var addItem: ImageButton
     private lateinit var searchItem: ImageButton
     private lateinit var sendItem: ImageButton
     private lateinit var itemName: EditText
     private lateinit var description: EditText
-    private lateinit var itemType: Spinner
-    private lateinit var itemSearch: EditText
+    private lateinit var itemTypeRadioGroup:RadioGroup
+    private lateinit var radioObject:RadioButton
+    private lateinit var radioContainer:RadioButton
     private lateinit var itemListView: RecyclerView
     private lateinit var addItemForm: RelativeLayout
-    private lateinit var searchItemLayout: RelativeLayout
+    private lateinit var searchItemLayout:RelativeLayout
     private lateinit var itemListAdapter: ItemListAdapter
     private lateinit var itemList: MutableList<Item>
     private lateinit var database: DatabaseReference
-    private lateinit var typeImg: ImageView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         database = FirebaseDatabase.getInstance().reference
         setEventHandlers()
-        setupSpinner()
         setupRecyclerView()
     }
 
@@ -48,12 +51,12 @@ class MainActivity : AppCompatActivity(), ItemListAdapter.OnItemDeleteListener {
         sendItem = findViewById(R.id.sendButton)
         itemName = findViewById(R.id.itemName)
         description = findViewById(R.id.description)
-        itemType = findViewById(R.id.itemTypeSpinner)
-        itemListView = findViewById(R.id.itemListView)
+        itemListView = findViewById(R.id.itemsListView)
         addItemForm = findViewById(R.id.addItemForm)
+        radioContainer=findViewById(R.id.radioContainer)
+        itemTypeRadioGroup=findViewById(R.id.itemTypeRadioGroup)
+        radioObject=findViewById(R.id.radioObject)
         searchItemLayout=findViewById(R.id.searchItemLayout)
-        itemSearch=findViewById(R.id.itemSearch)
-        typeImg=findViewById(R.id.typeImg)
 
     }
 
@@ -69,63 +72,61 @@ class MainActivity : AppCompatActivity(), ItemListAdapter.OnItemDeleteListener {
 
         searchItem.setOnClickListener {
             if (searchItemLayout.visibility == View.GONE) {
-                searchItemLayout.visibility = View.VISIBLE // Show the form
+                searchItemLayout.visibility = View.VISIBLE // Show the search layout
             } else {
-                searchItemLayout.visibility = View.GONE // Hide the form
+                searchItemLayout.visibility = View.GONE // Hide the search layout
             }
         }
 
         sendItem.setOnClickListener {
-            val name = itemName.text.toString()
-            val desc = description.text.toString()
-            val type = itemType.selectedItem.toString()
-            val item = Item(name, desc, type)
+            val itemName = itemName.text.toString()
+            val description = description.text.toString()
+            val itemType = when (itemTypeRadioGroup.checkedRadioButtonId) {
+                R.id.radioObject -> "OBJECT"
+                R.id.radioContainer -> "CONTAINER"
+                else -> ""
+            }
+            val item = Item(itemName, description, itemType)
             itemList.add(item)
             itemListAdapter.notifyDataSetChanged()
             setDataOnFirebase(item)
         }
-
-        itemType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                if (selectedItem == "OBJECT") {
-                    typeImg.setImageResource(R.drawable.icon_object)
-                } else if (selectedItem == "CONTAINER") {
-                    typeImg.setImageResource(R.drawable.icon_container)
-                } else {
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        }
-
     }
 
-    private fun setupSpinner() {
-        val itemTypeOptions = arrayOf("Choose your Type:-- ", "OBJECT", "CONTAINER")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, itemTypeOptions)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        itemType.adapter = adapter
-        itemType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                // Perform additional logic based on the selected option
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing
-            }
-        }
-    }
+
     private fun setupRecyclerView() {
+        itemListView = findViewById(R.id.itemsListView)
         itemList = mutableListOf()
         itemListAdapter = ItemListAdapter(itemList)
         itemListView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = itemListAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
-        itemListAdapter.setOnItemDeleteListener(this) // Set the listener here
+        val itemListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                itemList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val item = snapshot.getValue(Item::class.java)
+                    item?.let { itemList.add(it) }
+                }
+                itemListAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Failed to read data from Firebase",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        val itemContainerDetailsRef = database.child("Item_Container_Details")
+        itemContainerDetailsRef.addValueEventListener(itemListener)
     }
+
 
     private fun setDataOnFirebase(item: Item) {
         val newItemRef = database.child("Item_Container_Details").push()
@@ -138,11 +139,4 @@ class MainActivity : AppCompatActivity(), ItemListAdapter.OnItemDeleteListener {
             }
     }
 
-    override fun onItemDelete(item: Item) {
-        val itemIndex = itemList.indexOf(item)
-        if (itemIndex != -1) {
-            itemList.removeAt(itemIndex)
-            itemListAdapter.notifyDataSetChanged()
-        }
-    }
 }

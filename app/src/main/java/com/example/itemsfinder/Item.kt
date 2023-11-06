@@ -1,3 +1,3 @@
 package com.example.itemsfinder
 
-data class Item(val name: String, val description: String, val type: String)
+data class Item(val itemName: String, val description: String, val itemType: String)

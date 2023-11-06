@@ -14,7 +14,7 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/itemNameTextView"
+            android:id="@+id/itemName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,15 +23,15 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/border"/>
 
-        <ImageView
-            android:id="@+id/typeImg"
+        <ImageButton
+            android:id="@+id/previewImgBtn"
             android:layout_width="44dp"
             android:layout_height="45dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimary"
             android:padding="10dp"
-            android:src="@drawable/icon_object" />
+            android:src="@drawable/ic_preview" />
 
     </LinearLayout>
 
@@ -42,7 +42,7 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/descriptionTextView"
+            android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,7 +70,7 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/itemTypeTextView"
+            android:id="@+id/itemType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
