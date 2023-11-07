@@ -1,94 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="9dp"
-    android:layout_margin="5dp"
-    android:orientation="vertical">
+    android:layout_margin="5dp">
 
     <LinearLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:padding="9dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/itemName"
+        <ImageView
+            android:id="@+id/itemTypeView"
+            android:layout_width="72dp"
+            android:layout_height="77dp"
+            android:src="@drawable/ic_block"/>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Item Name"
-            android:padding="9dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border"/>
+            android:layout_margin="2dp"
+            android:paddingStart="4dp"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/previewImgBtn"
-            android:layout_width="44dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorPrimary"
-            android:padding="10dp"
-            android:src="@drawable/ic_preview" />
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Item Name"
+                android:textStyle="bold"
+                android:textSize="19sp"
+                android:layout_gravity="end"/>
 
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Description"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/itemType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Item Type"/>
+
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Description"
-            android:padding="9dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border"/>
-
-        <ImageButton
-            android:id="@+id/updateImgBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            android:padding="10dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/itemType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Item Type"
-            android:padding="9dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border"/>
-
-        <ImageButton
-            android:id="@+id/deleteImgBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_delete"
-            android:padding="10dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

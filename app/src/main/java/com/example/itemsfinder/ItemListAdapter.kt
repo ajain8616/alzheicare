@@ -1,8 +1,10 @@
 package com.example.itemsfinder
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -13,6 +15,7 @@ class ItemListAdapter(private val itemList: List<Item>) :
         val itemName: TextView = itemView.findViewById(R.id.itemName)
         val description: TextView = itemView.findViewById(R.id.description)
         val itemType: TextView = itemView.findViewById(R.id.itemType)
+        val itemTypeView:ImageView=itemView.findViewById(R.id.itemTypeView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -20,15 +23,28 @@ class ItemListAdapter(private val itemList: List<Item>) :
             .inflate(R.layout.item_layout, parent, false)
         return ItemViewHolder(itemView)
     }
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val currentItem = itemList[position]
         holder.itemName.text = currentItem.itemName
         holder.description.text = currentItem.description
         holder.itemType.text = currentItem.itemType
+        when (currentItem.itemType) {
+            "OBJECT" -> holder.itemTypeView.setImageResource(R.drawable.ic_items)
+            "CONTAINER" -> holder.itemTypeView.setImageResource(R.drawable.ic_containers)
+            else -> holder.itemTypeView.setImageResource(R.drawable.ic_block)
+        }
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, ContainerDetailsActivity::class.java)
+            intent.putExtra("itemName", currentItem.itemName)
+            intent.putExtra("description", currentItem.description)
+            intent.putExtra("itemType", currentItem.itemType)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
         return itemList.size
     }
+
 }

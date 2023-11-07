@@ -15,28 +15,28 @@
         android:src="@drawable/collection_documents" />
 
     <TextView
-        android:id="@+id/itemNameTextView"
+        android:id="@+id/itemNameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:padding="5dp" />
 
     <TextView
-        android:id="@+id/descriptionTextView"
+        android:id="@+id/descriptionView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/itemNameTextView"
+        android:layout_below="@id/itemNameView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:padding="5dp" />
 
     <TextView
-        android:id="@+id/itemTypeTextView"
+        android:id="@+id/itemTypeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/descriptionTextView"
+        android:layout_below="@id/descriptionView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:padding="5dp" />
@@ -45,18 +45,17 @@
         android:id="@+id/containerSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/itemTypeTextView"
+        android:layout_below="@id/itemTypeView"
         android:layout_marginTop="16dp"
         android:padding="5dp" />
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/storeItemInContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/containerSpinner"
+        android:layout_below="@id/containerSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:padding="15dp"
         android:src="@drawable/ic_send"
         android:background="@color/colorPrimary" />
 
@@ -64,17 +63,41 @@
         android:id="@+id/selectedItemTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/storeItemInContainer"
+        android:layout_below="@id/storeItemInContainer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:padding="5dp" />
 
-    <ImageView
-        android:id="@+id/waveImageView"
-        android:src="@drawable/ic_wave"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_more_vert" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/floatingActionButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/ic_edit" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/editActionButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/ic_delete" />
 
 </RelativeLayout>
