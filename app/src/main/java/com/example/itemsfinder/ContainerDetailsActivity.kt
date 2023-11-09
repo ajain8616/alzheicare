@@ -6,8 +6,11 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class ContainerDetailsActivity : AppCompatActivity() {
@@ -32,7 +35,6 @@ class ContainerDetailsActivity : AppCompatActivity() {
 
         floatingActionButton.setOnClickListener {
             if (editActionButton.visibility == View.GONE || deleteActionButton.visibility == View.GONE) {
-                // Expand the buttons
                 editActionButton.visibility = View.VISIBLE
                 deleteActionButton.visibility = View.VISIBLE
             } else {
@@ -46,16 +48,14 @@ class ContainerDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, UpdateDetailsActivity::class.java)
             startActivity(intent)
         }
-        // Assuming you have a reference to the itemList and an adapter for displaying it
         deleteActionButton.setOnClickListener {
 
         }
 
+
     }
 
-
-
-        private fun findIdsOfElements()
+    private fun findIdsOfElements()
     {
         containerSpinner = findViewById(R.id.containerSpinner)
         storeItemInContainer = findViewById(R.id.storeItemInContainer)
@@ -76,5 +76,7 @@ class ContainerDetailsActivity : AppCompatActivity() {
         itemType.text = "Item_Type: $itemTypeExtra"
     }
 
-
 }
+
+
+

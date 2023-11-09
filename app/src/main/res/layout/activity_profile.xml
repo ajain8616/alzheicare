@@ -19,6 +19,7 @@
         android:scaleType="centerCrop"/>
 
     <!-- User Information -->
+
     <TextView
         android:id="@+id/user_info"
         android:layout_width="match_parent"

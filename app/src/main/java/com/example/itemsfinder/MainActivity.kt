@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabActionButton:FloatingActionButton
     private lateinit var profileActionButton:FloatingActionButton
     private lateinit var cameraActionButton:FloatingActionButton
+    private lateinit var clearButton:ImageButton
 
 
 
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         fabActionButton=findViewById(R.id.fabActionButton)
         profileActionButton=findViewById(R.id.profileActionButton)
         cameraActionButton=findViewById(R.id.cameraActionButton)
+        clearButton=findViewById(R.id.clearButton)
     }
 
     private fun setEventHandlers() {
@@ -141,6 +143,10 @@ class MainActivity : AppCompatActivity() {
             itemListAdapter.notifyDataSetChanged()
             setDataOnFirebase(item)
             saveItemListToSharedPreferences()
+        }
+
+        clearButton.setOnClickListener {
+            itemSearch.text.clear()
         }
     }
 
