@@ -41,7 +41,7 @@
         />
 
     <Button
-        android:textColor="@color/colorPrimaryButton"
+        android:textColor="@color/colorPrimary"
         android:background="@drawable/btn_primary"
         android:id="@+id/btnGetStarted"
         android:layout_width="wrap_content"

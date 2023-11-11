@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Stay Connected"
-            android:textColor="@color/colorPrimaryText" />
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Body1"
@@ -32,7 +32,7 @@
             android:layout_marginTop="8dp"
             android:maxEms="20"
             android:text="Enter your email address and password\nto get access to your account"
-            android:textColor="@color/colorPrimaryText" />
+            android:textColor="@color/colorPrimary" />
 
         <EditText
             android:id="@+id/etEmailAddress"
@@ -79,16 +79,17 @@
             android:minHeight="28dp"
             android:padding="12dp"
             android:text="Sign Up"
-            android:textColor="@color/colorPrimaryButton" />
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:background="@drawable/gradient"
             android:text="Already have an account?"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimaryTextOpaque" />
+            android:textColor="@color/colorWhite" />
 
 
     </LinearLayout>

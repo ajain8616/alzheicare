@@ -1,5 +1,6 @@
 package com.example.itemsfinder
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
+
     private var isAddItemLayoutVisible = false
     private var isSearchItemVisible = false
     private lateinit var addItem: ImageButton
@@ -41,9 +43,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabActionButton:FloatingActionButton
     private lateinit var profileActionButton:FloatingActionButton
     private lateinit var cameraActionButton:FloatingActionButton
+    private lateinit var setDataActionButton:FloatingActionButton
     private lateinit var clearButton:ImageButton
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         fabActionButton=findViewById(R.id.fabActionButton)
         profileActionButton=findViewById(R.id.profileActionButton)
         cameraActionButton=findViewById(R.id.cameraActionButton)
+        setDataActionButton=findViewById(R.id.setDataActionButton)
         clearButton=findViewById(R.id.clearButton)
     }
 
@@ -85,8 +87,9 @@ class MainActivity : AppCompatActivity() {
             searchItemLayout.visibility = View.GONE
             isSearchItemVisible = false
             itemSearch.text = null
-
+            itemListView.visibility = View.GONE
         }
+
         searchItem.setOnClickListener {
             if (searchItemLayout.visibility == View.GONE) {
                 searchItemLayout.visibility = View.VISIBLE // Show the search layout
@@ -95,10 +98,10 @@ class MainActivity : AppCompatActivity() {
                 searchItemLayout.visibility = View.GONE // Hide the search layout
                 isSearchItemVisible = false
             }
-
             addItemLayout.visibility = View.GONE
             isAddItemLayoutVisible = false
             itemSearch.text = null
+            itemListView.visibility=View.GONE
             filterItems("")
         }
 
@@ -110,24 +113,27 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
         fabActionButton.setOnClickListener {
-            if (profileActionButton.visibility == View.GONE || cameraActionButton.visibility == View.GONE) {
+            if (profileActionButton.visibility == View.GONE || cameraActionButton.visibility == View.GONE || setDataActionButton.visibility == View.GONE) {
                 // Expand the buttons
                 profileActionButton.visibility = View.VISIBLE
                 cameraActionButton.visibility = View.VISIBLE
+                setDataActionButton.visibility=View.VISIBLE
             } else {
                 // Collapse the buttons
                 profileActionButton.visibility = View.GONE
                 cameraActionButton.visibility = View.GONE
+                setDataActionButton.visibility=View.GONE
+
             }
         }
-
-
 
         profileActionButton.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
+        }
+        setDataActionButton.setOnClickListener {
+            uploadDataToFirebase()
         }
 
         sendItem.setOnClickListener {
@@ -138,13 +144,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.radioContainer -> "CONTAINER"
                 else -> ""
             }
-            val item = Item(itemName, description, itemType)
-            itemList.add(item)
-            itemListAdapter.notifyDataSetChanged()
-            setDataOnFirebase(item)
-            saveItemListToSharedPreferences()
-        }
+            val isDuplicateItem = itemList.any { it.itemName == itemName }
 
+            if (isDuplicateItem) {
+                Toast.makeText(this@MainActivity, "Item already exists in the list", Toast.LENGTH_LONG).show()
+            } else {
+                val item = Item(itemName, description, itemType)
+                itemList.add(item)
+                itemListAdapter.notifyDataSetChanged()
+                saveItemListToSharedPreferences()
+                Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG).show()
+            }
+            itemListView.visibility = View.VISIBLE
+            addItemLayout.visibility = View.GONE
+        }
         clearButton.setOnClickListener {
             itemSearch.text.clear()
         }
@@ -161,16 +174,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun uploadDataToFirebase() {
+        // Push data to Firebase
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionName = "Item_Container_Data"
 
-    private fun setDataOnFirebase(item: Item) {
-        val newItemRef = database.child("Item_Container_Details").push()
-        newItemRef.setValue(item)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Data added to Firebase", Toast.LENGTH_SHORT).show()
+        if (itemList.isEmpty()) {
+            Toast.makeText(this@MainActivity, "Item list is empty. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
+        } else {
+            for (item in itemList) {
+                val itemRef = database.child(collectionName).push()
+                itemRef.setValue(item)
+                    .addOnSuccessListener {
+                        Toast.makeText(this@MainActivity, "Data uploaded successfully", Toast.LENGTH_LONG).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this@MainActivity, "Error uploading data: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to add data to Firebase", Toast.LENGTH_SHORT).show()
-            }
+            Toast.makeText(this@MainActivity, "Item list has ${itemList.size} items. Data can be uploaded successfully.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun saveItemListToSharedPreferences() {
@@ -211,6 +234,7 @@ class MainActivity : AppCompatActivity() {
         return itemList
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun filterItems(searchText: String) {
         filteredItemList.clear()
         for (item in itemList) {
@@ -218,8 +242,6 @@ class MainActivity : AppCompatActivity() {
                 filteredItemList.add(item)
             }
         }
-
         itemListAdapter.notifyDataSetChanged()
     }
-
 }

@@ -175,5 +175,15 @@
         android:layout_marginBottom="17dp"
         android:src="@drawable/ic_camera" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/setDataActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cameraActionButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/ic_cloud_upload" />
+
 
 </RelativeLayout>
