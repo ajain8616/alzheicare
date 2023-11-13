@@ -13,6 +13,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         setEventHandlers()
         setupRecyclerView()
+
     }
 
     private fun findIdsOfElements() {
@@ -144,9 +146,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.radioContainer -> "CONTAINER"
                 else -> ""
             }
-            val isDuplicateItem = itemList.any { it.itemName == itemName }
+            val isDuplicateItem = itemList.any { it.itemName.equals(itemName, ignoreCase = true) }
 
-            if (isDuplicateItem) {
+            if (itemName.isEmpty() || description.isEmpty()) {
+                Toast.makeText(this@MainActivity, "Item name and description cannot be empty", Toast.LENGTH_LONG).show()
+            } else if (!itemName.matches(Regex("^[a-zA-Z][a-z]*((\\s[a-zA-Z][a-z]*)*)$")) || !description.matches(Regex("^[a-zA-Z][a-z]*((\\s[a-zA-Z][a-z]*)*)$"))) {
+                Toast.makeText(this@MainActivity, "Item name and description should be in camel case", Toast.LENGTH_LONG).show()
+            } else if (isDuplicateItem) {
                 Toast.makeText(this@MainActivity, "Item already exists in the list", Toast.LENGTH_LONG).show()
             } else {
                 val item = Item(itemName, description, itemType)
@@ -158,6 +164,9 @@ class MainActivity : AppCompatActivity() {
             itemListView.visibility = View.VISIBLE
             addItemLayout.visibility = View.GONE
         }
+
+
+
         clearButton.setOnClickListener {
             itemSearch.text.clear()
         }
@@ -244,4 +253,6 @@ class MainActivity : AppCompatActivity() {
         }
         itemListAdapter.notifyDataSetChanged()
     }
+
+
 }

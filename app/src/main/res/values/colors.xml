@@ -7,7 +7,6 @@
     <color name="colorBrightYellow">#FFD700</color>
     <color name="colorBrightPink">#FF69B4</color>
     <color name="colorBrightGreen">#00FF00</color>
-    <color name="colorLightBlue">#ADD8E6</color>
     <color name="colorLightPurple">#E6E6FA</color>
     <color name="colorLightGreen">#90EE90</color>
     <color name="colorOrange">#FFA500</color>
@@ -37,5 +36,37 @@
     <color name="colorRoyalBlue">#4169E1</color>
     <color name="colorNavy">#000080</color>
     <color name="colorDarkBlue">#00008B</color>
+    <color name="colorLightYellow">#FFFFE0</color>
+    <color name="colorLightOrange">#FFDAB9</color>
+    <color name="colorLightRed">#FFC0CB</color>
+    <color name="colorLightGreenYellow">#ADFF2F</color>
+    <color name="colorLightCyan">#E0FFFF</color>
+    <color name="colorLightMagenta">#FFB5C5</color>
+    <color name="colorLightLavender">#F8F8FF</color>
+    <color name="colorLightGold">#FFEC8B</color>
+    <color name="colorLightTeal">#20B2AA</color>
+    <color name="colorLightRose">#FF69A0</color>
+    <color name="colorLightIndigo">#8A2BE2</color>
+    <color name="colorLightSilver">#D3D3D3</color>
+    <color name="colorLightPeach">#FFDAB9</color>
+    <color name="colorLightLime">#32CD32</color>
+    <color name="colorLightPlum">#DDA0DD</color>
+    <color name="colorLightSlateBlue">#8470FF</color>
+    <color name="colorLightSkyBlue">#87CEFA</color>
+    <color name="colorLightTurquoise">#40E0D0</color>
+    <color name="colorLightOlive">#808000</color>
+    <color name="colorLightSalmon">#FFA07A</color>
+    <color name="colorLightGray">#D3D3D3</color>
+    <color name="colorDarkGray">#5F5B5B</color>
+    <color name="colorLightBlue">#ADD8E6</color>
+    <color name="colorBoundaryRed">#FF0000</color>
+    <color name="colorBoundaryGreen">#00FF00</color>
+    <color name="colorBoundaryBlue">#0C0C53</color>
+    <color name="colorBoundaryYellow">#FFFF00</color>
+    <color name="colorBoundaryPurple">#800080</color>
+    <color name="colorBoundaryOrange">#FFA500</color>
+    <color name="colorBoundaryCyan">#00FFFF</color>
+    <color name="colorBoundaryPink">#FFC0CB</color>
+    <color name="colorBoundaryGray">#2D1C1C</color>
 </resources>
 

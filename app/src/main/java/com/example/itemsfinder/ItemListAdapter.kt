@@ -1,11 +1,13 @@
 package com.example.itemsfinder
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class ItemListAdapter(private val itemList: List<Item>) :
@@ -28,20 +30,38 @@ class ItemListAdapter(private val itemList: List<Item>) :
         holder.itemName.text = currentItem.itemName
         holder.description.text = currentItem.description
         holder.itemType.text = currentItem.itemType
+
+        val context = holder.itemView.context
+
         when (currentItem.itemType) {
-            "OBJECT" -> holder.itemTypeView.setImageResource(R.drawable.ic_items)
-            "CONTAINER" -> holder.itemTypeView.setImageResource(R.drawable.ic_containers)
-            else -> holder.itemTypeView.setImageResource(R.drawable.ic_block)
+            "OBJECT" -> {
+                holder.itemTypeView.setImageResource(R.drawable.ic_items)
+                holder.itemTypeView.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue))
+                holder.itemView.setBackgroundResource(R.drawable.item_view_border_blue)
+            }
+            "CONTAINER" -> {
+                holder.itemTypeView.setImageResource(R.drawable.ic_containers)
+                holder.itemTypeView.setColorFilter(ContextCompat.getColor(context, R.color.colorDarkGray))
+                holder.itemView.setBackgroundResource(R.drawable.item_view_border_gray)
+            }
+            else -> {
+                holder.itemTypeView.setImageResource(R.drawable.ic_block)
+                holder.itemTypeView.clearColorFilter()
+                holder.itemView.background = null
+            }
         }
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, ContainerDetailsActivity::class.java)
+            val intent = Intent(context, ContainerDetailsActivity::class.java)
             intent.putExtra("itemName", currentItem.itemName)
             intent.putExtra("description", currentItem.description)
             intent.putExtra("itemType", currentItem.itemType)
-            holder.itemView.context.startActivity(intent)
+            context.startActivity(intent)
         }
     }
+
+
+
 
     override fun getItemCount(): Int {
         return itemList.size

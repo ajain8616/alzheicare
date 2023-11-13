@@ -14,17 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ContainerDetailsActivity : AppCompatActivity() {
-    private lateinit var storeItemInContainer: ImageButton
     private lateinit var itemName: TextView
     private lateinit var description: TextView
     private lateinit var itemType: TextView
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var editActionButton: FloatingActionButton
     private lateinit var deleteActionButton: FloatingActionButton
-    private lateinit var objectSpinner: Spinner
-    private lateinit var containerSpinner: Spinner
-    private lateinit var objectSpinnerView: TextView
-    private lateinit var containerSpinnerView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +51,12 @@ class ContainerDetailsActivity : AppCompatActivity() {
     }
 
     private fun findIdsOfElements() {
-        storeItemInContainer = findViewById(R.id.storeItemInContainer)
         itemName = findViewById(R.id.itemNameView)
         description = findViewById(R.id.descriptionView)
         itemType = findViewById(R.id.itemTypeView)
         floatingActionButton = findViewById(R.id.floatingActionButton)
         editActionButton = findViewById(R.id.editActionButton)
         deleteActionButton = findViewById(R.id.deleteActionButton)
-        objectSpinner = findViewById(R.id.objectSpinner)
-        containerSpinner = findViewById(R.id.containerSpinner)
-        objectSpinnerView = findViewById(R.id.objectSpinnerView)
-        containerSpinnerView = findViewById(R.id.containerSpinnerView)
     }
 
     private fun displayData() {
