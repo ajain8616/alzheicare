@@ -76,7 +76,16 @@
             android:background="@android:color/transparent"
             android:padding="5dp" />
 
+        <Switch
+            android:id="@+id/toggleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/itemSearch"
+            android:background="@drawable/gradient"
+            android:layout_centerVertical="true" />
+
     </RelativeLayout>
+
 
 
     <RelativeLayout

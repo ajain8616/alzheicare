@@ -1,6 +1,5 @@
 package com.example.itemsfinder
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,10 +12,11 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.json.JSONArray
@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private var isAddItemLayoutVisible = false
     private var isSearchItemVisible = false
+    private var isItemListVisible = false
     private lateinit var addItem: ImageButton
     private lateinit var searchItem: ImageButton
     private lateinit var sendItem: ImageButton
@@ -46,16 +47,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cameraActionButton:FloatingActionButton
     private lateinit var setDataActionButton:FloatingActionButton
     private lateinit var clearButton:ImageButton
+    private lateinit var auth: FirebaseAuth
+    private lateinit var currentUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         database = FirebaseDatabase.getInstance().reference
+        auth = FirebaseAuth.getInstance()
+        currentUser = auth.currentUser!!
         setEventHandlers()
         setupRecyclerView()
-
     }
-
     private fun findIdsOfElements() {
         addItem = findViewById(R.id.addItemButton)
         searchItem = findViewById(R.id.searchButton)
@@ -101,18 +104,28 @@ class MainActivity : AppCompatActivity() {
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
-            isAddItemLayoutVisible = false
-            itemSearch.text = null
-            itemListView.visibility=View.GONE
-            filterItems("")
         }
 
         itemSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                filterItems(s.toString())
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No implementation needed
             }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                if (searchText.isNotEmpty()) {
+                    val filteredItems = itemList.filter { it.itemName.contains(searchText, ignoreCase = true) }
+                    filteredItemList.clear()
+                    filteredItemList.addAll(filteredItems)
+                    itemListAdapter.notifyDataSetChanged()
+                } else {
+                    filteredItemList.clear()
+                    filteredItemList.addAll(itemList)
+                    itemListAdapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) { }
         })
 
         fabActionButton.setOnClickListener {
@@ -134,66 +147,81 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
-        setDataActionButton.setOnClickListener {
-            uploadDataToFirebase()
+
+
+        cameraActionButton.setOnClickListener {
+            if (itemListView.visibility == View.VISIBLE) {
+                itemListView.visibility = View.GONE
+                isItemListVisible = false
+                Toast.makeText(this@MainActivity, "Item List View is now hidden", Toast.LENGTH_SHORT).show()
+            } else {
+                itemListView.visibility = View.VISIBLE
+                isItemListVisible = true
+                Toast.makeText(this@MainActivity, "Item List View is now visible", Toast.LENGTH_SHORT).show()
+            }
         }
 
+
         sendItem.setOnClickListener {
-            val itemName = itemName.text.toString()
-            val description = description.text.toString()
+            val itemNameText = itemName.text.toString()
+            val descriptionText = description.text.toString()
             val itemType = when (itemTypeRadioGroup.checkedRadioButtonId) {
                 R.id.radioObject -> "OBJECT"
                 R.id.radioContainer -> "CONTAINER"
                 else -> ""
             }
-            val isDuplicateItem = itemList.any { it.itemName.equals(itemName, ignoreCase = true) }
+            val isDuplicateItem = itemList.any { it.itemName.equals(itemNameText, ignoreCase = true) }
 
-            if (itemName.isEmpty() || description.isEmpty()) {
+            if (itemNameText.isEmpty() || descriptionText.isEmpty()) {
                 Toast.makeText(this@MainActivity, "Item name and description cannot be empty", Toast.LENGTH_LONG).show()
-            } else if (!itemName.matches(Regex("^[a-zA-Z][a-z]*((\\s[a-zA-Z][a-z]*)*)$")) || !description.matches(Regex("^[a-zA-Z][a-z]*((\\s[a-zA-Z][a-z]*)*)$"))) {
-                Toast.makeText(this@MainActivity, "Item name and description should be in camel case", Toast.LENGTH_LONG).show()
             } else if (isDuplicateItem) {
                 Toast.makeText(this@MainActivity, "Item already exists in the list", Toast.LENGTH_LONG).show()
             } else {
-                val item = Item(itemName, description, itemType)
+                val item = Item(itemNameText, descriptionText, itemType)
                 itemList.add(item)
                 itemListAdapter.notifyDataSetChanged()
-                saveItemListToSharedPreferences()
                 Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG).show()
+                // Clear the EditText fields
+                itemName.text.clear()
+                description.text.clear()
             }
+            setDataToFirebase()
             itemListView.visibility = View.VISIBLE
             addItemLayout.visibility = View.GONE
         }
 
 
-
         clearButton.setOnClickListener {
             itemSearch.text.clear()
+        }
+
+        if (currentUser != null) {
+            getDataFromFirebase()
         }
     }
 
     private fun setupRecyclerView() {
-        itemList = loadItemListFromSharedPreferences()
+        itemList = mutableListOf()
         filteredItemList = mutableListOf()
-        filteredItemList.addAll(itemList)
         itemListAdapter = ItemListAdapter(filteredItemList)
         itemListView.apply {
             adapter = itemListAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
+        getDataFromFirebase()
     }
 
-    private fun uploadDataToFirebase() {
-        // Push data to Firebase
+    private fun setDataToFirebase() {
+        val userId = currentUser?.uid
         val database = FirebaseDatabase.getInstance().reference
         val collectionName = "Item_Container_Data"
 
-        if (itemList.isEmpty()) {
-            Toast.makeText(this@MainActivity, "Item list is empty. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
-        } else {
-            for (item in itemList) {
-                val itemRef = database.child(collectionName).push()
-                itemRef.setValue(item)
+        if (userId != null) {
+            if (itemList.isEmpty()) {
+                Toast.makeText(this@MainActivity, "Item list is empty. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
+            } else {
+                val itemsMap = itemList.map { it.itemName to it }.toMap()
+                database.child(collectionName).child(userId).updateChildren(itemsMap)
                     .addOnSuccessListener {
                         Toast.makeText(this@MainActivity, "Data uploaded successfully", Toast.LENGTH_LONG).show()
                     }
@@ -201,58 +229,31 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this@MainActivity, "Error uploading data: ${e.message}", Toast.LENGTH_LONG).show()
                     }
             }
-            Toast.makeText(this@MainActivity, "Item list has ${itemList.size} items. Data can be uploaded successfully.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this@MainActivity, "User not logged in. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun saveItemListToSharedPreferences() {
-        val sharedPreferences = getSharedPreferences("ItemListPrefs", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        val jsonArray = JSONArray()
-        for (item in itemList) {
-            jsonArray.put(item.toJson())
-        }
-        editor.putString("itemList", jsonArray.toString())
-        editor.apply()
-    }
+    private fun getDataFromFirebase() {
+        val userId = currentUser?.uid
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionName = "Item_Container_Data"
 
-    private fun loadItemListFromSharedPreferences(): MutableList<Item> {
-        val sharedPreferences = getSharedPreferences("ItemListPrefs", MODE_PRIVATE)
-        val itemListJson = sharedPreferences.getString("itemList", null)
-        val itemList = mutableListOf<Item>()
-
-        if (itemListJson != null) {
-            val jsonArray = JSONArray(itemListJson)
-
-            // Convert the JSONArray to a list of JSONObjects
-            val jsonObjectList = (0 until jsonArray.length())
-                .map { jsonArray.getJSONObject(it) }
-
-            // Sort the list of JSONObjects by the "itemName" field
-            val sortedJSONObjectList = jsonObjectList.sortedBy { it.optString("itemName") }
-
-            for (itemJson in sortedJSONObjectList) {
-                val itemName = itemJson.optString("itemName")
-                val description = itemJson.optString("description")
-                val itemType = itemJson.optString("itemType")
-                val item = Item(itemName, description, itemType)
-                itemList.add(item)
+        if (userId != null) {
+            database.child(collectionName).child(userId).get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    val items = dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
+                    itemList.clear()
+                    itemList.addAll(items)
+                    itemListAdapter.notifyDataSetChanged()
+                } else {
+                    Toast.makeText(this@MainActivity, "No data available in the collection", Toast.LENGTH_LONG).show()
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this@MainActivity, "Error getting data: ${e.message}", Toast.LENGTH_LONG).show()
             }
+        } else {
+            Toast.makeText(this@MainActivity, "User not logged in. Data cannot be retrieved.", Toast.LENGTH_LONG).show()
         }
-
-        return itemList
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun filterItems(searchText: String) {
-        filteredItemList.clear()
-        for (item in itemList) {
-            if (item.itemName.contains(searchText, ignoreCase = true)) {
-                filteredItemList.add(item)
-            }
-        }
-        itemListAdapter.notifyDataSetChanged()
-    }
-
-
 }

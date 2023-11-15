@@ -60,9 +60,6 @@ class ItemListAdapter(private val itemList: List<Item>) :
         }
     }
 
-
-
-
     override fun getItemCount(): Int {
         return itemList.size
     }

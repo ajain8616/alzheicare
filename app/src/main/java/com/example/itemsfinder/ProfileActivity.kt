@@ -27,7 +27,6 @@ class ProfileActivity : AppCompatActivity() {
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
-        private const val PERMISSION_REQUEST_CODE = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +51,8 @@ class ProfileActivity : AppCompatActivity() {
         val status = getUserStatus()
         user_status.text = status
 
-        // Push the user's status to Firebase
-        pushUserStatus(status)
+        // Push the user's status and email to Firebase
+        pushUserStatus(status, email)
 
         profile_picture.setOnClickListener {
             // Check if permission to access external storage is granted
@@ -66,7 +65,7 @@ class ProfileActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    PERMISSION_REQUEST_CODE
+                    PICK_IMAGE_REQUEST
                 )
             } else {
                 // Permission already granted, open the gallery
@@ -90,13 +89,14 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun pushUserStatus(status: String) {
+    private fun pushUserStatus(status: String, email: String?) {
         val currentUser = mAuth.currentUser
         val userId = currentUser?.uid
 
         if (userId != null) {
             val userRef = database.getReference("users").child(userId)
             userRef.child("status").setValue(status)
+            userRef.child("email").setValue(email)
         }
     }
 
@@ -119,7 +119,7 @@ class ProfileActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_CODE) {
+        if (requestCode == PICK_IMAGE_REQUEST) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, open the gallery
                 openGallery()
@@ -151,4 +151,3 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 }
-
