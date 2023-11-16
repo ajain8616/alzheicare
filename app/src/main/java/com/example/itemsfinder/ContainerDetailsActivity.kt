@@ -49,36 +49,8 @@ class ContainerDetailsActivity : AppCompatActivity() {
         }
 
         deleteActionButton.setOnClickListener {
-            val user = FirebaseAuth.getInstance().currentUser
-            user?.let { currentUser ->
-                val userEmail = currentUser.email
-                val db = Firebase.firestore
-                val collectionRef = db.collection("Item_Container_Data")
 
-                userEmail?.let { email ->
-                    collectionRef.whereEqualTo("userEmail", email)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            for (document in documents) {
-                                document.reference.delete()
-                                    .addOnSuccessListener {
-                                        // Item deleted successfully
-                                        Toast.makeText(this, "Item deleted successfully", Toast.LENGTH_SHORT).show()
-                                    }
-                                    .addOnFailureListener { e ->
-                                        // Handle any errors here
-                                        Toast.makeText(this, "Error deleting item: " + e.message, Toast.LENGTH_SHORT).show()
-                                    }
-                            }
-                        }
-                        .addOnFailureListener { e ->
-                            // Handle any errors here
-                            Toast.makeText(this, "Error getting documents: " + e.message, Toast.LENGTH_SHORT).show()
-                        }
-                }
-            }
         }
-
 
     }
 

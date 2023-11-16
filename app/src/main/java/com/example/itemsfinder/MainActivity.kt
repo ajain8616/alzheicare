@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
                 itemList.add(item)
                 itemListAdapter.notifyDataSetChanged()
                 Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG).show()
-                // Clear the EditText fields
+
                 itemName.text.clear()
                 description.text.clear()
             }
