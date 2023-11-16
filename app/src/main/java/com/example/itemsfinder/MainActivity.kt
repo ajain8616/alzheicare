@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabActionButton:FloatingActionButton
     private lateinit var profileActionButton:FloatingActionButton
     private lateinit var cameraActionButton:FloatingActionButton
-    private lateinit var setDataActionButton:FloatingActionButton
+    private lateinit var listViewActionButton:FloatingActionButton
     private lateinit var clearButton:ImageButton
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         fabActionButton=findViewById(R.id.fabActionButton)
         profileActionButton=findViewById(R.id.profileActionButton)
         cameraActionButton=findViewById(R.id.cameraActionButton)
-        setDataActionButton=findViewById(R.id.setDataActionButton)
+        listViewActionButton=findViewById(R.id.listViewActionButton)
         clearButton=findViewById(R.id.clearButton)
     }
 
@@ -114,7 +114,12 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val searchText = s.toString().trim()
                 if (searchText.isNotEmpty()) {
-                    val filteredItems = itemList.filter { it.itemName.contains(searchText, ignoreCase = true) }
+                    val filteredItems = itemList.filter {
+                        it.itemName.contains(searchText, ignoreCase = true) ||
+                                it.description.contains(searchText, ignoreCase = true) ||
+                                it.itemType.contains(searchText, ignoreCase = true)
+                    }
+
                     filteredItemList.clear()
                     filteredItemList.addAll(filteredItems)
                     itemListAdapter.notifyDataSetChanged()
@@ -129,16 +134,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         fabActionButton.setOnClickListener {
-            if (profileActionButton.visibility == View.GONE || cameraActionButton.visibility == View.GONE || setDataActionButton.visibility == View.GONE) {
+            if (profileActionButton.visibility == View.GONE || cameraActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE) {
                 // Expand the buttons
                 profileActionButton.visibility = View.VISIBLE
                 cameraActionButton.visibility = View.VISIBLE
-                setDataActionButton.visibility=View.VISIBLE
+                listViewActionButton.visibility=View.VISIBLE
             } else {
                 // Collapse the buttons
                 profileActionButton.visibility = View.GONE
                 cameraActionButton.visibility = View.GONE
-                setDataActionButton.visibility=View.GONE
+                listViewActionButton.visibility=View.GONE
 
             }
         }
@@ -148,8 +153,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        cameraActionButton.setOnClickListener {
+        listViewActionButton.setOnClickListener {
             if (itemListView.visibility == View.VISIBLE) {
                 itemListView.visibility = View.GONE
                 isItemListVisible = false
@@ -215,24 +219,20 @@ class MainActivity : AppCompatActivity() {
         val userId = currentUser?.uid
         val database = FirebaseDatabase.getInstance().reference
         val collectionName = "Item_Container_Data"
-
         if (userId != null) {
-            if (itemList.isEmpty()) {
-                Toast.makeText(this@MainActivity, "Item list is empty. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
-            } else {
-                val itemsMap = itemList.map { it.itemName to it }.toMap()
-                database.child(collectionName).child(userId).updateChildren(itemsMap)
-                    .addOnSuccessListener {
-                        Toast.makeText(this@MainActivity, "Data uploaded successfully", Toast.LENGTH_LONG).show()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this@MainActivity, "Error uploading data: ${e.message}", Toast.LENGTH_LONG).show()
-                    }
-            }
+            val itemsMap = itemList.map { it.itemName to it }.toMap()
+            database.child(collectionName).child(userId).setValue(itemsMap)
+                .addOnSuccessListener {
+                    Toast.makeText(this@MainActivity, "Data uploaded successfully", Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this@MainActivity, "Error uploading data: ${e.message}", Toast.LENGTH_LONG).show()
+                }
         } else {
             Toast.makeText(this@MainActivity, "User not logged in. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
         }
     }
+
 
     private fun getDataFromFirebase() {
         val userId = currentUser?.uid

@@ -175,24 +175,24 @@
         android:src="@drawable/ic_profile" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cameraActionButton"
+        android:id="@+id/listViewActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/profileActionButton"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="17dp"
-        android:src="@drawable/ic_camera" />
+        android:src="@drawable/ic_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/setDataActionButton"
+        android:id="@+id/cameraActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/cameraActionButton"
+        android:layout_above="@id/listViewActionButton"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="17dp"
-        android:src="@drawable/ic_cloud_upload" />
+        android:src="@drawable/ic_camera" />
 
 
 </RelativeLayout>

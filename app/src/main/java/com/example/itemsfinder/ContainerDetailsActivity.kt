@@ -4,14 +4,15 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 class ContainerDetailsActivity : AppCompatActivity() {
     private lateinit var itemName: TextView
@@ -20,6 +21,7 @@ class ContainerDetailsActivity : AppCompatActivity() {
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var editActionButton: FloatingActionButton
     private lateinit var deleteActionButton: FloatingActionButton
+    private lateinit var cardView:CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +47,39 @@ class ContainerDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, UpdateDetailsActivity::class.java)
             startActivity(intent)
         }
-        deleteActionButton.setOnClickListener {
 
+        deleteActionButton.setOnClickListener {
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let { currentUser ->
+                val userEmail = currentUser.email
+                val db = Firebase.firestore
+                val collectionRef = db.collection("Item_Container_Data")
+
+                userEmail?.let { email ->
+                    collectionRef.whereEqualTo("userEmail", email)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            for (document in documents) {
+                                document.reference.delete()
+                                    .addOnSuccessListener {
+                                        // Item deleted successfully
+                                        Toast.makeText(this, "Item deleted successfully", Toast.LENGTH_SHORT).show()
+                                    }
+                                    .addOnFailureListener { e ->
+                                        // Handle any errors here
+                                        Toast.makeText(this, "Error deleting item: " + e.message, Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            // Handle any errors here
+                            Toast.makeText(this, "Error getting documents: " + e.message, Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
         }
+
+
     }
 
     private fun findIdsOfElements() {
@@ -57,6 +89,7 @@ class ContainerDetailsActivity : AppCompatActivity() {
         floatingActionButton = findViewById(R.id.floatingActionButton)
         editActionButton = findViewById(R.id.editActionButton)
         deleteActionButton = findViewById(R.id.deleteActionButton)
+        cardView=findViewById(R.id.cardView)
     }
 
     private fun displayData() {
@@ -67,6 +100,16 @@ class ContainerDetailsActivity : AppCompatActivity() {
         itemName.setTypeface(null, Typeface.BOLD)
         description.text = descriptionExtra
         itemType.text = itemTypeExtra
-    }
 
+        when (itemTypeExtra) {
+            "OBJECT" -> {
+                itemType.setTextColor(ContextCompat.getColor(this, R.color.colorBlue))
+                findViewById<View>(R.id.cardView).setBackgroundResource(R.drawable.item_view_border_blue)
+            }
+            "CONTAINER" -> {
+                itemType.setTextColor(ContextCompat.getColor(this, R.color.colorDarkGray))
+                findViewById<View>(R.id.cardView).setBackgroundResource(R.drawable.item_view_border_gray)
+            }
+        }
+    }
 }

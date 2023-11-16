@@ -1,18 +1,13 @@
 package com.example.itemsfinder
 
-import android.Manifest
+
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -25,9 +20,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var userRef: DatabaseReference
 
-    companion object {
-        private const val PICK_IMAGE_REQUEST = 1
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,24 +46,6 @@ class ProfileActivity : AppCompatActivity() {
         // Push the user's status and email to Firebase
         pushUserStatus(status, email)
 
-        profile_picture.setOnClickListener {
-            // Check if permission to access external storage is granted
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // Request permission if not granted
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    PICK_IMAGE_REQUEST
-                )
-            } else {
-                // Permission already granted, open the gallery
-                openGallery()
-            }
-        }
 
         logout_button.setOnClickListener {
             logout()
@@ -108,46 +82,4 @@ class ProfileActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PICK_IMAGE_REQUEST) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, open the gallery
-                openGallery()
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            val imageUri = data.data
-            // Update the profile picture with the selected image
-            profile_picture.setImageURI(imageUri)
-            // Save the image to Firebase or perform any other necessary operations
-            saveProfilePicture(imageUri)
-        }
-    }
-
-    private fun saveProfilePicture(imageUri: Uri?) {
-        // Get the current user's ID
-        val currentUser = mAuth.currentUser
-        val userId = currentUser?.uid
-
-        if (userId != null && imageUri != null) {
-            val userRef = database.getReference("users").child(userId)
-            // Save the image URL to Firebase
-            userRef.child("profilePicture").setValue(imageUri.toString())
-        }
-    }
 }
