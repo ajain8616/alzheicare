@@ -31,7 +31,7 @@ class ItemListAdapter(private val itemList: List<Item>) :
         holder.itemType.text = currentItem.itemType
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, ContainerDetailsActivity::class.java)
+            val intent = Intent(holder.itemView.context, DataSetDetailsActivity::class.java)
             intent.putExtra("itemName", currentItem.itemName)
             intent.putExtra("description", currentItem.description)
             intent.putExtra("itemType", currentItem.itemType)

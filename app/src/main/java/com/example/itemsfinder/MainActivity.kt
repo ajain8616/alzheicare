@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         currentUser = auth.currentUser!!
         setEventHandlers()
         setupRecyclerView()
+        itemListView.visibility = View.VISIBLE
     }
     private fun findIdsOfElements() {
         addItem = findViewById(R.id.addItemButton)
@@ -100,10 +101,11 @@ class MainActivity : AppCompatActivity() {
                 searchItemLayout.visibility = View.VISIBLE // Show the search layout
                 isSearchItemVisible = true
             } else {
-                searchItemLayout.visibility = View.GONE // Hide the search layout
+                searchItemLayout.visibility = View.GONE
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
+
         }
 
         itemSearch.addTextChangedListener(object : TextWatcher {

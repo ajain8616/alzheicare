@@ -3,18 +3,17 @@ package com.example.itemsfinder
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
 
-class ContainerDetailsActivity : AppCompatActivity() {
+class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var itemName: TextView
     private lateinit var description: TextView
     private lateinit var itemType: TextView
@@ -22,10 +21,11 @@ class ContainerDetailsActivity : AppCompatActivity() {
     private lateinit var editActionButton: FloatingActionButton
     private lateinit var deleteActionButton: FloatingActionButton
     private lateinit var cardView:CardView
+    private lateinit var containerAnimation:LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container_details)
+        setContentView(R.layout.activity_data_set_details)
         setEventHandlers()
         displayData()
 
@@ -52,9 +52,25 @@ class ContainerDetailsActivity : AppCompatActivity() {
 
         }
 
+        containerAnimation.setOnClickListener {
+            containerAnimation.playAnimation()
+            startContainerAnimationWithDelay()
+        }
     }
+        private fun startContainerAnimationWithDelay() {
+            containerAnimation.visibility = View.INVISIBLE // Initially make the animation view invisible
+            val handler = Handler(Looper.getMainLooper())
+            handler.postDelayed({
+                containerAnimation.visibility = View.VISIBLE // Make the animation view visible before starting the animation
 
-    private fun findIdsOfElements() {
+                val intent = Intent(this, ContainerChoiceActivity::class.java)
+                startActivity(intent)
+            }, 3000)
+        }
+
+
+
+        private fun findIdsOfElements() {
         itemName = findViewById(R.id.itemNameView)
         description = findViewById(R.id.descriptionView)
         itemType = findViewById(R.id.itemTypeView)
@@ -62,6 +78,7 @@ class ContainerDetailsActivity : AppCompatActivity() {
         editActionButton = findViewById(R.id.editActionButton)
         deleteActionButton = findViewById(R.id.deleteActionButton)
         cardView=findViewById(R.id.cardView)
+        containerAnimation=findViewById(R.id.containerAnimation)
     }
 
     private fun displayData() {
@@ -84,4 +101,5 @@ class ContainerDetailsActivity : AppCompatActivity() {
             }
         }
     }
+
 }
