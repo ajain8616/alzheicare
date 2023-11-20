@@ -1,12 +1,14 @@
 package com.example.itemsfinder
 
-import android.animation.Animator
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class DataSetDetailsActivity : AppCompatActivity() {
+
     private lateinit var itemName: TextView
     private lateinit var description: TextView
     private lateinit var itemType: TextView
@@ -29,6 +32,13 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var deleteMessageAnimation:LottieAnimationView
     private lateinit var containerMessage:LottieAnimationView
     private lateinit var containerView:TextView
+    private lateinit var editItemName: EditText
+    private lateinit var editDescription: EditText
+    private lateinit var editItemType: EditText
+    private lateinit var saveChangesButton: ImageButton
+    private lateinit var backButton:ImageButton
+    private lateinit var updateMessage:LottieAnimationView
+    private lateinit var linearLayoutForm:LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +50,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
     private fun setEventHandlers() {
         findIdsOfElements()
+        linearLayoutForm.visibility = View.GONE
         floatingActionButton.setOnClickListener {
             if (editActionButton.visibility == View.GONE || deleteActionButton.visibility == View.GONE) {
                 editActionButton.visibility = View.VISIBLE
@@ -51,8 +62,30 @@ class DataSetDetailsActivity : AppCompatActivity() {
         }
 
         editActionButton.setOnClickListener {
-            val intent = Intent(this, UpdateDetailsActivity::class.java)
-            startActivity(intent)
+            linearLayoutForm.visibility = View.VISIBLE
+            editActionButton.visibility = View.GONE
+            deleteActionButton.visibility = View.GONE
+            cardView.visibility = View.GONE
+            floatingActionButton.visibility = View.GONE
+            editActionButton.visibility = View.GONE
+            containerView.visibility=View.GONE
+            updateMessage.visibility=View.GONE
+            backButton.visibility=View.VISIBLE
+
+        }
+
+        backButton.setOnClickListener {
+            linearLayoutForm.visibility = View.GONE
+            editActionButton.visibility = View.VISIBLE
+            deleteActionButton.visibility = View.VISIBLE
+            cardView.visibility = View.VISIBLE
+            floatingActionButton.visibility = View.VISIBLE
+            editActionButton.visibility = View.VISIBLE
+            containerView.visibility=View.VISIBLE
+            updateMessage.visibility=View.VISIBLE
+        }
+        saveChangesButton.setOnClickListener {
+
         }
 
         containerView.setOnClickListener {
@@ -68,6 +101,11 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
+            containerView.visibility=View.GONE
+            linearLayoutForm.visibility=View.GONE
+            updateMessage.visibility=View.GONE
+            backButton.visibility=View.GONE
+
             Handler(Looper.getMainLooper()).postDelayed({
                 deleteMessageAnimation.visibility = View.VISIBLE
                 val intent = Intent(this@DataSetDetailsActivity, MainActivity::class.java)
@@ -90,6 +128,13 @@ class DataSetDetailsActivity : AppCompatActivity() {
             deleteMessageAnimation=findViewById(R.id.deleteMessage)
             containerMessage=findViewById(R.id.containerMessage)
             containerView=findViewById(R.id.containerView)
+            editItemName = findViewById(R.id.editItemName)
+            editDescription = findViewById(R.id.editDescription)
+            editItemType = findViewById(R.id.editItemType)
+            saveChangesButton = findViewById(R.id.saveChangesButton)
+            updateMessage=findViewById(R.id.updateMessage)
+            linearLayoutForm=findViewById(R.id.linearLayoutForm)
+            backButton=findViewById(R.id.backButton)
     }
 
     private fun displayData() {
@@ -137,6 +182,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
         cardView.visibility = View.GONE
         containerView.visibility=View.GONE
         floatingActionButton.visibility = View.GONE
+        linearLayoutForm.visibility=View.GONE
+        updateMessage.visibility=View.GONE
+        backButton.visibility=View.GONE
         Handler(Looper.getMainLooper()).postDelayed({
             containerMessage.visibility=View.VISIBLE
             val intent = Intent(this@DataSetDetailsActivity, ContainerChoiceActivity::class.java)

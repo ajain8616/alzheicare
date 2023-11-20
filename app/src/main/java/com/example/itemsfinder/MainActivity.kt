@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var fabActionButton:FloatingActionButton
     private lateinit var profileActionButton:FloatingActionButton
-    private lateinit var cameraActionButton:FloatingActionButton
     private lateinit var listViewActionButton:FloatingActionButton
     private lateinit var clearButton:ImageButton
     private lateinit var auth: FirebaseAuth
@@ -77,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         searchItemLayout = findViewById(R.id.searchItemLayout)
         fabActionButton=findViewById(R.id.fabActionButton)
         profileActionButton=findViewById(R.id.profileActionButton)
-        cameraActionButton=findViewById(R.id.cameraActionButton)
         listViewActionButton=findViewById(R.id.listViewActionButton)
         clearButton=findViewById(R.id.clearButton)
     }
@@ -107,6 +105,7 @@ class MainActivity : AppCompatActivity() {
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
+            itemListView.visibility=View.VISIBLE
 
         }
 
@@ -138,15 +137,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         fabActionButton.setOnClickListener {
-            if (profileActionButton.visibility == View.GONE || cameraActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE) {
+            if (profileActionButton.visibility == View.GONE|| listViewActionButton.visibility == View.GONE) {
                 // Expand the buttons
                 profileActionButton.visibility = View.VISIBLE
-                cameraActionButton.visibility = View.VISIBLE
                 listViewActionButton.visibility=View.VISIBLE
             } else {
                 // Collapse the buttons
                 profileActionButton.visibility = View.GONE
-                cameraActionButton.visibility = View.GONE
                 listViewActionButton.visibility=View.GONE
 
             }
