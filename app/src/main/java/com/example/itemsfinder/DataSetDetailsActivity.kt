@@ -57,7 +57,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
         containerView.setOnClickListener {
             containerActivityAnimation()
-            Toast.makeText(this,"Clicked",Toast.LENGTH_LONG).show()
         }
 
         deleteActionButton.setOnClickListener {
@@ -143,6 +142,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             val intent = Intent(this@DataSetDetailsActivity, ContainerChoiceActivity::class.java)
             startActivity(intent)
             finish()
-        }, 3000)
+        }, 2000)
     }
 }
