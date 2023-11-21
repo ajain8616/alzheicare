@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ContainerChoiceActivity">
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/containerIntro"
-        android:layout_width="417dp"
-        android:layout_height="733dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:visibility="visible"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="false"
         app:lottie_fileName="container_storing_data.json"
-        app:lottie_speed="2"/>
+        app:lottie_speed="2" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/containerListView"
@@ -27,5 +27,58 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/submitButton" />
+
+    <TextView
+        android:id="@+id/objectNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:text="ObjectName"
+        android:background="@drawable/gradient"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/inTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/gradient"
+        android:text="IN "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/objectNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/objectNameTextView" />
+
+    <TextView
+        android:id="@+id/selectedContainer"
+        android:layout_width="209dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/inTextView"
+        android:background="@drawable/gradient"
+        android:text="Selected Container: "
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/inTextView"
+        app:layout_constraintTop_toTopOf="@+id/inTextView" />
+
+    <ImageButton
+        android:id="@+id/submitButton"
+        android:layout_width="61dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="44dp"
+        android:layout_toEndOf="@+id/selectedContainer"
+        android:src="@drawable/ic_send"
+        android:background="@drawable/btn_primary"
+        app:layout_constraintEnd_toEndOf="@+id/inTextView"
+        app:layout_constraintStart_toEndOf="@+id/objectNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/inTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
