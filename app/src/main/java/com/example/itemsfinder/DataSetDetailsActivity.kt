@@ -17,7 +17,10 @@ import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class DataSetDetailsActivity : AppCompatActivity() {
 
@@ -52,7 +55,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
         findIdsOfElements()
         linearLayoutForm.visibility = View.GONE
         floatingActionButton.setOnClickListener {
-            if (editActionButton.visibility == View.GONE || deleteActionButton.visibility == View.GONE) {
+            if (editActionButton.visibility == View.GONE || deleteActionButton.visibility == View.GONE ) {
                 editActionButton.visibility = View.VISIBLE
                 deleteActionButton.visibility = View.VISIBLE
             } else {
@@ -74,6 +77,8 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
         }
 
+
+
         backButton.setOnClickListener {
             linearLayoutForm.visibility = View.GONE
             editActionButton.visibility = View.VISIBLE
@@ -83,13 +88,29 @@ class DataSetDetailsActivity : AppCompatActivity() {
             editActionButton.visibility = View.VISIBLE
             containerView.visibility=View.VISIBLE
             updateMessage.visibility=View.VISIBLE
+
         }
+
         saveChangesButton.setOnClickListener {
+            updateDetails()
+            updateMessage.visibility = View.VISIBLE
+            editActionButton.visibility = View.GONE
+            deleteActionButton.visibility = View.GONE
+            cardView.visibility = View.GONE
+            floatingActionButton.visibility = View.GONE
+            editActionButton.visibility = View.GONE
+            containerView.visibility=View.GONE
+            linearLayoutForm.visibility=View.GONE
+            deleteMessageAnimation.visibility=View.GONE
+            backButton.visibility=View.GONE
 
-        }
+            Handler(Looper.getMainLooper()).postDelayed({
+                updateMessage.visibility = View.VISIBLE
+                val intent = Intent(this@DataSetDetailsActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            },2000)
 
-        containerView.setOnClickListener {
-            containerActivityAnimation()
         }
 
         deleteActionButton.setOnClickListener {
@@ -115,6 +136,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
         }
 
+        containerView.setOnClickListener {
+            containerActivityAnimation()
+        }
 
     }
         private fun findIdsOfElements() {
@@ -185,6 +209,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
         linearLayoutForm.visibility=View.GONE
         updateMessage.visibility=View.GONE
         backButton.visibility=View.GONE
+
         Handler(Looper.getMainLooper()).postDelayed({
             containerMessage.visibility=View.VISIBLE
             val intent = Intent(this@DataSetDetailsActivity, ContainerChoiceActivity::class.java)
@@ -192,4 +217,44 @@ class DataSetDetailsActivity : AppCompatActivity() {
             finish()
         }, 2000)
     }
+
+    private fun updateDetails() {
+        val itemNameExtra = itemName.text.toString()
+        val updatedDescription = editDescription.text.toString()
+        val updatedItemType = editItemType.text.toString()
+
+        if (updatedDescription.isNotEmpty() && updatedItemType.isNotEmpty()) {
+            val database = FirebaseDatabase.getInstance().reference
+            val collectionName = "Item_Container_Data"
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+            if (userId != null) {
+                val userRef = database.child(collectionName).child(userId).child(itemNameExtra)
+                // Create a map with the updated data
+                val updatedData = mapOf(
+                    "description" to updatedDescription,
+                    "itemType" to updatedItemType
+                )
+
+                // Update the data in Firebase
+                userRef.updateChildren(updatedData)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            // Update UI or show a success message
+                            updateMessage.playAnimation()
+                            description.text = updatedDescription
+                            itemType.text = updatedItemType
+
+                        } else {
+                            Toast.makeText(this@DataSetDetailsActivity, "Failed to update item $itemNameExtra",Toast.LENGTH_LONG).show()
+                        }
+                    }
+            } else {
+                Toast.makeText(this, "User is not authenticated", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(this, "Please enter values for all fields", Toast.LENGTH_LONG).show()
+        }
+    }
+
 }

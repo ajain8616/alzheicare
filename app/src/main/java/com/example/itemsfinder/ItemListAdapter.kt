@@ -52,9 +52,10 @@ class ItemListAdapter(private val itemList: List<Item>) :
             }
             else -> {
                 holder.itemTypeView.setImageResource(R.drawable.ic_block)
-                holder.itemTypeView.clearColorFilter()
+                holder.itemTypeView.setColorFilter(null)
                 holder.itemView.background = null
             }
+
         }
 
     }

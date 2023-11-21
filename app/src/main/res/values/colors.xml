@@ -11,11 +11,10 @@
     <color name="colorLightGreen">#90EE90</color>
     <color name="colorOrange">#FFA500</color>
     <color name="colorFire">#FF4500</color>
-    <color name="colorCyan">#00FFFF</color>
     <color name="colorMagenta">#FF00FF</color>
     <color name="colorLavender">#E6E6FA</color>
     <color name="colorGold">#FFD700</color>
-    <color name="colorTeal">#008080</color>
+    <color name="colorTeal">#90EBDF</color>
     <color name="colorRose">#FF007F</color>
     <color name="colorIndigo">#4B0082</color>
     <color name="colorSilver">#C0C0C0</color>
@@ -46,7 +45,7 @@
     <color name="colorLightGold">#FFEC8B</color>
     <color name="colorLightTeal">#20B2AA</color>
     <color name="colorLightRose">#FF69A0</color>
-    <color name="colorLightIndigo">#8A2BE2</color>
+    <color name="colorLightIndigo">#B175E8</color>
     <color name="colorLightSilver">#D3D3D3</color>
     <color name="colorLightPeach">#FFDAB9</color>
     <color name="colorLightLime">#32CD32</color>
@@ -68,5 +67,6 @@
     <color name="colorBoundaryCyan">#00FFFF</color>
     <color name="colorBoundaryPink">#FFC0CB</color>
     <color name="colorBoundaryGray">#2D1C1C</color>
+    <color name="colorBoundaryTeal">#00695B</color>
 </resources>
 
