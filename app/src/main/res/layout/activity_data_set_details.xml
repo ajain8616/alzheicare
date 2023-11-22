@@ -93,14 +93,27 @@
             android:hint="Description"
             android:textColor="@color/colorPrimary" />
 
-        <EditText
-            android:id="@+id/editItemType"
-            android:layout_width="157dp"
+        <RadioGroup
+            android:id="@+id/radioGroupItemType"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:hint="Item Type"
-            android:textColor="@color/colorPrimary" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OBJECT"
+                android:textColor="@color/colorPrimary" />
+
+            <RadioButton
+                android:id="@+id/radioContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONTAINER"
+                android:textColor="@color/colorPrimary" />
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="wrap_content"

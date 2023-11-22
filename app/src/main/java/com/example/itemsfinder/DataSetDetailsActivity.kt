@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +36,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var containerView:TextView
     private lateinit var editItemName: EditText
     private lateinit var editDescription: EditText
-    private lateinit var editItemType: EditText
+    private lateinit var radioGroupItemType:RadioGroup
+    private lateinit var radioItem:RadioButton
+    private lateinit var radioContainer:RadioButton
     private lateinit var saveChangesButton: ImageButton
     private lateinit var backButton:ImageButton
     private lateinit var updateMessage:LottieAnimationView
@@ -73,8 +77,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             backButton.visibility=View.VISIBLE
 
         }
-
-
 
         backButton.setOnClickListener {
             linearLayoutForm.visibility = View.GONE
@@ -151,7 +153,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
             containerView=findViewById(R.id.containerView)
             editItemName = findViewById(R.id.editItemName)
             editDescription = findViewById(R.id.editDescription)
-            editItemType = findViewById(R.id.editItemType)
+            radioGroupItemType=findViewById(R.id.radioGroupItemType)
+            radioItem=findViewById(R.id.radioItem)
+            radioContainer=findViewById(R.id.radioContainer)
             saveChangesButton = findViewById(R.id.saveChangesButton)
             updateMessage=findViewById(R.id.updateMessage)
             linearLayoutForm=findViewById(R.id.linearLayoutForm)
@@ -192,7 +196,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
                 }
             }
         } else {
-            Toast.makeText(this, "User is not authenticated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "User is not authenticated", Toast.LENGTH_LONG).show()
         }
     }
     private fun containerActivityAnimation() {
@@ -218,15 +222,29 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private fun updateDetails() {
         val itemNameExtra = itemName.text.toString()
         val updatedDescription = editDescription.text.toString()
-        val updatedItemType = editItemType.text.toString()
 
-        if (updatedDescription.isNotEmpty() && updatedItemType.isNotEmpty()) {
+        // Check if updatedDescription is not empty and a radio button is selected
+        if (updatedDescription.isNotEmpty()) {
             val database = FirebaseDatabase.getInstance().reference
-            val collectionName = "Item_Container_Data"
             val userId = FirebaseAuth.getInstance().currentUser?.uid
+            val selectedRadioButtonId = radioGroupItemType.checkedRadioButtonId
 
-            if (userId != null) {
+            // Check if a radio button is selected
+            if (selectedRadioButtonId != -1 && userId != null) {
+                // Determine the collection name based on the selected radio button
+                val collectionName = when (selectedRadioButtonId) {
+                    R.id.radioItem -> "Item_Container_Data_Item"
+                    R.id.radioContainer -> "Item_Container_Data_Container"
+                    else -> "Item_Container_Data" // Default collection name if none selected
+                }
                 val userRef = database.child(collectionName).child(userId).child(itemNameExtra)
+                // Get the selected item type from the radio button
+                val updatedItemType = when (selectedRadioButtonId) {
+                    R.id.radioItem -> "Item"
+                    R.id.radioContainer -> "Container"
+                    else -> "" // Default item type if none selected
+                }
+
                 // Create a map with the updated data
                 val updatedData = mapOf(
                     "description" to updatedDescription,
@@ -241,16 +259,19 @@ class DataSetDetailsActivity : AppCompatActivity() {
                             updateMessage.playAnimation()
                             description.text = updatedDescription
                             itemType.text = updatedItemType
-
                         } else {
-                            Toast.makeText(this@DataSetDetailsActivity, "Failed to update item $itemNameExtra",Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@DataSetDetailsActivity,
+                                "Failed to update item $itemNameExtra",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
             } else {
-                Toast.makeText(this, "User is not authenticated", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@DataSetDetailsActivity, "Please select an item type", Toast.LENGTH_LONG).show()
             }
         } else {
-            Toast.makeText(this, "Please enter values for all fields", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@DataSetDetailsActivity, "Please enter values for all fields", Toast.LENGTH_LONG).show()
         }
     }
 
