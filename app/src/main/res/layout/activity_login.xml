@@ -75,6 +75,7 @@
             android:textColor="@color/colorWhite"
             android:background="@drawable/gradient"
             android:text="Forget Password" />
+
         <TextView
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"

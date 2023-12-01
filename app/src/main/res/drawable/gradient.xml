@@ -7,5 +7,5 @@
         android:angle="45"
         android:centerColor="@color/colorMediumPurple"
         android:centerX="45%"
-        android:centerY="55%"/>
+        android:centerY="55%" />
 </shape>

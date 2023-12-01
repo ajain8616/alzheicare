@@ -15,7 +15,7 @@ class LoginIntroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login_intro)
         btnGetStarted = findViewById(R.id.btnGetStarted)
         val auth = FirebaseAuth.getInstance()
-        if(auth.currentUser != null){
+        if (auth.currentUser != null) {
             Toast.makeText(this, "User is already logged in!", Toast.LENGTH_SHORT).show()
             redirect("MAIN")
         }
@@ -25,11 +25,13 @@ class LoginIntroActivity : AppCompatActivity() {
     }
 
     private fun redirect(name: String) {
-        val intent = Intent(this, when (name) {
-            "LOGIN" -> LoginActivity::class.java
-            "MAIN" -> MainActivity::class.java
-            else -> throw Exception("No path exists")
-        })
+        val intent = Intent(
+            this, when (name) {
+                "LOGIN" -> LoginActivity::class.java
+                "MAIN" -> MainActivity::class.java
+                else -> throw Exception("No path exists")
+            }
+        )
         startActivity(intent)
         finish()
     }

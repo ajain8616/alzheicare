@@ -16,7 +16,7 @@ class ItemListAdapter(private val itemList: List<Item>) :
         val itemName: TextView = itemView.findViewById(R.id.itemName)
         val description: TextView = itemView.findViewById(R.id.description)
         val itemType: TextView = itemView.findViewById(R.id.itemType)
-        val itemTypeView:ImageView=itemView.findViewById(R.id.itemTypeView)
+        val itemTypeView: ImageView = itemView.findViewById(R.id.itemTypeView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -24,6 +24,7 @@ class ItemListAdapter(private val itemList: List<Item>) :
             .inflate(R.layout.item_layout, parent, false)
         return ItemViewHolder(itemView)
     }
+
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val currentItem = itemList[position]
         holder.itemName.text = currentItem.itemName
@@ -42,14 +43,26 @@ class ItemListAdapter(private val itemList: List<Item>) :
         when (currentItem.itemType) {
             "OBJECT" -> {
                 holder.itemTypeView.setImageResource(R.drawable.ic_objects)
-                holder.itemTypeView.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.colorBlue))
+                holder.itemTypeView.setColorFilter(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.colorBlue
+                    )
+                )
                 holder.itemView.setBackgroundResource(R.drawable.item_view_border_blue)
             }
+
             "CONTAINER" -> {
-                holder.itemTypeView.setImageResource(R.drawable.ic_containers)
-                holder.itemTypeView.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.colorDarkGray))
+                holder.itemTypeView.setImageResource(R.drawable.ic_contaier)
+                holder.itemTypeView.setColorFilter(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.colorDarkGray
+                    )
+                )
                 holder.itemView.setBackgroundResource(R.drawable.item_view_border_gray)
             }
+
             else -> {
                 holder.itemTypeView.setImageResource(R.drawable.ic_block)
                 holder.itemTypeView.setColorFilter(null)

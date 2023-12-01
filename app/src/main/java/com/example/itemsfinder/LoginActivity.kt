@@ -12,25 +12,25 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var btnLogin:Button
-    private lateinit var btnSignUp:TextView
-    private lateinit var btnForgetPassword:TextView
-    private lateinit var etEmailAddress:EditText
-    private lateinit var etPassword:EditText
+    private lateinit var btnLogin: Button
+    private lateinit var btnSignUp: TextView
+    private lateinit var btnForgetPassword: TextView
+    private lateinit var etEmailAddress: EditText
+    private lateinit var etPassword: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         firebaseAuth = FirebaseAuth.getInstance()
-        btnLogin=findViewById(R.id.btnLogin)
+        btnLogin = findViewById(R.id.btnLogin)
         btnLogin.setOnClickListener {
             login()
         }
-        btnForgetPassword=findViewById(R.id.btnForgetPassword)
+        btnForgetPassword = findViewById(R.id.btnForgetPassword)
         btnForgetPassword.setOnClickListener {
             forgetPassword()
         }
 
-        btnSignUp=findViewById(R.id.btnSignUp)
+        btnSignUp = findViewById(R.id.btnSignUp)
         btnSignUp.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
@@ -39,9 +39,9 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun login(){
-        etEmailAddress=findViewById(R.id.etEmailAddress)
-        etPassword=findViewById(R.id.etPassword)
+    private fun login() {
+        etEmailAddress = findViewById(R.id.etEmailAddress)
+        etPassword = findViewById(R.id.etPassword)
         val email = etEmailAddress.text.toString()
         val password = etPassword.text.toString()
         if (email.isBlank() || password.isBlank()) {
@@ -49,18 +49,18 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){
-            if(it.isSuccessful){
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) {
+            if (it.isSuccessful) {
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            else{
+            } else {
                 Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
     private fun forgetPassword() {
         val email = etEmailAddress.text.toString()
 
@@ -72,9 +72,14 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Password reset link sent to your email.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Password reset link sent to your email.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(this, "Error sending password reset email.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error sending password reset email.", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
     }

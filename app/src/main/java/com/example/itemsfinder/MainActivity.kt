@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sendItem: ImageButton
     private lateinit var itemName: EditText
     private lateinit var description: EditText
-    private lateinit var itemSearch:EditText
+    private lateinit var itemSearch: EditText
     private lateinit var itemTypeRadioGroup: RadioGroup
     private lateinit var radioObject: RadioButton
     private lateinit var radioContainer: RadioButton
@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemList: MutableList<Item>
     private lateinit var filteredItemList: MutableList<Item>
     private lateinit var database: DatabaseReference
-    private lateinit var fabActionButton:FloatingActionButton
-    private lateinit var profileActionButton:FloatingActionButton
-    private lateinit var listViewActionButton:FloatingActionButton
-    private lateinit var clearButton:ImageButton
+    private lateinit var fabActionButton: FloatingActionButton
+    private lateinit var profileActionButton: FloatingActionButton
+    private lateinit var listViewActionButton: FloatingActionButton
+    private lateinit var clearButton: ImageButton
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
 
@@ -61,23 +61,24 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         itemListView.visibility = View.VISIBLE
     }
+
     private fun findIdsOfElements() {
         addItem = findViewById(R.id.addItemButton)
         searchItem = findViewById(R.id.searchButton)
         sendItem = findViewById(R.id.sendButton)
         itemName = findViewById(R.id.itemName)
         description = findViewById(R.id.description)
-        itemSearch=findViewById(R.id.itemSearch)
+        itemSearch = findViewById(R.id.itemSearch)
         itemListView = findViewById(R.id.itemsListView)
         addItemLayout = findViewById(R.id.addItemLayout)
         radioContainer = findViewById(R.id.radioContainer)
         itemTypeRadioGroup = findViewById(R.id.itemTypeRadioGroup)
         radioObject = findViewById(R.id.radioObject)
         searchItemLayout = findViewById(R.id.searchItemLayout)
-        fabActionButton=findViewById(R.id.fabActionButton)
-        profileActionButton=findViewById(R.id.profileActionButton)
-        listViewActionButton=findViewById(R.id.listViewActionButton)
-        clearButton=findViewById(R.id.clearButton)
+        fabActionButton = findViewById(R.id.fabActionButton)
+        profileActionButton = findViewById(R.id.profileActionButton)
+        listViewActionButton = findViewById(R.id.listViewActionButton)
+        clearButton = findViewById(R.id.clearButton)
     }
 
     private fun setEventHandlers() {
@@ -105,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
-            itemListView.visibility=View.VISIBLE
+            itemListView.visibility = View.VISIBLE
 
         }
 
@@ -133,18 +134,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) { }
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         fabActionButton.setOnClickListener {
-            if (profileActionButton.visibility == View.GONE|| listViewActionButton.visibility == View.GONE) {
+            if (profileActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE) {
                 // Expand the buttons
                 profileActionButton.visibility = View.VISIBLE
-                listViewActionButton.visibility=View.VISIBLE
+                listViewActionButton.visibility = View.VISIBLE
             } else {
                 // Collapse the buttons
                 profileActionButton.visibility = View.GONE
-                listViewActionButton.visibility=View.GONE
+                listViewActionButton.visibility = View.GONE
 
             }
         }
@@ -158,11 +159,19 @@ class MainActivity : AppCompatActivity() {
             if (itemListView.visibility == View.VISIBLE) {
                 itemListView.visibility = View.GONE
                 isItemListVisible = false
-                Toast.makeText(this@MainActivity, "Item List View is now hidden", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Item List View is now hidden",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 itemListView.visibility = View.VISIBLE
                 isItemListVisible = true
-                Toast.makeText(this@MainActivity, "Item List View is now visible", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Item List View is now visible",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -175,17 +184,27 @@ class MainActivity : AppCompatActivity() {
                 R.id.radioContainer -> "CONTAINER"
                 else -> ""
             }
-            val isDuplicateItem = itemList.any { it.itemName.equals(itemNameText, ignoreCase = true) }
+            val isDuplicateItem =
+                itemList.any { it.itemName.equals(itemNameText, ignoreCase = true) }
 
             if (itemNameText.isEmpty() || descriptionText.isEmpty()) {
-                Toast.makeText(this@MainActivity, "Item name and description cannot be empty", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Item name and description cannot be empty",
+                    Toast.LENGTH_LONG
+                ).show()
             } else if (isDuplicateItem) {
-                Toast.makeText(this@MainActivity, "Item already exists in the list", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Item already exists in the list",
+                    Toast.LENGTH_LONG
+                ).show()
             } else {
                 val item = Item(itemNameText, descriptionText, itemType)
                 itemList.add(item)
                 itemListAdapter.notifyDataSetChanged()
-                Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG)
+                    .show()
 
                 itemName.text.clear()
                 description.text.clear()
@@ -224,13 +243,25 @@ class MainActivity : AppCompatActivity() {
             val itemsMap = itemList.map { it.itemName to it }.toMap()
             database.child(collectionName).child(userId).setValue(itemsMap)
                 .addOnSuccessListener {
-                    Toast.makeText(this@MainActivity, "Data uploaded successfully", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Data uploaded successfully",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this@MainActivity, "Error uploading data: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Error uploading data: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
         } else {
-            Toast.makeText(this@MainActivity, "User not logged in. Data cannot be uploaded.", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this@MainActivity,
+                "User not logged in. Data cannot be uploaded.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -241,20 +272,34 @@ class MainActivity : AppCompatActivity() {
         val collectionName = "Item_Container_Data"
 
         if (userId != null) {
-            database.child(collectionName).child(userId).get().addOnSuccessListener { dataSnapshot ->
-                if (dataSnapshot.exists()) {
-                    val items = dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
-                    itemList.clear()
-                    itemList.addAll(items)
-                    itemListAdapter.notifyDataSetChanged()
-                } else {
-                    Toast.makeText(this@MainActivity, "No data available in the collection", Toast.LENGTH_LONG).show()
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this@MainActivity, "Error getting data: ${e.message}", Toast.LENGTH_LONG).show()
+            database.child(collectionName).child(userId).get()
+                .addOnSuccessListener { dataSnapshot ->
+                    if (dataSnapshot.exists()) {
+                        val items =
+                            dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
+                        itemList.clear()
+                        itemList.addAll(items)
+                        itemListAdapter.notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "No data available in the collection",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }.addOnFailureListener { e ->
+                Toast.makeText(
+                    this@MainActivity,
+                    "Error getting data: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         } else {
-            Toast.makeText(this@MainActivity, "User not logged in. Data cannot be retrieved.", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this@MainActivity,
+                "User not logged in. Data cannot be retrieved.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

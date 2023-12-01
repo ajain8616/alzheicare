@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,7 +19,7 @@
             android:id="@+id/itemTypeView"
             android:layout_width="72dp"
             android:layout_height="77dp"
-            android:src="@drawable/ic_block"/>
+            android:src="@drawable/ic_block" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,7 +36,7 @@
                 android:text="Item Name"
                 android:textStyle="bold"
                 android:textSize="19sp"
-                android:layout_gravity="end"/>
+                android:layout_gravity="end" />
 
             <TextView
                 android:id="@+id/description"
@@ -53,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:visibility="gone"
-                android:text="Item Type"/>
+                android:text="Item Type" />
 
         </LinearLayout>
     </LinearLayout>

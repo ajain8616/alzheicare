@@ -29,20 +29,20 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var editActionButton: FloatingActionButton
     private lateinit var deleteActionButton: FloatingActionButton
-    private lateinit var cardView:CardView
+    private lateinit var cardView: CardView
     private lateinit var auth: FirebaseAuth
-    private lateinit var deleteMessageAnimation:LottieAnimationView
-    private lateinit var containerMessage:LottieAnimationView
-    private lateinit var containerView:TextView
+    private lateinit var deleteMessageAnimation: LottieAnimationView
+    private lateinit var containerMessage: LottieAnimationView
+    private lateinit var containerView: TextView
     private lateinit var editItemName: EditText
     private lateinit var editDescription: EditText
-    private lateinit var radioGroupItemType:RadioGroup
-    private lateinit var radioItem:RadioButton
-    private lateinit var radioContainer:RadioButton
+    private lateinit var radioGroupItemType: RadioGroup
+    private lateinit var radioItem: RadioButton
+    private lateinit var radioContainer: RadioButton
     private lateinit var saveChangesButton: ImageButton
-    private lateinit var backButton:ImageButton
-    private lateinit var updateMessage:LottieAnimationView
-    private lateinit var linearLayoutForm:LinearLayout
+    private lateinit var backButton: ImageButton
+    private lateinit var updateMessage: LottieAnimationView
+    private lateinit var linearLayoutForm: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
         findIdsOfElements()
         linearLayoutForm.visibility = View.GONE
         floatingActionButton.setOnClickListener {
-            if (editActionButton.visibility == View.GONE || deleteActionButton.visibility == View.GONE ) {
+            if (editActionButton.visibility == View.GONE || deleteActionButton.visibility == View.GONE) {
                 editActionButton.visibility = View.VISIBLE
                 deleteActionButton.visibility = View.VISIBLE
             } else {
@@ -72,9 +72,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            containerView.visibility=View.GONE
-            updateMessage.visibility=View.GONE
-            backButton.visibility=View.VISIBLE
+            containerView.visibility = View.GONE
+            updateMessage.visibility = View.GONE
+            backButton.visibility = View.VISIBLE
 
         }
 
@@ -85,8 +85,8 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.VISIBLE
             floatingActionButton.visibility = View.VISIBLE
             editActionButton.visibility = View.VISIBLE
-            containerView.visibility=View.VISIBLE
-            updateMessage.visibility=View.VISIBLE
+            containerView.visibility = View.VISIBLE
+            updateMessage.visibility = View.VISIBLE
 
         }
 
@@ -98,17 +98,17 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            containerView.visibility=View.GONE
-            linearLayoutForm.visibility=View.GONE
-            deleteMessageAnimation.visibility=View.GONE
-            backButton.visibility=View.GONE
+            containerView.visibility = View.GONE
+            linearLayoutForm.visibility = View.GONE
+            deleteMessageAnimation.visibility = View.GONE
+            backButton.visibility = View.GONE
 
             Handler(Looper.getMainLooper()).postDelayed({
                 updateMessage.visibility = View.VISIBLE
                 val intent = Intent(this@DataSetDetailsActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            },2000)
+            }, 2000)
 
         }
 
@@ -121,45 +121,47 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            containerView.visibility=View.GONE
-            linearLayoutForm.visibility=View.GONE
-            updateMessage.visibility=View.GONE
-            backButton.visibility=View.GONE
+            containerView.visibility = View.GONE
+            linearLayoutForm.visibility = View.GONE
+            updateMessage.visibility = View.GONE
+            backButton.visibility = View.GONE
 
             Handler(Looper.getMainLooper()).postDelayed({
                 deleteMessageAnimation.visibility = View.VISIBLE
                 val intent = Intent(this@DataSetDetailsActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            },2000)
+            }, 2000)
 
         }
 
         containerView.setOnClickListener {
             containerActivityAnimation()
+            containerMessage.playAnimation()
         }
 
     }
-        private fun findIdsOfElements() {
-            itemName = findViewById(R.id.itemNameView)
-            description = findViewById(R.id.descriptionView)
-            itemType = findViewById(R.id.itemTypeView)
-            floatingActionButton = findViewById(R.id.floatingActionButton)
-            editActionButton = findViewById(R.id.editActionButton)
-            deleteActionButton = findViewById(R.id.deleteActionButton)
-            cardView=findViewById(R.id.cardView)
-            deleteMessageAnimation=findViewById(R.id.deleteMessage)
-            containerMessage=findViewById(R.id.containerMessage)
-            containerView=findViewById(R.id.containerView)
-            editItemName = findViewById(R.id.editItemName)
-            editDescription = findViewById(R.id.editDescription)
-            radioGroupItemType=findViewById(R.id.radioGroupItemType)
-            radioItem=findViewById(R.id.radioItem)
-            radioContainer=findViewById(R.id.radioContainer)
-            saveChangesButton = findViewById(R.id.saveChangesButton)
-            updateMessage=findViewById(R.id.updateMessage)
-            linearLayoutForm=findViewById(R.id.linearLayoutForm)
-            backButton=findViewById(R.id.backButton)
+
+    private fun findIdsOfElements() {
+        itemName = findViewById(R.id.itemNameView)
+        description = findViewById(R.id.descriptionView)
+        itemType = findViewById(R.id.itemTypeView)
+        floatingActionButton = findViewById(R.id.floatingActionButton)
+        editActionButton = findViewById(R.id.editActionButton)
+        deleteActionButton = findViewById(R.id.deleteActionButton)
+        cardView = findViewById(R.id.cardView)
+        deleteMessageAnimation = findViewById(R.id.deleteMessage)
+        containerMessage = findViewById(R.id.containerMessage)
+        containerView = findViewById(R.id.containerView)
+        editItemName = findViewById(R.id.editItemName)
+        editDescription = findViewById(R.id.editDescription)
+        radioGroupItemType = findViewById(R.id.radioGroupItemType)
+        radioItem = findViewById(R.id.radioItem)
+        radioContainer = findViewById(R.id.radioContainer)
+        saveChangesButton = findViewById(R.id.saveChangesButton)
+        updateMessage = findViewById(R.id.updateMessage)
+        linearLayoutForm = findViewById(R.id.linearLayoutForm)
+        backButton = findViewById(R.id.backButton)
     }
 
     private fun displayData() {
@@ -176,12 +178,14 @@ class DataSetDetailsActivity : AppCompatActivity() {
                 itemType.setTextColor(ContextCompat.getColor(this, R.color.colorBlue))
                 findViewById<View>(R.id.cardView).setBackgroundResource(R.drawable.item_view_border_blue)
             }
+
             "CONTAINER" -> {
                 itemType.setTextColor(ContextCompat.getColor(this, R.color.colorDarkGray))
                 findViewById<View>(R.id.cardView).setBackgroundResource(R.drawable.item_view_border_gray)
             }
         }
     }
+
     private fun deleteDataFromFirebase(itemId: String) {
         val database = FirebaseDatabase.getInstance().reference
         val collectionName = "Item_Container_Data"
@@ -199,24 +203,25 @@ class DataSetDetailsActivity : AppCompatActivity() {
             Toast.makeText(this, "User is not authenticated", Toast.LENGTH_LONG).show()
         }
     }
+
     private fun containerActivityAnimation() {
-        containerMessage.visibility=View.VISIBLE
+        containerMessage.visibility = View.VISIBLE
         deleteMessageAnimation.visibility = View.GONE
         editActionButton.visibility = View.GONE
         deleteActionButton.visibility = View.GONE
         cardView.visibility = View.GONE
-        containerView.visibility=View.GONE
+        containerView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
-        linearLayoutForm.visibility=View.GONE
-        updateMessage.visibility=View.GONE
-        backButton.visibility=View.GONE
+        linearLayoutForm.visibility = View.GONE
+        updateMessage.visibility = View.GONE
+        backButton.visibility = View.GONE
 
         Handler(Looper.getMainLooper()).postDelayed({
-            containerMessage.visibility=View.VISIBLE
-            val intent = Intent(this@DataSetDetailsActivity, ContainerChoiceActivity::class.java)
+            containerMessage.visibility = View.VISIBLE
+            val intent = Intent(this@DataSetDetailsActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, 2000)
+        }, 1000)
     }
 
     private fun updateDetails() {
@@ -268,10 +273,18 @@ class DataSetDetailsActivity : AppCompatActivity() {
                         }
                     }
             } else {
-                Toast.makeText(this@DataSetDetailsActivity, "Please select an item type", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@DataSetDetailsActivity,
+                    "Please select an item type",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         } else {
-            Toast.makeText(this@DataSetDetailsActivity, "Please enter values for all fields", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this@DataSetDetailsActivity,
+                "Please enter values for all fields",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

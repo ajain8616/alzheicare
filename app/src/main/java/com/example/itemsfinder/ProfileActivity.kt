@@ -10,11 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity : AppCompatActivity() {
-    private lateinit var linearLayout:LinearLayout
-    private lateinit var profile_picture:ImageView
-    private lateinit var user_mail:TextView
-    private lateinit var user_info:TextView
-    private lateinit var logout_button:ImageButton
+    private lateinit var linearLayout: LinearLayout
+    private lateinit var profile_picture: ImageView
+    private lateinit var user_mail: TextView
+    private lateinit var user_info: TextView
+    private lateinit var logout_button: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -22,19 +22,18 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun elementsId() {
-        linearLayout=findViewById(R.id.linearLayout)
-        profile_picture=findViewById(R.id.profile_picture)
-        user_mail=findViewById(R.id.user_mail)
-        user_info=findViewById(R.id.user_info)
-        logout_button=findViewById(R.id.logout_button)
+        linearLayout = findViewById(R.id.linearLayout)
+        profile_picture = findViewById(R.id.profile_picture)
+        user_mail = findViewById(R.id.user_mail)
+        user_info = findViewById(R.id.user_info)
+        logout_button = findViewById(R.id.logout_button)
     }
 
-    private fun eventHandler()
-    {
+    private fun eventHandler() {
         elementsId()
         val user = FirebaseAuth.getInstance().currentUser
-        user_mail.text=user?.email
-        user_info.text=user?.uid
+        user_mail.text = user?.email
+        user_info.text = user?.uid
 
         logout_button.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

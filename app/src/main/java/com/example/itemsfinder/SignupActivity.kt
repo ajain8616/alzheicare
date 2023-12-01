@@ -22,13 +22,13 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
         firebaseAuth = FirebaseAuth.getInstance()
-        btnSignUp=findViewById(R.id.btnSignUp)
+        btnSignUp = findViewById(R.id.btnSignUp)
         btnSignUp.setOnClickListener {
             signUpUser()
         }
 
-        btnLogin=findViewById(R.id.btnLogin)
-         btnLogin.setOnClickListener {
+        btnLogin = findViewById(R.id.btnLogin)
+        btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -36,9 +36,9 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun signUpUser() {
-        etEmailAddress=findViewById(R.id.etEmailAddress)
-        etPassword=findViewById(R.id.etPassword)
-        etConfirmPassword=findViewById(R.id.etConfirmPassword)
+        etEmailAddress = findViewById(R.id.etEmailAddress)
+        etPassword = findViewById(R.id.etPassword)
+        etConfirmPassword = findViewById(R.id.etConfirmPassword)
         val email = etEmailAddress.text.toString()
         val password = etPassword.text.toString()
         val confirmPassword = etConfirmPassword.text.toString()
@@ -48,7 +48,8 @@ class SignupActivity : AppCompatActivity() {
             return
         }
         if (password != confirmPassword) {
-            Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT)
+                .show()
             return
         }
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -57,12 +58,20 @@ class SignupActivity : AppCompatActivity() {
                     val user = firebaseAuth.currentUser
                     user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
                         if (verificationTask.isSuccessful) {
-                            Toast.makeText(this, "Verification link sent to your email.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Verification link sent to your email.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
-                            Toast.makeText(this, "Error sending verification email.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Error sending verification email.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } else {
