@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class DataSetDetailsActivity : AppCompatActivity() {
-
     private lateinit var itemName: TextView
     private lateinit var description: TextView
     private lateinit var itemType: TextView
@@ -218,10 +217,11 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             containerMessage.visibility = View.VISIBLE
-            val intent = Intent(this@DataSetDetailsActivity, MainActivity::class.java)
+            val intent = Intent(this@DataSetDetailsActivity, ContainerChoiceActivity::class.java)
+            intent.putExtra("itemName", itemName.text.toString())
             startActivity(intent)
             finish()
-        }, 1000)
+        }, 2000)
     }
 
     private fun updateDetails() {

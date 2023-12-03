@@ -3,17 +3,19 @@ package com.example.itemsfinder
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+
 
 class ProfileActivity : AppCompatActivity() {
-    private lateinit var linearLayout: LinearLayout
-    private lateinit var profile_picture: ImageView
-    private lateinit var user_mail: TextView
-    private lateinit var user_info: TextView
+    private lateinit var user_mail:TextView
+    private lateinit var elementsCount:TextView
+    private lateinit var objectsCount:TextView
+    private lateinit var containersCount:TextView
+    private lateinit var combinationsCount:TextView
     private lateinit var logout_button: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +24,25 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun elementsId() {
-        linearLayout = findViewById(R.id.linearLayout)
-        profile_picture = findViewById(R.id.profile_picture)
         user_mail = findViewById(R.id.user_mail)
-        user_info = findViewById(R.id.user_info)
+        elementsCount = findViewById(R.id.elementsCount)
+        objectsCount = findViewById(R.id.objectsCount)
+        containersCount = findViewById(R.id.containersCount)
+        combinationsCount = findViewById(R.id.combinationsCount)
         logout_button = findViewById(R.id.logout_button)
     }
 
     private fun eventHandler() {
         elementsId()
+
+        // Get the current user
         val user = FirebaseAuth.getInstance().currentUser
         user_mail.text = user?.email
-        user_info.text = user?.uid
+
+        // Update element counts
+        if (user != null) {
+            updateElementCounts()
+        }
 
         logout_button.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -41,9 +50,53 @@ class ProfileActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
-
         }
     }
+
+
+    private fun updateElementCounts() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userId = currentUser?.uid
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionName = "Item_Container_Data"
+
+        if (userId != null) {
+            database.child(collectionName).child(userId).get()
+                .addOnSuccessListener { dataSnapshot ->
+                    if (dataSnapshot.exists()) {
+                        val items = dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
+                        val totalElements = items.size
+                        elementsCount.text = "TOTAL ELEMENTS = $totalElements"
+                        var totalObjects = 0
+                        var totalContainers = 0
+                        for (item in items) {
+                            if (item.itemType == "OBJECT") {
+                                totalObjects++
+                            } else if (item.itemType == "CONTAINER") {
+                                totalContainers++
+                            }
+                        }
+
+                        objectsCount.text = "TOTAL OBJECTS = $totalObjects"
+                        containersCount.text = "TOTAL CONTAINERS = $totalContainers"
+                    } else {
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Handle failure, show error message
+                    Toast.makeText(
+                        this@ProfileActivity,
+                        "Error getting data: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+        } else {
+        }
+    }
+
+
+
+
 
 
 }

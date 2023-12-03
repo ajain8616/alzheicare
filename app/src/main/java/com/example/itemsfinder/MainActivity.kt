@@ -11,9 +11,7 @@ import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import org.json.JSONArray
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -106,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
-            itemListView.visibility = View.VISIBLE
+            itemListView.visibility = View.GONE
 
         }
 
@@ -200,7 +198,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                val item = Item(itemNameText, descriptionText, itemType)
+                val item = Item(itemNameText, descriptionText, itemType,)
                 itemList.add(item)
                 itemListAdapter.notifyDataSetChanged()
                 Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG)
