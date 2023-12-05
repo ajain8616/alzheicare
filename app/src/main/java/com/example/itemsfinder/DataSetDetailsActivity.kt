@@ -236,13 +236,10 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
             // Check if a radio button is selected
             if (selectedRadioButtonId != -1 && userId != null) {
-                // Determine the collection name based on the selected radio button
-                val collectionName = when (selectedRadioButtonId) {
-                    R.id.radioItem -> "Item_Container_Data_Item"
-                    R.id.radioContainer -> "Item_Container_Data_Container"
-                    else -> "Item_Container_Data" // Default collection name if none selected
-                }
+                val collectionName = "Updated_Objects_Containers"
+
                 val userRef = database.child(collectionName).child(userId).child(itemNameExtra)
+
                 // Get the selected item type from the radio button
                 val updatedItemType = when (selectedRadioButtonId) {
                     R.id.radioItem -> "Item"
@@ -253,7 +250,8 @@ class DataSetDetailsActivity : AppCompatActivity() {
                 // Create a map with the updated data
                 val updatedData = mapOf(
                     "description" to updatedDescription,
-                    "itemType" to updatedItemType
+                    "itemType" to updatedItemType,
+                    // Add other fields you want to update in the collection
                 )
 
                 // Update the data in Firebase

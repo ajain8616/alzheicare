@@ -62,7 +62,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         }
 
         submitButton.setOnClickListener {
-            setCollectionsOnFirebase()
+
         }
     }
 
@@ -113,50 +113,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         containerTxtView.text = container.itemName
     }
 
-    private fun setCollectionsOnFirebase() {
-        val userId = currentUser?.uid
-        val database = FirebaseDatabase.getInstance().reference
-        val collectionName = "Collections_Of_Objects_Containers"
 
-        if (userId != null) {
-            val objectText = objectTxtView.text.toString()
-            val inText = inTxtView.text.toString()
-            val containerText = containerTxtView.text.toString()
-
-            val formattedText = "$objectText in $containerText"
-
-            val item = Item(formattedText, "OBJECT_IN_CONTAINER")
-            selectedCollectionList.clear()
-            selectedCollectionList.add(item)
-            val itemsMap = mapOf(
-                "item" to item,
-                "container" to containerText,
-                "itemType" to objectText + containerText
-            )
-
-            database.child(collectionName).child(userId).setValue(itemsMap)
-                .addOnSuccessListener {
-                    Toast.makeText(
-                        this@ContainerChoiceActivity,
-                        "Data uploaded successfully",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(
-                        this@ContainerChoiceActivity,
-                        "Error uploading data: ${e.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-        } else {
-            Toast.makeText(
-                this@ContainerChoiceActivity,
-                "User not logged in. Data cannot be uploaded.",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
 
 
 }

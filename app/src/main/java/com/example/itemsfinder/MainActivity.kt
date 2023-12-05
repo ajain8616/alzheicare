@@ -57,8 +57,10 @@ class MainActivity : AppCompatActivity() {
         currentUser = auth.currentUser!!
         setEventHandlers()
         setupRecyclerView()
+        setUpdatedValues()
         itemListView.visibility = View.VISIBLE
     }
+
 
     private fun findIdsOfElements() {
         addItem = findViewById(R.id.addItemButton)
@@ -104,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
-            itemListView.visibility = View.GONE
+            itemListView.visibility = View.VISIBLE
 
         }
 
@@ -300,4 +302,45 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
+
+
+    private fun setUpdatedValues() {
+        val userId = currentUser?.uid
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionNameOriginal = "Item_Container_Data"
+        val collectionNameUpdated = "Updated_Objects_Containers"
+
+        if (userId != null) {
+            database.child(collectionNameOriginal).child(userId).get()
+                .addOnSuccessListener { dataSnapshotOriginal ->
+                    if (dataSnapshotOriginal.exists()) {
+                        val itemsOriginal =
+                            dataSnapshotOriginal.children.mapNotNull { it.getValue(Item::class.java) }
+                        database.child(collectionNameUpdated).child(userId).get()
+                            .addOnSuccessListener { dataSnapshotUpdated ->
+                                if (dataSnapshotUpdated.exists()) {
+                                    val itemsUpdated =
+                                        dataSnapshotUpdated.children.mapNotNull { it.getValue(Item::class.java) }
+                                    // Compare values and update the itemList
+                                    for (itemOriginal in itemsOriginal) {
+                                        val updatedItem = itemsUpdated.find { it.itemName == itemOriginal.itemName }
+                                        if (updatedItem != null && !areItemsEqual(itemOriginal, updatedItem)) {
+                                            // Update the item in the itemList
+                                            itemList[itemList.indexOf(itemOriginal)] = updatedItem
+                                        }
+                                    }
+                                    // Notify the adapter of the changes
+                                    itemListAdapter.notifyDataSetChanged()
+                                }
+                            }
+                    }
+                }
+        }
+    }
+
+    private fun areItemsEqual(item1: Item, item2: Item): Boolean {
+        return  item1.description == item2.description &&
+                item1.itemType == item2.itemType
+    }
+
 }
