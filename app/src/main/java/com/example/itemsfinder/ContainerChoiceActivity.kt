@@ -1,12 +1,11 @@
 package com.example.itemsfinder
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -15,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class ContainerChoiceActivity : AppCompatActivity() {
+class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItemClickListener {
     private lateinit var objectTxtView: TextView
     private lateinit var inTxtView: TextView
     private lateinit var containerTxtView: TextView
@@ -28,8 +27,7 @@ class ContainerChoiceActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
-    private val selectedItemsList: MutableList<String> = mutableListOf()
-
+    private val selectedCollectionList: MutableList<Item> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,50 +35,37 @@ class ContainerChoiceActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser!!
+        findIdsOfElements()
         setEventHandlers()
         containerList = mutableListOf()
-        containerListAdapter = ContainerListAdapter(containerList)
-
-
+        containerListAdapter = ContainerListAdapter(containerList, this)
     }
 
     private fun findIdsOfElements() {
-        objectTxtView=findViewById(R.id.objectTxtView)
-        inTxtView=findViewById(R.id.inTxtView)
-        containerTxtView=findViewById(R.id.containerTxtView)
-        submitButton=findViewById(R.id.submitButton)
-        containerChoice=findViewById(R.id.containerChoice)
-        linearLayout=findViewById(R.id.linearLayout)
-        containerListView=findViewById(R.id.containerListView)
+        objectTxtView = findViewById(R.id.objectTxtView)
+        inTxtView = findViewById(R.id.inTxtView)
+        containerTxtView = findViewById(R.id.containerTxtView)
+        submitButton = findViewById(R.id.submitButton)
+        containerChoice = findViewById(R.id.containerChoice)
+        linearLayout = findViewById(R.id.linearLayout)
+        containerListView = findViewById(R.id.containerListView)
     }
-    private fun setEventHandlers() {
-        findIdsOfElements()
 
+    private fun setEventHandlers() {
         // Retrieve itemName and containerName from intent
         val itemNameFromIntent = intent.getStringExtra("itemName")
-        val containerNameFromIntent = intent.getStringExtra("containerName")
-
         // Set the text of objectTxtView and containerTxtView with the retrieved values
         objectTxtView.text = itemNameFromIntent
-        containerTxtView.text = containerNameFromIntent
 
         if (currentUser != null) {
             getDataFromFirebase()
         }
 
-
         submitButton.setOnClickListener {
-            // Add values to the selectedItemsList
-            val objectText = objectTxtView.text.toString()
-            val containerText = containerTxtView.text.toString()
-
-            selectedItemsList.add(objectText)
-            selectedItemsList.add(containerText)
-
-            // Call the function to set the collection on Firebase
-            setCollectionOnFirebase()
+            setCollectionsOnFirebase()
         }
     }
+
 
 
     private fun getDataFromFirebase() {
@@ -100,7 +85,6 @@ class ContainerChoiceActivity : AppCompatActivity() {
                         containerListAdapter.notifyDataSetChanged()
                         containerListView.layoutManager = GridLayoutManager(this, 2)
                         containerListView.adapter = containerListAdapter
-
                     } else {
                         Toast.makeText(
                             this@ContainerChoiceActivity,
@@ -123,36 +107,56 @@ class ContainerChoiceActivity : AppCompatActivity() {
             ).show()
         }
     }
-    private fun setCollectionOnFirebase() {
+
+    override fun onItemClick(container: Item) {
+        // Handle item click, update the containerTxtView with the selected container's name
+        containerTxtView.text = container.itemName
+    }
+
+    private fun setCollectionsOnFirebase() {
         val userId = currentUser?.uid
-        val collectionName = "Collection_Of_Objects_Containers"
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionName = "Collections_Of_Objects_Containers"
 
         if (userId != null) {
-            val databaseReference = database.child(collectionName).child(userId)
+            val objectText = objectTxtView.text.toString()
+            val inText = inTxtView.text.toString()
+            val containerText = containerTxtView.text.toString()
 
-            // Add the selected items to the database
-            databaseReference.setValue(selectedItemsList)
+            val formattedText = "$objectText in $containerText"
+
+            val item = Item(formattedText, "OBJECT_IN_CONTAINER")
+            selectedCollectionList.clear()
+            selectedCollectionList.add(item)
+            val itemsMap = mapOf(
+                "item" to item,
+                "container" to containerText,
+                "itemType" to objectText + containerText
+            )
+
+            database.child(collectionName).child(userId).setValue(itemsMap)
                 .addOnSuccessListener {
                     Toast.makeText(
                         this@ContainerChoiceActivity,
-                        "Data saved successfully",
+                        "Data uploaded successfully",
                         Toast.LENGTH_LONG
                     ).show()
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(
                         this@ContainerChoiceActivity,
-                        "Error saving data: ${e.message}",
+                        "Error uploading data: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
         } else {
             Toast.makeText(
                 this@ContainerChoiceActivity,
-                "User not logged in. Data cannot be saved.",
+                "User not logged in. Data cannot be uploaded.",
                 Toast.LENGTH_LONG
             ).show()
         }
     }
+
 
 }

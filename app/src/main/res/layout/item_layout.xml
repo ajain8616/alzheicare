@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Item Name"
+                android:textColor="@color/colorDarkRed"
                 android:textStyle="bold"
                 android:textSize="19sp"
                 android:layout_gravity="end" />
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Description"
+                android:textColor="@color/colorDarkRed"
                 android:textSize="14sp" />
 
             <TextView

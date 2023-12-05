@@ -1,18 +1,22 @@
 package com.example.itemsfinder
 
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
-class ContainerListAdapter(private val containerList: List<Item>) :
-    RecyclerView.Adapter<ContainerListAdapter.ContainerViewHolder>() {
+class ContainerListAdapter(
+    private val containerList: List<Item>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<ContainerListAdapter.ContainerViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(container: Item)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContainerViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,15 +27,7 @@ class ContainerListAdapter(private val containerList: List<Item>) :
     override fun onBindViewHolder(holder: ContainerViewHolder, position: Int) {
         val container = containerList[position]
         holder.bind(container)
-        holder.itemView.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, ContainerChoiceActivity::class.java)
-            // Pass container.itemName as an extra to the ContainerChoiceActivity
-            intent.putExtra("containerName", container.itemName)
-            context.startActivity(intent)
-        }
     }
-
 
     override fun getItemCount(): Int {
         return containerList.size
@@ -42,6 +38,16 @@ class ContainerListAdapter(private val containerList: List<Item>) :
         private val containerIcon: ImageView = itemView.findViewById(R.id.containerIcon)
         private val containerSelectedView: TextView =
             itemView.findViewById(R.id.containerSelectedView)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val container = containerList[position]
+                    itemClickListener.onItemClick(container)
+                }
+            }
+        }
 
         fun bind(container: Item) {
             // Set data to views
@@ -67,8 +73,6 @@ class ContainerListAdapter(private val containerList: List<Item>) :
             } else {
                 containerSelectedView.text = ""
             }
-
         }
     }
-
 }

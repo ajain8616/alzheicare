@@ -15,7 +15,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var elementsCount:TextView
     private lateinit var objectsCount:TextView
     private lateinit var containersCount:TextView
-    private lateinit var combinationsCount:TextView
     private lateinit var logout_button: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +27,6 @@ class ProfileActivity : AppCompatActivity() {
         elementsCount = findViewById(R.id.elementsCount)
         objectsCount = findViewById(R.id.objectsCount)
         containersCount = findViewById(R.id.containersCount)
-        combinationsCount = findViewById(R.id.combinationsCount)
         logout_button = findViewById(R.id.logout_button)
     }
 
@@ -76,7 +74,6 @@ class ProfileActivity : AppCompatActivity() {
                                 totalContainers++
                             }
                         }
-
                         objectsCount.text = "TOTAL OBJECTS = $totalObjects"
                         containersCount.text = "TOTAL CONTAINERS = $totalContainers"
                     } else {
@@ -93,10 +90,6 @@ class ProfileActivity : AppCompatActivity() {
         } else {
         }
     }
-
-
-
-
 
 
 }
