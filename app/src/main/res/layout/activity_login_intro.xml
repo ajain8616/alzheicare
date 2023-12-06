@@ -23,11 +23,12 @@
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To Items Finder"
+        android:text="Welcome to Alzhei Care"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/txtLoginSubHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <ImageView
         android:layout_marginBottom="8dp"

@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "36367989443",
-    "project_id": "itemsfinder",
-    "storage_bucket": "itemsfinder.appspot.com"
+    "project_id": "Alzhei Care",
+    "storage_bucket": "alzheicare.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:36367989443:android:fe43a30e0dc489bc3a8076",
         "android_client_info": {
-          "package_name": "com.example.itemsfinder"
+          "package_name": "com.example.alzheicare"
         }
       },
       "oauth_client": [],

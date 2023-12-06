@@ -1,4 +1,4 @@
-package com.example.itemsfinder
+package com.example.alzheicare
 
 data class Item(
     val itemName: String = "",

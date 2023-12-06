@@ -1,4 +1,4 @@
-package com.example.itemsfinder
+package com.example.alzheicare
 
 import android.content.Intent
 import android.graphics.Typeface

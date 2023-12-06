@@ -1,4 +1,4 @@
-package com.example.itemsfinder
+package com.example.alzheicare
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+
 
 class ContainerListAdapter(
     private val containerList: List<Item>,

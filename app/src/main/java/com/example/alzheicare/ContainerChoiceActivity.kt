@@ -1,4 +1,4 @@
-package com.example.itemsfinder
+package com.example.alzheicare
 
 import android.os.Bundle
 import android.widget.ImageButton

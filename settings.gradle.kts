@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ItemsFinder"
+rootProject.name = "alzheicare"
 include(":app")
