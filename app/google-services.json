@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "36367989443",
-    "project_id": "Alzhei Care",
-    "storage_bucket": "alzheicare.appspot.com"
+    "project_number": "237928245770",
+    "project_id": "alzhei-care",
+    "storage_bucket": "alzhei-care.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:36367989443:android:fe43a30e0dc489bc3a8076",
+        "mobilesdk_app_id": "1:237928245770:android:18de36fc48a59d2a608df3",
         "android_client_info": {
           "package_name": "com.example.alzheicare"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCm2Y4eBgCvI7ke98Qe-tcQSLenDU1s3l4"
+          "current_key": "AIzaSyDhJV5C08q0R68OP3VFe2XgxYCZJBUV9VE"
         }
       ],
       "services": {

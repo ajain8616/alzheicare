@@ -27,7 +27,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
-    private val selectedCollectionList: MutableList<Item> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +61,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         }
 
         submitButton.setOnClickListener {
-
+            setContainerInItem()
         }
     }
 
@@ -113,7 +112,49 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         containerTxtView.text = container.itemName
     }
 
+    private fun setContainerInItem() {
+        // Retrieve item name and selected container name
+        val itemName = objectTxtView.text.toString()
+        val containerName = containerTxtView.text.toString()
 
+        // Check if the container name is not empty
+        if (containerName.isNotEmpty()) {
+            // Save data to the "Item_In_Container" collection
+            val userId = currentUser?.uid
+            if (userId != null) {
+                val collectionName = "Item_In_Container"
+                val newItemInContainerRef = database.child(collectionName).child(userId).child(itemName)
 
+                // Save the selected container name
+                newItemInContainerRef.child("containerName").setValue(containerName)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            this@ContainerChoiceActivity,
+                            "Container set for item successfully",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(
+                            this@ContainerChoiceActivity,
+                            "Error setting container for item: ${e.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+            } else {
+                Toast.makeText(
+                    this@ContainerChoiceActivity,
+                    "User not logged in. Data cannot be saved.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } else {
+            Toast.makeText(
+                this@ContainerChoiceActivity,
+                "Please select a container",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
 }

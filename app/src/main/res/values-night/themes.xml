@@ -4,13 +4,13 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorPrimary">@color/blue_light</item>
-        <item name="colorPrimaryVariant">@color/colorBlue</item>
+        <item name="colorPrimaryVariant">@color/colorRoyalBlue</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorLightGreenYellow</item>
-        <item name="colorSecondaryVariant">@color/blue_light</item>
+        <item name="colorSecondary">@color/colorRoyalBlue</item>
+        <item name="colorSecondaryVariant">@color/colorBlue</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/colorNavy</item>
     </style>
 </resources>

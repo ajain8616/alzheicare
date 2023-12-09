@@ -8,29 +8,27 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="match_parent"
+        android:layout_width="217dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="90dp"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="89dp"
-        app:cardCornerRadius="12dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="-210dp"
+        android:layout_marginBottom="16dp"
+        android:layout_toStartOf="@+id/setContainerView"
+        app:cardCornerRadius="16dp"
         app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
             android:orientation="horizontal"
-            android:padding="9dp">
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:paddingStart="4dp">
@@ -38,9 +36,9 @@
                 <TextView
                     android:id="@+id/itemNameView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:text="Item Name"
+                    android:layout_height="wrap_content"
+                    android:hint="Item Name"
+                    android:text=""
                     android:textColor="@color/colorDarkRed"
                     android:textSize="19sp"
                     android:textStyle="bold" />
@@ -49,9 +47,9 @@
                     android:id="@+id/descriptionView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
                     android:layout_marginTop="5dp"
-                    android:text="Description"
+                    android:hint="Description"
+                    android:text=""
                     android:textColor="@color/colorDarkRed"
                     android:textSize="14sp" />
 
@@ -59,9 +57,9 @@
                     android:id="@+id/itemTypeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
                     android:layout_marginTop="5dp"
-                    android:text="Item Type"
+                    android:hint="Item Type"
+                    android:text=""
                     android:textColor="@color/colorDarkRed" />
 
             </LinearLayout>
@@ -69,6 +67,66 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/updatedCardView"
+        android:layout_width="190dp"
+        android:layout_height="104dp"
+        android:layout_alignBottom="@+id/cardView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="2dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="4dp">
+
+                <TextView
+                    android:id="@+id/updatedItemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Updated Name"
+                    android:text=""
+                    android:textColor="@color/colorDarkRed"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/updatedDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="Updtaed Description"
+                    android:text=""
+                    android:textColor="@color/colorDarkRed"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/updatedItemType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="Updated Item Type"
+                    android:text=""
+                    android:textColor="@color/colorDarkRed" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/linearLayoutForm"
@@ -152,7 +210,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- LottieAnimationView for update message -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/updateMessage"
         android:layout_width="386dp"
@@ -169,12 +226,10 @@
     <RelativeLayout
         android:layout_width="374dp"
         android:layout_height="403dp"
-        android:layout_below="@+id/cardView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="-7dp"
         android:layout_marginEnd="11dp"
         android:layout_marginBottom="52dp">
 
@@ -246,18 +301,73 @@
         android:layout_marginBottom="17dp"
         android:src="@drawable/ic_delete" />
 
-    <TextView
-        android:id="@+id/containerView"
+    <LinearLayout
+        android:id="@+id/getContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_above="@+id/setContainerView"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/gradient"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ObjectSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:hint="Object Name"
+            android:text=" "
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/InSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="IN"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ContainerSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Container Name"
+            android:text=" "
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-4dp"
-        android:layout_marginBottom="483dp"
-        android:background="@drawable/gradient"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="474dp"
         android:gravity="center"
-        android:text="Click on this Container"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/getContainerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Get Container"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/setContainerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Container"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
 </RelativeLayout>
