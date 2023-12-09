@@ -1,5 +1,6 @@
 package com.example.alzheicare
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -62,6 +63,8 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
 
         submitButton.setOnClickListener {
             setContainerInItem()
+            val intent = Intent(this@ContainerChoiceActivity, DataSetDetailsActivity::class.java)
+            startActivity(intent)
         }
     }
 
