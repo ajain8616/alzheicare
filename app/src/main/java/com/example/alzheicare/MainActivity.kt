@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         currentUser = auth.currentUser!!
         setEventHandlers()
         setupRecyclerView()
-        itemListView.visibility = View.VISIBLE
     }
 
 
@@ -93,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             searchItemLayout.visibility = View.GONE
             isSearchItemVisible = false
             itemSearch.text = null
-            itemListView.visibility = View.VISIBLE
+            itemListView.visibility = View.GONE
         }
 
         searchItem.setOnClickListener {
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 isSearchItemVisible = false
             }
             addItemLayout.visibility = View.GONE
-            itemListView.visibility = View.GONE
+            itemListView.visibility = View.VISIBLE
 
         }
 

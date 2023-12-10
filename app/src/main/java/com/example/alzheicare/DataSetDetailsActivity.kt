@@ -287,8 +287,8 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
                 // Get the selected item type from the radio button
                 val updatedItemType = when (selectedRadioButtonId) {
-                    R.id.radioItem -> "Item"
-                    R.id.radioContainer -> "Container"
+                    R.id.radioItem -> "OBJECT"
+                    R.id.radioContainer -> "CONTAINER"
                     else -> "" // Default item type if none selected
                 }
 
@@ -344,6 +344,21 @@ class DataSetDetailsActivity : AppCompatActivity() {
                         updatedItemName.text = itemNameExtra
                         updatedDescription.text = updatedDescriptionValue
                         updatedItemType.text = updatedItemTypeValue
+
+                        when (updatedItemTypeValue) {
+                            "OBJECT" -> {
+                                updatedItemType.setTextColor(ContextCompat.getColor(this, R.color.colorBlue))
+                                updatedCardView.setBackgroundResource(R.drawable.item_view_border_blue)
+                            }
+
+                            "CONTAINER" -> {
+                                updatedItemType.setTextColor(ContextCompat.getColor(this, R.color.colorDarkGray))
+                                updatedCardView.setBackgroundResource(R.drawable.item_view_border_gray)
+                            }
+                        }
+
+
+
                         updatedCardView.visibility=View.VISIBLE
                     } else {
                         Toast.makeText(
