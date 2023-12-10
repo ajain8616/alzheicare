@@ -356,16 +356,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
                                 updatedCardView.setBackgroundResource(R.drawable.item_view_border_gray)
                             }
                         }
-
-
-
                         updatedCardView.visibility=View.VISIBLE
-                    } else {
-                        Toast.makeText(
-                            this@DataSetDetailsActivity,
-                            "No data available in the collection",
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
                 }.addOnFailureListener { e ->
                     Toast.makeText(

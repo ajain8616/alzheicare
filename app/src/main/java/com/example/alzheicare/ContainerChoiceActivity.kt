@@ -63,8 +63,8 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
 
         submitButton.setOnClickListener {
             setContainerInItem()
-            val intent = Intent(this@ContainerChoiceActivity, DataSetDetailsActivity::class.java)
-            startActivity(intent)
+            val intentForDataSetActivity = Intent(this@ContainerChoiceActivity, DataSetDetailsActivity::class.java)
+            startActivity(intentForDataSetActivity)
         }
     }
 
