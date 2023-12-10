@@ -68,6 +68,7 @@
         android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cardView"
+        android:visibility="gone"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
@@ -300,18 +301,18 @@
         android:layout_height="32dp"
         android:layout_above="@+id/setContainerView"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/gradient"
         android:gravity="center"
         android:orientation="horizontal"
-     >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/ObjectSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
             android:hint="Object Name"
             android:text=" "
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -319,8 +320,9 @@
             android:id="@+id/InSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
             android:text="IN"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -330,8 +332,9 @@
             android:layout_height="wrap_content"
             android:hint="Container Name"
             android:text=" "
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:textSize="16sp"
-            android:layout_marginEnd="5dp"
             android:textStyle="bold" />
     </LinearLayout>
 
