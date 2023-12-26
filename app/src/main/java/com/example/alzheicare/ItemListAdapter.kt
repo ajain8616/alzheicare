@@ -53,7 +53,7 @@ class ItemListAdapter(private val itemList: List<Item>) :
             }
 
             "CONTAINER" -> {
-                holder.itemTypeView.setImageResource(R.drawable.ic_contaier)
+                holder.itemTypeView.setImageResource(R.drawable.ic_container)
                 holder.itemTypeView.setColorFilter(
                     ContextCompat.getColor(
                         holder.itemView.context,
