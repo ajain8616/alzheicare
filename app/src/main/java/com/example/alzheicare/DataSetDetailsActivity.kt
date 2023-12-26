@@ -9,13 +9,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,18 +27,16 @@ import com.google.firebase.database.FirebaseDatabase
 class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var itemName: TextView
     private lateinit var description: TextView
-    private lateinit var itemType: TextView
+    private lateinit var itemType: ImageView
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var editActionButton: FloatingActionButton
     private lateinit var deleteActionButton: FloatingActionButton
-    private lateinit var cardView: CardView
+    private lateinit var cardView: LinearLayout
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var database: DatabaseReference
     private lateinit var deleteMessageAnimation: LottieAnimationView
     private lateinit var containerMessage: LottieAnimationView
-    private lateinit var getContainerButton:Button
-    private lateinit var setContainerView:LinearLayout
     private lateinit var getContainerView:LinearLayout
     private lateinit var setContainerButton: Button
     private lateinit var editItemName: EditText
@@ -50,12 +48,11 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var backButton: ImageButton
     private lateinit var updateMessage: LottieAnimationView
     private lateinit var linearLayoutForm: LinearLayout
-    private lateinit var updatedCardView:CardView
+    private lateinit var updatedCardView:LinearLayout
     private lateinit var updatedItemName:TextView
     private lateinit var updatedDescription:TextView
-    private lateinit var updatedItemType:TextView
+    private lateinit var updatedItemType:ImageView
     private lateinit var ObjectSelection:TextView
-    private lateinit var InSelection:TextView
     private lateinit var ContainerSelection:TextView
 
 
@@ -67,6 +64,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
         currentUser = auth.currentUser!!
         setEventHandlers()
         displayData()
+        getContainerInItem()
     }
 
     private fun setEventHandlers() {
@@ -88,17 +86,16 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
         editActionButton.setOnClickListener {
             linearLayoutForm.visibility = View.VISIBLE
+            cardView.visibility = View.VISIBLE
             editActionButton.visibility = View.GONE
             deleteActionButton.visibility = View.GONE
-            cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            setContainerView.visibility=View.GONE
             getContainerView.visibility=View.GONE
             updateMessage.visibility = View.GONE
             updatedCardView.visibility=View.GONE
             backButton.visibility = View.VISIBLE
-
+            setContainerButton.visibility=View.GONE
         }
 
         backButton.setOnClickListener {
@@ -108,9 +105,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.VISIBLE
             floatingActionButton.visibility = View.VISIBLE
             editActionButton.visibility = View.VISIBLE
-            setContainerView.visibility=View.VISIBLE
             getContainerView.visibility=View.VISIBLE
             updateMessage.visibility = View.VISIBLE
+            setContainerButton.visibility=View.GONE
 
         }
 
@@ -122,7 +119,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            setContainerView.visibility=View.GONE
             getContainerView.visibility=View.GONE
             linearLayoutForm.visibility = View.GONE
             updatedCardView.visibility=View.GONE
@@ -148,11 +144,11 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            setContainerView.visibility = View.GONE
             getContainerView.visibility = View.GONE
             linearLayoutForm.visibility = View.GONE
             updateMessage.visibility = View.GONE
             backButton.visibility = View.GONE
+            setContainerButton.visibility=View.GONE
 
             Handler(Looper.getMainLooper()).postDelayed({
                 deleteMessageAnimation.visibility = View.VISIBLE
@@ -168,10 +164,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             containerMessage.playAnimation()
         }
 
-        getContainerButton.setOnClickListener {
-            getContainerView.visibility=View.VISIBLE
-            getContainerInItem()
-        }
 
     }
 
@@ -185,8 +177,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
         cardView = findViewById(R.id.cardView)
         deleteMessageAnimation = findViewById(R.id.deleteMessage)
         containerMessage = findViewById(R.id.containerMessage)
-        setContainerView = findViewById(R.id.setContainerView)
-        getContainerView = findViewById(R.id.getContainerView)
         editItemName = findViewById(R.id.editItemName)
         editDescription = findViewById(R.id.editDescription)
         radioGroupItemType = findViewById(R.id.radioGroupItemType)
@@ -201,10 +191,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
         updatedDescription = findViewById(R.id.updatedDescription)
         updatedItemType = findViewById(R.id.updatedItemType)
         setContainerButton=findViewById(R.id.setContainerButton)
-        getContainerButton=findViewById(R.id.getContainerButton)
-        ObjectSelection=findViewById(R.id.ObjectSelection)
-        InSelection=findViewById(R.id.InSelection)
-        ContainerSelection=findViewById(R.id.ContainerSelection)
     }
 
     private fun displayData() {
@@ -214,20 +200,25 @@ class DataSetDetailsActivity : AppCompatActivity() {
         itemName.text = itemNameExtra
         itemName.setTypeface(null, Typeface.BOLD)
         description.text = descriptionExtra
-        itemType.text = itemTypeExtra
+
+        // Assuming itemTypeImageView is the ImageView for itemType
+        itemType.visibility = View.VISIBLE
 
         when (itemTypeExtra) {
             "OBJECT" -> {
-                itemType.setTextColor(ContextCompat.getColor(this, R.color.colorBlue))
+                itemType.setImageResource(R.drawable.ic_objects)
+                itemType.setColorFilter(ContextCompat.getColor(this, R.color.colorBlue))
                 cardView.setBackgroundResource(R.drawable.item_view_border_blue)
             }
 
             "CONTAINER" -> {
-                itemType.setTextColor(ContextCompat.getColor(this, R.color.colorDarkGray))
+                itemType.setImageResource(R.drawable.ic_container)
+                itemType.setColorFilter(ContextCompat.getColor(this, R.color.colorDarkGray))
                 cardView.setBackgroundResource(R.drawable.item_view_border_gray)
             }
         }
     }
+
 
     private fun deleteDataFromFirebase(itemId: String) {
         val database = FirebaseDatabase.getInstance().reference
@@ -253,13 +244,13 @@ class DataSetDetailsActivity : AppCompatActivity() {
         editActionButton.visibility = View.GONE
         deleteActionButton.visibility = View.GONE
         cardView.visibility = View.GONE
-        setContainerView.visibility = View.GONE
         getContainerView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
         linearLayoutForm.visibility = View.GONE
         updateMessage.visibility = View.GONE
         updatedCardView.visibility=View.GONE
         backButton.visibility = View.GONE
+        setContainerButton.visibility=View.GONE
 
         Handler(Looper.getMainLooper()).postDelayed({
             containerMessage.visibility = View.VISIBLE
@@ -304,7 +295,29 @@ class DataSetDetailsActivity : AppCompatActivity() {
                             // Update UI or show a success message
                             updateMessage.playAnimation()
                             description.text = updatedDescription
-                            itemType.text = updatedItemType
+
+                            // Update itemTypeImageView based on the selected item type
+                            when (updatedItemType) {
+                                "OBJECT" -> {
+                                    itemType.setImageResource(R.drawable.ic_objects)
+                                    itemType.setColorFilter(
+                                        ContextCompat.getColor(
+                                            this@DataSetDetailsActivity,
+                                            R.color.colorBlue
+                                        )
+                                    )
+                                }
+
+                                "CONTAINER" -> {
+                                    itemType.setImageResource(R.drawable.ic_container)
+                                    itemType.setColorFilter(
+                                        ContextCompat.getColor(
+                                            this@DataSetDetailsActivity,
+                                            R.color.colorDarkGray
+                                        )
+                                    )
+                                }
+                            }
                         } else {
                             Toast.makeText(
                                 this@DataSetDetailsActivity,
@@ -329,11 +342,13 @@ class DataSetDetailsActivity : AppCompatActivity() {
         }
     }
 
+
     private fun getUpdatedDetails() {
         val userId = currentUser?.uid
         val database = FirebaseDatabase.getInstance().reference
         val collectionName = "Updated_Objects_Containers"
         val itemNameExtra = intent.getStringExtra("itemName")
+
         if (userId != null) {
             database.child(collectionName).child(userId).child(itemNameExtra!!).get()
                 .addOnSuccessListener { dataSnapshot ->
@@ -343,20 +358,34 @@ class DataSetDetailsActivity : AppCompatActivity() {
                         val updatedItemTypeValue = dataSnapshot.child("itemType").value.toString()
                         updatedItemName.text = itemNameExtra
                         updatedDescription.text = updatedDescriptionValue
-                        updatedItemType.text = updatedItemTypeValue
+
+                        // Assuming updatedItemTypeImageView is the ImageView for updatedItemType
+                        updatedItemType.visibility = View.VISIBLE
 
                         when (updatedItemTypeValue) {
                             "OBJECT" -> {
-                                updatedItemType.setTextColor(ContextCompat.getColor(this, R.color.colorBlue))
+                                updatedItemType.setImageResource(R.drawable.ic_objects)
+                                updatedItemType.setColorFilter(
+                                    ContextCompat.getColor(
+                                        this,
+                                        R.color.colorBlue
+                                    )
+                                )
                                 updatedCardView.setBackgroundResource(R.drawable.item_view_border_blue)
                             }
 
                             "CONTAINER" -> {
-                                updatedItemType.setTextColor(ContextCompat.getColor(this, R.color.colorDarkGray))
+                                updatedItemType.setImageResource(R.drawable.ic_container)
+                                updatedItemType.setColorFilter(
+                                    ContextCompat.getColor(
+                                        this,
+                                        R.color.colorDarkGray
+                                    )
+                                )
                                 updatedCardView.setBackgroundResource(R.drawable.item_view_border_gray)
                             }
                         }
-                        updatedCardView.visibility=View.VISIBLE
+                        updatedCardView.visibility = View.VISIBLE
                     }
                 }.addOnFailureListener { e ->
                     Toast.makeText(
@@ -374,6 +403,8 @@ class DataSetDetailsActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun getContainerInItem() {
         val userId = currentUser?.uid
         val itemNameExtra = intent.getStringExtra("itemName")
@@ -388,7 +419,13 @@ class DataSetDetailsActivity : AppCompatActivity() {
                         val containerName = dataSnapshot.child("containerName").value.toString()
                         ObjectSelection.text = itemNameExtra
                         ContainerSelection.text = containerName
+
+                        // Show getContainerView when container details are available
+                        getContainerView.visibility = View.VISIBLE
                     } else {
+                        // Hide getContainerView when no container details are available
+                        getContainerView.visibility = View.GONE
+
                         Toast.makeText(
                             this@DataSetDetailsActivity,
                             "No container details available for $itemNameExtra",
@@ -396,6 +433,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
                         ).show()
                     }
                 }.addOnFailureListener { e ->
+                    // Hide getContainerView in case of failure
+                    getContainerView.visibility = View.GONE
+
                     Toast.makeText(
                         this@DataSetDetailsActivity,
                         "Error getting container details: ${e.message}",
@@ -403,6 +443,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
                     ).show()
                 }
         } else {
+            // Hide getContainerView if the user is not logged in
+            getContainerView.visibility = View.GONE
+
             Toast.makeText(
                 this@DataSetDetailsActivity,
                 "User not logged in. Container details cannot be retrieved.",
@@ -410,5 +453,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             ).show()
         }
     }
+
 
 }
