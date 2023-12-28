@@ -36,9 +36,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var currentUser: FirebaseUser
     private lateinit var database: DatabaseReference
     private lateinit var deleteMessageAnimation: LottieAnimationView
-    private lateinit var containerMessage: LottieAnimationView
-    private lateinit var getContainerView:LinearLayout
-    private lateinit var setContainerButton: Button
+    private lateinit var containerChoice: LottieAnimationView
+    private lateinit var setContainerButton: ImageButton
+    private lateinit var setContainerImgButton:ImageButton
     private lateinit var editItemName: EditText
     private lateinit var editDescription: EditText
     private lateinit var radioGroupItemType: RadioGroup
@@ -52,10 +52,12 @@ class DataSetDetailsActivity : AppCompatActivity() {
     private lateinit var updatedItemName:TextView
     private lateinit var updatedDescription:TextView
     private lateinit var updatedItemType:ImageView
+    private lateinit var getContainerViews:LinearLayout
+    private lateinit var getContainerView:LinearLayout
     private lateinit var ObjectSelection:TextView
     private lateinit var ContainerSelection:TextView
-
-
+    private lateinit var ObjectViewSelection:TextView
+    private lateinit var ContainerViewSelection:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_set_details)
@@ -65,6 +67,9 @@ class DataSetDetailsActivity : AppCompatActivity() {
         setEventHandlers()
         displayData()
         getContainerInItem()
+        getContainerInItemForUpdatedView()
+        prefillDescription()
+        preSelectRadioButton()
     }
 
     private fun setEventHandlers() {
@@ -91,7 +96,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             deleteActionButton.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            getContainerView.visibility=View.GONE
             updateMessage.visibility = View.GONE
             updatedCardView.visibility=View.GONE
             backButton.visibility = View.VISIBLE
@@ -105,9 +109,8 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.VISIBLE
             floatingActionButton.visibility = View.VISIBLE
             editActionButton.visibility = View.VISIBLE
-            getContainerView.visibility=View.VISIBLE
             updateMessage.visibility = View.VISIBLE
-            setContainerButton.visibility=View.GONE
+            setContainerButton.visibility=View.VISIBLE
 
         }
 
@@ -119,7 +122,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            getContainerView.visibility=View.GONE
             linearLayoutForm.visibility = View.GONE
             updatedCardView.visibility=View.GONE
             deleteMessageAnimation.visibility = View.GONE
@@ -144,7 +146,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
             floatingActionButton.visibility = View.GONE
             editActionButton.visibility = View.GONE
-            getContainerView.visibility = View.GONE
             linearLayoutForm.visibility = View.GONE
             updateMessage.visibility = View.GONE
             backButton.visibility = View.GONE
@@ -161,9 +162,13 @@ class DataSetDetailsActivity : AppCompatActivity() {
 
         setContainerButton.setOnClickListener {
             containerActivityAnimation()
-            containerMessage.playAnimation()
+            containerChoice.playAnimation()
         }
 
+        setContainerImgButton.setOnClickListener {
+            containerActivityAnimation()
+            containerChoice.playAnimation()
+        }
 
     }
 
@@ -176,7 +181,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
         deleteActionButton = findViewById(R.id.deleteActionButton)
         cardView = findViewById(R.id.cardView)
         deleteMessageAnimation = findViewById(R.id.deleteMessage)
-        containerMessage = findViewById(R.id.containerMessage)
+        containerChoice = findViewById(R.id.containerChoice)
         editItemName = findViewById(R.id.editItemName)
         editDescription = findViewById(R.id.editDescription)
         radioGroupItemType = findViewById(R.id.radioGroupItemType)
@@ -190,7 +195,14 @@ class DataSetDetailsActivity : AppCompatActivity() {
         updatedItemName = findViewById(R.id.updatedItemName)
         updatedDescription = findViewById(R.id.updatedDescription)
         updatedItemType = findViewById(R.id.updatedItemType)
-        setContainerButton=findViewById(R.id.setContainerButton)
+       setContainerButton=findViewById(R.id.setContainerButton)
+        getContainerViews=findViewById(R.id.getContainerViews)
+        getContainerView=findViewById(R.id.getContainerView)
+        ObjectSelection=findViewById(R.id.ObjectSelection)
+        ContainerSelection=findViewById(R.id.ContainerSelection)
+        ObjectViewSelection=findViewById(R.id.ObjectViewSelection)
+        ContainerViewSelection=findViewById(R.id.ContainerViewSelection)
+        setContainerImgButton=findViewById(R.id.setContainerImgButton)
     }
 
     private fun displayData() {
@@ -239,12 +251,11 @@ class DataSetDetailsActivity : AppCompatActivity() {
     }
 
     private fun containerActivityAnimation() {
-        containerMessage.visibility = View.VISIBLE
+        containerChoice.visibility = View.VISIBLE
         deleteMessageAnimation.visibility = View.GONE
         editActionButton.visibility = View.GONE
         deleteActionButton.visibility = View.GONE
         cardView.visibility = View.GONE
-        getContainerView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
         linearLayoutForm.visibility = View.GONE
         updateMessage.visibility = View.GONE
@@ -253,7 +264,7 @@ class DataSetDetailsActivity : AppCompatActivity() {
         setContainerButton.visibility=View.GONE
 
         Handler(Looper.getMainLooper()).postDelayed({
-            containerMessage.visibility = View.VISIBLE
+            containerChoice.visibility = View.VISIBLE
             val intent = Intent(this@DataSetDetailsActivity, ContainerChoiceActivity::class.java)
             intent.putExtra("itemName", itemName.text.toString())
             startActivity(intent)
@@ -292,7 +303,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
                 userRef.updateChildren(updatedData)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            // Update UI or show a success message
                             updateMessage.playAnimation()
                             description.text = updatedDescription
 
@@ -403,8 +413,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun getContainerInItem() {
         val userId = currentUser?.uid
         val itemNameExtra = intent.getStringExtra("itemName")
@@ -419,38 +427,82 @@ class DataSetDetailsActivity : AppCompatActivity() {
                         val containerName = dataSnapshot.child("containerName").value.toString()
                         ObjectSelection.text = itemNameExtra
                         ContainerSelection.text = containerName
+                        getContainerViews.visibility = View.VISIBLE
+                    }
+                }
+        }
+    }
 
-                        // Show getContainerView when container details are available
+    private fun getContainerInItemForUpdatedView() {
+        val userId = currentUser?.uid
+        val itemNameExtra = intent.getStringExtra("itemName")
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionName = "Item_In_Container"
+
+        if (userId != null) {
+            database.child(collectionName).child(userId).child(itemNameExtra!!).get()
+                .addOnSuccessListener { dataSnapshot ->
+                    if (dataSnapshot.exists()) {
+                        // Retrieve and display container details
+                        val containerName = dataSnapshot.child("containerName").value.toString()
+                        ObjectViewSelection.text = itemNameExtra
+                        ContainerViewSelection.text = containerName
                         getContainerView.visibility = View.VISIBLE
-                    } else {
-                        // Hide getContainerView when no container details are available
-                        getContainerView.visibility = View.GONE
+                    }
+                }
+        }
+    }
 
+    private fun prefillDescription() {
+        val userId = currentUser?.uid
+        val itemName = intent.getStringExtra("itemName")
+        val database = FirebaseDatabase.getInstance().reference
+        val collectionName = "Item_Container_Data"
+
+        if (userId != null) {
+            if (itemName != null) {
+                database.child(collectionName).child(userId).child(itemName).get()
+                    .addOnSuccessListener { dataSnapshot ->
+                        if (dataSnapshot.exists()) {
+                            val existingDescription = dataSnapshot.child("description").value.toString()
+                            editDescription.setText(existingDescription)
+                        } else {
+                            // Handle the case where no data is available for the itemName
+                            Toast.makeText(
+                                this@DataSetDetailsActivity,
+                                "No data available for $itemName",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    .addOnFailureListener { e ->
                         Toast.makeText(
                             this@DataSetDetailsActivity,
-                            "No container details available for $itemNameExtra",
+                            "Error getting description: ${e.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                }.addOnFailureListener { e ->
-                    // Hide getContainerView in case of failure
-                    getContainerView.visibility = View.GONE
-
-                    Toast.makeText(
-                        this@DataSetDetailsActivity,
-                        "Error getting container details: ${e.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            }
         } else {
-            // Hide getContainerView if the user is not logged in
-            getContainerView.visibility = View.GONE
-
+            // Handle the case where the user is not logged in
             Toast.makeText(
                 this@DataSetDetailsActivity,
-                "User not logged in. Container details cannot be retrieved.",
+                "User not logged in. Description cannot be retrieved.",
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    private fun preSelectRadioButton() {
+        // Assume radioGroupItemType is the RadioGroup
+        val itemType = intent.getStringExtra("itemType")
+        when (itemType) {
+            "OBJECT" -> radioItem.isChecked = true
+            "CONTAINER" -> radioContainer.isChecked = true
+            else -> {
+
+                Toast.makeText(this, "Unknown itemType: $itemType", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

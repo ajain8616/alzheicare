@@ -11,7 +11,7 @@
         <item name="colorSecondaryVariant">@color/colorDarkRed</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/colorNavy</item>
+        <item name="android:statusBarColor" >@color/colorBoundaryBlue</item>
     </style>
 
     <style name="Theme.ItemsFinder" parent="Base.Theme.ItemsFinder" />

@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         currentUser = auth.currentUser!!
         setEventHandlers()
         setupRecyclerView()
+        itemListView.visibility = View.VISIBLE
     }
 
 
@@ -212,7 +213,6 @@ class MainActivity : AppCompatActivity() {
             addItemLayout.visibility = View.GONE
         }
 
-
         clearButton.setOnClickListener {
             itemSearch.text.clear()
         }
@@ -229,8 +229,8 @@ class MainActivity : AppCompatActivity() {
         itemListView.apply {
             adapter = itemListAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
+            visibility=View.VISIBLE
         }
-        getDataFromFirebase()
     }
 
     private fun setDataToFirebase() {
@@ -300,5 +300,4 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
-
 }

@@ -21,6 +21,7 @@
             android:layout_height="77dp"
             android:src="@drawable/ic_block" />
 
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,7 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Item Name"
+                android:layout_marginBottom="14dp"
                 android:text=""
+                android:paddingBottom="1dp"
                 android:textColor="@color/colorDarkRed"
                 android:textSize="19sp"
                 android:textStyle="bold" />
@@ -47,18 +50,67 @@
                 android:hint="Description"
                 android:text=""
                 android:textColor="@color/colorDarkRed"
-                android:textSize="14sp" />
+                android:textSize="19sp" />
 
+            <LinearLayout
+                android:id="@+id/getContainerViews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:orientation="horizontal"
+                android:paddingBottom="1dp">
+
+                <TextView
+                    android:id="@+id/ObjectSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Object Name"
+                    android:text=" "
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/InSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IN"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/ContainerSelection"
+                    android:layout_width="223dp"
+                    android:layout_height="match_parent"
+                    android:hint="Container Name"
+                    android:text=" "
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/setContainerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_icon7" />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/updatedCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        android:orientation="horizontal"
         android:visibility="gone"
+        android:orientation="horizontal"
         android:layout_marginTop="16dp"
         android:padding="9dp">
 
@@ -83,6 +135,8 @@
                 android:hint="Updated Name"
                 android:text=""
                 android:textColor="@color/colorDarkRed"
+                android:layout_marginBottom="14dp"
+                android:paddingBottom="1dp"
                 android:textSize="19sp"
                 android:textStyle="bold" />
 
@@ -94,51 +148,59 @@
                 android:hint="Updated Description"
                 android:text=""
                 android:textColor="@color/colorDarkRed"
-                android:textSize="14sp" />
+                android:textSize="19sp" />
 
+            <LinearLayout
+                android:id="@+id/getContainerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/gradient"
+                android:orientation="horizontal"
+                android:paddingBottom="1dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/ObjectViewSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Object Name"
+                    android:text=" "
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/InViewSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IN"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/ContainerViewSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Container Name"
+                    android:text=" "
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
+        <ImageButton
+            android:id="@+id/setContainerImgButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_icon7" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/getContainerView"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/ObjectSelection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:hint="Object Name"
-            android:text=" "
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/InSelection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:text="IN"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/ContainerSelection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:hint="Container Name"
-            android:text=" "
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayoutForm"
@@ -246,19 +308,21 @@
         android:layout_marginBottom="52dp">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/containerMessage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/containerChoice"
+            android:layout_width="409dp"
+            android:layout_height="731dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:background="@android:color/transparent"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:lottie_autoPlay="false"
-            app:lottie_fileName="container_message.json"
+            app:lottie_fileName="container_storing_data.json"
             app:lottie_speed="2" />
-
     </RelativeLayout>
 
     <com.airbnb.lottie.LottieAnimationView
@@ -313,25 +377,7 @@
         android:layout_marginBottom="17dp"
         android:src="@drawable/ic_delete" />
 
-    <LinearLayout
-        android:id="@+id/setContainerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="515dp"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/setContainerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Set Container"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
 
 </RelativeLayout>

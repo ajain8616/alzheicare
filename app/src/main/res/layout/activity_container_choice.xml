@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="21dp"
-            android:background="@drawable/gradient"
+            android:visibility="gone"
             android:padding="8dp"
             android:text=" "
             android:textSize="16sp"
@@ -32,8 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
+            android:visibility="gone"
             android:layout_marginEnd="9dp"
-            android:background="@drawable/gradient"
             android:padding="8dp"
             android:text="In"
             android:textSize="16sp"
@@ -45,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@drawable/gradient"
             android:padding="8dp"
             android:text=" "
             android:textSize="16sp"
@@ -73,21 +72,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:ignore="MissingConstraints" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/containerChoice"
-        android:layout_width="409dp"
-        android:layout_height="731dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:lottie_autoPlay="false"
-        app:lottie_fileName="container_storing_data.json"
-        app:lottie_speed="2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

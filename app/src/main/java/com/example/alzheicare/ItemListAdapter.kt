@@ -39,7 +39,6 @@ class ItemListAdapter(private val itemList: List<Item>) :
             holder.itemView.context.startActivity(intent)
         }
 
-
         when (currentItem.itemType) {
             "OBJECT" -> {
                 holder.itemTypeView.setImageResource(R.drawable.ic_objects)

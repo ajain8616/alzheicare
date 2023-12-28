@@ -20,7 +20,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     private lateinit var inTxtView: TextView
     private lateinit var containerTxtView: TextView
     private lateinit var submitButton: ImageButton
-    private lateinit var containerChoice: LottieAnimationView
     private lateinit var containerListView: RecyclerView
     private lateinit var linearLayout: LinearLayout
     private lateinit var containerListAdapter: ContainerListAdapter
@@ -46,7 +45,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         inTxtView = findViewById(R.id.inTxtView)
         containerTxtView = findViewById(R.id.containerTxtView)
         submitButton = findViewById(R.id.submitButton)
-        containerChoice = findViewById(R.id.containerChoice)
         linearLayout = findViewById(R.id.linearLayout)
         containerListView = findViewById(R.id.containerListView)
     }
