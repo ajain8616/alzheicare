@@ -109,9 +109,12 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     }
 
     override fun onItemClick(container: Item, position: Int) {
-      Toast.makeText(this@ContainerChoiceActivity,"This is the Single click Button Event!!!",Toast.LENGTH_LONG).show()
+        Toast.makeText(this@ContainerChoiceActivity, "This is the Single click Button Event!!!", Toast.LENGTH_LONG).show()
 
+        val intent = Intent(this@ContainerChoiceActivity, ContainerCollectionsActivity::class.java)
+        startActivity(intent)
     }
+
 
 
     override fun onItemLongClick(container: Item): Boolean {
