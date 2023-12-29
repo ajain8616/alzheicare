@@ -1,7 +1,7 @@
 package com.example.alzheicare
 
 object ColorPicker {
-    val colors = arrayOf(
+    private val colors = arrayOf(
         "#3EB9DF",
         "#3685BC",
         "#D36280",
@@ -16,7 +16,7 @@ object ColorPicker {
         "#EF8EAD",
         "#B5BFC6"
     )
-    var currentColorIndex = 0
+    private var currentColorIndex = 0
 
     fun getColor(): String {
         currentColorIndex = (currentColorIndex + 1) % colors.size

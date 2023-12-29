@@ -4,20 +4,27 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
-
 class ContainerListAdapter(
     private val containerList: List<Item>,
-    private val itemClickListener: OnItemClickListener
+    private val itemClickListener: OnItemClickListener,
+    private val itemLongClickListener: OnItemLongClickListener
 ) : RecyclerView.Adapter<ContainerListAdapter.ContainerViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(container: Item)
+        fun onItemClick(container: Item, position: Int)
     }
+
+    interface OnItemLongClickListener {
+        fun onItemLongClick(container: Item): Boolean
+    }
+
+    private var lastCheckedPosition: Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContainerViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -36,44 +43,56 @@ class ContainerListAdapter(
 
     inner class ContainerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cardContainer: CardView = itemView.findViewById(R.id.cardContainer)
-        private val containerIcon: ImageView = itemView.findViewById(R.id.containerIcon)
+        private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
         private val containerSelectedView: TextView =
             itemView.findViewById(R.id.containerSelectedView)
 
         init {
+            itemView.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val container = containerList[position]
+
+                    if (lastCheckedPosition != -1) {
+                        containerList[lastCheckedPosition].isChecked = false
+                        notifyItemChanged(lastCheckedPosition)
+                    }
+                    container.isChecked = true
+                    notifyItemChanged(position)
+                    lastCheckedPosition = position
+
+                    itemLongClickListener.onItemLongClick(container)
+
+                    true
+                } else {
+                    false
+                }
+            }
+
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val container = containerList[position]
-                    itemClickListener.onItemClick(container)
+                    itemClickListener.onItemClick(container, position)
                 }
             }
         }
 
         fun bind(container: Item) {
-            // Set data to views
+            if (!container.isChecked) {
+                val colorPicker = ColorPicker.getColor()
+                cardContainer.setCardBackgroundColor(Color.parseColor(colorPicker))
+            }
 
-            // Set the icon using IconPicker class
-            val iconPicker = IconPicker.getIcon()
-            containerIcon.setImageResource(iconPicker)
-
-            // Set the background color using ColorPicker class
-            val colorPicker = ColorPicker.getColor()
-            cardContainer.setCardBackgroundColor(Color.parseColor(colorPicker))
-
-            // Set the text in containerSelectedView only when itemType is "CONTAINER"
             if (container.itemType == "CONTAINER") {
-                // Append container names to containerSelectedView
-                val currentText = containerSelectedView.text.toString()
-                val containerNames = if (currentText.isNotEmpty()) {
-                    "$currentText, ${container.itemName}"
-                } else {
-                    container.itemName
-                }
-                containerSelectedView.text = containerNames
+                containerSelectedView.text = container.itemName
             } else {
                 containerSelectedView.text = ""
             }
+
+            checkBox.isChecked = container.isChecked
+            checkBox.visibility = if (container.isChecked) View.VISIBLE else View.GONE
         }
+
     }
 }

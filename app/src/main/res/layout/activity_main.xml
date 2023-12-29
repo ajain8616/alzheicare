@@ -138,6 +138,7 @@
         android:id="@+id/itemsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         android:layout_below="@id/addItemLayout"
         android:layout_marginTop="0dp" />
 

@@ -6,10 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ContainerChoiceActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/containerListView"
+        android:layout_width="match_parent"
+        android:layout_height="649dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="403dp"
-        android:layout_height="133dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="604dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,23 +34,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="21dp"
-            android:visibility="gone"
             android:padding="8dp"
             android:text=" "
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/inTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
-            android:visibility="gone"
             android:layout_marginEnd="9dp"
             android:padding="8dp"
             android:text="In"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/containerTxtView"
@@ -48,30 +61,22 @@
             android:padding="8dp"
             android:text=" "
             android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/submitButton"
-            android:layout_width="88dp"
-            android:layout_height="43dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/border"
-            android:src="@drawable/ic_send" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/containerListView"
-        android:layout_width="402dp"
-        android:layout_height="580dp"
-        android:layout_marginTop="12dp"
+    <ImageButton
+        android:id="@+id/submitButton"
+        android:layout_width="88dp"
+        android:layout_height="43dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/border"
+        android:src="@drawable/ic_send"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:ignore="MissingConstraints" />
-
+        app:layout_constraintTop_toBottomOf="@+id/containerListView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

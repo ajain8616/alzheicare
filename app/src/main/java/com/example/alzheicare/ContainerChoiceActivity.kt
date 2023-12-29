@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItemClickListener {
+class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItemClickListener,
+    ContainerListAdapter.OnItemLongClickListener {
     private lateinit var objectTxtView: TextView
     private lateinit var inTxtView: TextView
     private lateinit var containerTxtView: TextView
@@ -34,10 +34,13 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser!!
-        findIdsOfElements()
-        setEventHandlers()
         containerList = mutableListOf()
-        containerListAdapter = ContainerListAdapter(containerList, this)
+        containerListAdapter = ContainerListAdapter(containerList, this, this)
+
+        setEventHandlers()
+        if (currentUser != null) {
+            getDataFromFirebase()
+        }
     }
 
     private fun findIdsOfElements() {
@@ -50,14 +53,11 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     }
 
     private fun setEventHandlers() {
+        findIdsOfElements()
         // Retrieve itemName and containerName from intent
         val itemNameFromIntent = intent.getStringExtra("itemName")
         // Set the text of objectTxtView and containerTxtView with the retrieved values
         objectTxtView.text = itemNameFromIntent
-
-        if (currentUser != null) {
-            getDataFromFirebase()
-        }
 
         submitButton.setOnClickListener {
             setContainerInItem()
@@ -65,8 +65,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
             startActivity(intentForDataSetActivity)
         }
     }
-
-
 
     private fun getDataFromFirebase() {
         val userId = currentUser?.uid
@@ -83,8 +81,10 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
                         containerList.clear()
                         containerList.addAll(items)
                         containerListAdapter.notifyDataSetChanged()
-                        containerListView.layoutManager = GridLayoutManager(this, 2)
-                        containerListView.adapter = containerListAdapter
+                        containerListView.apply {
+                            adapter = containerListAdapter
+                            layoutManager = GridLayoutManager(this@ContainerChoiceActivity,2)
+                        }
                     } else {
                         Toast.makeText(
                             this@ContainerChoiceActivity,
@@ -108,11 +108,16 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         }
     }
 
-    override fun onItemClick(container: Item) {
-        // Handle item click, update the containerTxtView with the selected container's name
-        containerTxtView.text = container.itemName
+    override fun onItemClick(container: Item, position: Int) {
+      Toast.makeText(this@ContainerChoiceActivity,"This is the Single click Button Event!!!",Toast.LENGTH_LONG).show()
+
     }
 
+
+    override fun onItemLongClick(container: Item): Boolean {
+        containerTxtView.text = container.itemName
+        return true
+    }
     private fun setContainerInItem() {
         // Retrieve item name and selected container name
         val itemName = objectTxtView.text.toString()
@@ -157,5 +162,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
             ).show()
         }
     }
+
+
 
 }

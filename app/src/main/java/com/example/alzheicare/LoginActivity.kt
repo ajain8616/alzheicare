@@ -1,6 +1,8 @@
 package com.example.alzheicare
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -35,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        checkInternetConnection()
 
     }
 
@@ -82,5 +85,25 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+    private fun checkInternetConnection() {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        val isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected
+
+        if (isConnected) {
+            Toast.makeText(
+                this,
+                "Your internet is turned on. Now you can use the app.",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Your internet is turned off. Please turn on your internet for using the app.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.alzheicare
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         currentUser = auth.currentUser!!
         setEventHandlers()
         setupRecyclerView()
+        checkInternetConnection()
         itemListView.visibility = View.VISIBLE
     }
 
@@ -213,6 +216,7 @@ class MainActivity : AppCompatActivity() {
             addItemLayout.visibility = View.GONE
         }
 
+
         clearButton.setOnClickListener {
             itemSearch.text.clear()
         }
@@ -231,6 +235,7 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             visibility=View.VISIBLE
         }
+        getDataFromFirebase()
     }
 
     private fun setDataToFirebase() {
@@ -286,12 +291,12 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                     }
                 }.addOnFailureListener { e ->
-                Toast.makeText(
-                    this@MainActivity,
-                    "Error getting data: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Error getting data: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
         } else {
             Toast.makeText(
                 this@MainActivity,
@@ -300,4 +305,27 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
+
+    private fun checkInternetConnection() {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        val isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected
+
+        if (isConnected) {
+            Toast.makeText(
+                this,
+                "Your internet is turned on. Now you can use the app.",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Your internet is turned off. Please turn on your internet for using the app.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
 }
