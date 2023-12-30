@@ -73,7 +73,7 @@
             android:layout_marginTop="24dp"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/gradient"
+            android:background="@color/colorDodgerBlue"
             android:text="Forget Password" />
 
         <TextView
@@ -83,7 +83,7 @@
             android:layout_marginTop="24dp"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/gradient"
+            android:background="@color/colorDodgerBlue"
             android:text="Don't have an account? Signup" />
     </LinearLayout>
 

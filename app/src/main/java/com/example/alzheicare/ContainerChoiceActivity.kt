@@ -16,8 +16,6 @@ import com.google.firebase.database.FirebaseDatabase
 
 class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItemClickListener,
     ContainerListAdapter.OnItemLongClickListener {
-    private lateinit var objectTxtView: TextView
-    private lateinit var inTxtView: TextView
     private lateinit var containerTxtView: TextView
     private lateinit var submitButton: ImageButton
     private lateinit var containerListView: RecyclerView
@@ -44,8 +42,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     }
 
     private fun findIdsOfElements() {
-        objectTxtView = findViewById(R.id.objectTxtView)
-        inTxtView = findViewById(R.id.inTxtView)
         containerTxtView = findViewById(R.id.containerTxtView)
         submitButton = findViewById(R.id.submitButton)
         linearLayout = findViewById(R.id.linearLayout)
@@ -55,9 +51,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     private fun setEventHandlers() {
         findIdsOfElements()
         // Retrieve itemName and containerName from intent
-        val itemNameFromIntent = intent.getStringExtra("itemName")
-        // Set the text of objectTxtView and containerTxtView with the retrieved values
-        objectTxtView.text = itemNameFromIntent
 
         submitButton.setOnClickListener {
             setContainerInItem()
@@ -109,11 +102,11 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     }
 
     override fun onItemClick(container: Item, position: Int) {
-        Toast.makeText(this@ContainerChoiceActivity, "This is the Single click Button Event!!!", Toast.LENGTH_LONG).show()
-
         val intent = Intent(this@ContainerChoiceActivity, ContainerCollectionsActivity::class.java)
+        intent.putExtra("selectedContainerName", container.itemName)
         startActivity(intent)
     }
+
 
 
 
@@ -121,9 +114,10 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         containerTxtView.text = container.itemName
         return true
     }
+
     private fun setContainerInItem() {
         // Retrieve item name and selected container name
-        val itemName = objectTxtView.text.toString()
+        val itemName = intent.getStringExtra("itemName")
         val containerName = containerTxtView.text.toString()
 
         // Check if the container name is not empty
@@ -132,7 +126,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
             val userId = currentUser?.uid
             if (userId != null) {
                 val collectionName = "Item_In_Container"
-                val newItemInContainerRef = database.child(collectionName).child(userId).child(itemName)
+                val newItemInContainerRef = database.child(collectionName).child(userId).child(itemName.toString())
 
                 // Save the selected container name
                 newItemInContainerRef.child("containerName").setValue(containerName)
@@ -165,7 +159,5 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
             ).show()
         }
     }
-
-
 
 }

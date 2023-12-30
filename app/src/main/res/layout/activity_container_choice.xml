@@ -28,30 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/objectTxtView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="21dp"
-            android:padding="8dp"
-            android:text=" "
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/inTxtView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"
-            android:padding="8dp"
-            android:text="In"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
+        
         <TextView
             android:id="@+id/containerTxtView"
             android:layout_width="wrap_content"
