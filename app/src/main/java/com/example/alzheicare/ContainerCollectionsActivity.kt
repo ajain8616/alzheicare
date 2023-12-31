@@ -59,19 +59,22 @@ class ContainerCollectionsActivity : AppCompatActivity() {
 
     private fun getContainerCollection() {
         val userId = currentUser.uid
-        val itemNameExtra = intent.getStringExtra("itemName")
         val database = FirebaseDatabase.getInstance().reference
         val collectionName = "Item_In_Container"
 
         if (userId != null) {
-            database.child(collectionName).child(userId).child(itemNameExtra!!).get()
+            database.child(collectionName).child(userId).get()
                 .addOnSuccessListener { dataSnapshot ->
                     if (dataSnapshot.exists()) {
                         for (containerSnapshot in dataSnapshot.children) {
+                            val itemName=containerSnapshot.key
                             val containerName = containerSnapshot.child("containerName").value.toString()
                             // Assuming Item class has a constructor that takes containerName as a parameter
-                            val item = Item(containerName)
-                            containerCollectionList.add(item)
+                            val containerCollection = Item(containerName)
+                            containerCollectionList.clear()
+                            containerCollectionList.add(containerCollection)
+                            Log.d("ContainerCollection","ITEM: $itemName , CONTAINER: $containerName")
+
                         }
                         containerCollectionAdapter.notifyDataSetChanged()
                     }
