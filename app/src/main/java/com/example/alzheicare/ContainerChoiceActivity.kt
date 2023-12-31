@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItemClickListener,
+class ContainerChoiceActivity : AppCompatActivity(),
     ContainerListAdapter.OnItemLongClickListener {
     private lateinit var containerTxtView: TextView
     private lateinit var submitButton: ImageButton
@@ -33,7 +33,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser!!
         containerList = mutableListOf()
-        containerListAdapter = ContainerListAdapter(containerList, this, this)
+        containerListAdapter = ContainerListAdapter(containerList, this)
 
         setEventHandlers()
         if (currentUser != null) {
@@ -100,15 +100,6 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
             ).show()
         }
     }
-
-    override fun onItemClick(container: Item, position: Int) {
-        val intent = Intent(this@ContainerChoiceActivity, ContainerCollectionsActivity::class.java)
-        intent.putExtra("selectedContainerName", container.itemName)
-        startActivity(intent)
-    }
-
-
-
 
     override fun onItemLongClick(container: Item): Boolean {
         containerTxtView.text = container.itemName

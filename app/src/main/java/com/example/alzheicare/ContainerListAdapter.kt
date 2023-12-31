@@ -12,13 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ContainerListAdapter(
     private val containerList: List<Item>,
-    private val itemClickListener: OnItemClickListener,
+
     private val itemLongClickListener: OnItemLongClickListener
 ) : RecyclerView.Adapter<ContainerListAdapter.ContainerViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(container: Item, position: Int)
-    }
 
     interface OnItemLongClickListener {
         fun onItemLongClick(container: Item): Boolean
@@ -69,13 +66,6 @@ class ContainerListAdapter(
                 }
             }
 
-            itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val container = containerList[position]
-                    itemClickListener.onItemClick(container, position)
-                }
-            }
         }
 
         fun bind(container: Item) {
