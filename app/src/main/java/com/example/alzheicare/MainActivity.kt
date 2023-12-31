@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         setEventHandlers()
         setupRecyclerView()
         checkInternetConnection()
+        itemListView.visibility=View.VISIBLE
     }
 
 
