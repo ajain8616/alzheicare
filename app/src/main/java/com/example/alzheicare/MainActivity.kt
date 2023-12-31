@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private var isAddItemLayoutVisible = false
     private var isSearchItemVisible = false
     private var isItemListVisible = false
-
     private lateinit var addItem: ImageButton
     private lateinit var searchItem: ImageButton
     private lateinit var sendItem: ImageButton
@@ -49,12 +48,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         // Initialize Firebase
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser!!
-
         // Set event handlers and configure UI
         setEventHandlers()
         setupRecyclerView()
@@ -309,12 +306,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkInternetConnection() {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         val isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected
-
         if (isConnected) {
             Toast.makeText(
                 this,
