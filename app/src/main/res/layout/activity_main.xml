@@ -47,6 +47,9 @@
             android:padding="10dp"
             android:src="@drawable/ic_add"
             android:background="@drawable/border" />
+
+
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -139,6 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/addItemLayout"
+        android:visibility="visible"
         android:layout_marginTop="0dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

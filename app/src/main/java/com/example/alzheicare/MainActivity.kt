@@ -3,17 +3,12 @@ package com.example.alzheicare
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -22,12 +17,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-
 class MainActivity : AppCompatActivity() {
 
     private var isAddItemLayoutVisible = false
     private var isSearchItemVisible = false
     private var isItemListVisible = false
+
     private lateinit var addItem: ImageButton
     private lateinit var searchItem: ImageButton
     private lateinit var sendItem: ImageButton
@@ -54,13 +49,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Initialize Firebase
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser!!
+
+        // Set event handlers and configure UI
         setEventHandlers()
         setupRecyclerView()
         checkInternetConnection()
-        itemListView.visibility=View.VISIBLE
+        itemListView.visibility = View.VISIBLE
+
     }
 
 
@@ -230,10 +230,10 @@ class MainActivity : AppCompatActivity() {
         itemList = mutableListOf()
         filteredItemList = mutableListOf()
         itemListAdapter = ItemListAdapter(filteredItemList)
+        itemListView.visibility = View.VISIBLE
         itemListView.apply {
             adapter = itemListAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
-            visibility=View.VISIBLE
         }
         getDataFromFirebase()
     }
@@ -282,6 +282,8 @@ class MainActivity : AppCompatActivity() {
                             dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
                         itemList.clear()
                         itemList.addAll(items)
+                        itemListView.visibility=View.VISIBLE
+
                         itemListAdapter.notifyDataSetChanged()
                     } else {
                         Toast.makeText(
