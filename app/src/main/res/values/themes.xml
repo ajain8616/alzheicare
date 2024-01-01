@@ -4,7 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/colorRoyalBlue</item>
-        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorDodgerBlue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorRoyalBlue</item>

@@ -13,6 +13,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:padding="9dp">
         <ImageView
             android:id="@+id/itemTypeView"
@@ -57,24 +58,6 @@
                 android:layout_marginBottom="14dp"
                 android:paddingBottom="1dp">
                 <TextView
-                    android:id="@+id/ObjectSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Object Name"
-                    android:text=" "
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-                <TextView
-                    android:id="@+id/InSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IN"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-                <TextView
                     android:id="@+id/ContainerSelection"
                     android:layout_width="223dp"
                     android:layout_height="match_parent"
@@ -101,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        android:visibility="gone"
+
         android:orientation="horizontal"
         android:layout_marginTop="16dp"
         android:padding="9dp">
@@ -143,27 +126,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="14dp"
-                android:paddingBottom="1dp"
                 android:layout_marginBottom="14dp"
-                android:textColor="@color/colorDarkRed"
-                android:visibility="gone">
-                <TextView
-                    android:id="@+id/ObjectViewSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Object Name"
-                    android:text=" "
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-                <TextView
-                    android:id="@+id/InViewSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IN"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
+                android:paddingBottom="1dp">
+
                 <TextView
                     android:id="@+id/ContainerViewSelection"
                     android:layout_width="wrap_content"
