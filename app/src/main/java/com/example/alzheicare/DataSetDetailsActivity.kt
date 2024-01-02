@@ -195,10 +195,12 @@ class DataSetDetailsActivity : AppCompatActivity() {
         updatedItemName = findViewById(R.id.updatedItemName)
         updatedDescription = findViewById(R.id.updatedDescription)
         updatedItemType = findViewById(R.id.updatedItemType)
-       setContainerButton=findViewById(R.id.setContainerButton)
+        setContainerButton=findViewById(R.id.setContainerButton)
         getContainerViews=findViewById(R.id.getContainerViews)
         getContainerView=findViewById(R.id.getContainerView)
+        ObjectSelection=findViewById(R.id.ObjectSelection)
         ContainerSelection=findViewById(R.id.ContainerSelection)
+        ObjectViewSelection=findViewById(R.id.ObjectViewSelection)
         ContainerViewSelection=findViewById(R.id.ContainerViewSelection)
         setContainerImgButton=findViewById(R.id.setContainerImgButton)
     }

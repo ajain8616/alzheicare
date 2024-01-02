@@ -48,8 +48,6 @@
             android:src="@drawable/ic_add"
             android:background="@drawable/border" />
 
-
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -65,7 +63,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search Item"
-            android:textColor="@color/colorPrimary"
             android:layout_centerVertical="true" />
 
         <ImageButton
@@ -92,15 +89,13 @@
             android:id="@+id/itemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Item Name"
-            android:textColor="@color/colorPrimary" />
+            android:hint="Item Name" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
-            android:textColor="@color/colorPrimary"
             android:layout_below="@id/itemName"
             android:layout_marginTop="8dp" />
 
