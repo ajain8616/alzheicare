@@ -508,5 +508,4 @@ class DataSetDetailsActivity : AppCompatActivity() {
         }
     }
 
-
 }
