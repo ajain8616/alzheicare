@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -199,7 +200,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                val item = Item(itemNameText, descriptionText, itemType)
+                val item = Item(itemNameText, descriptionText, itemType,)
                 itemList.add(item)
                 itemListAdapter.notifyDataSetChanged()
                 Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG)
@@ -296,28 +297,6 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
-            // Check if data is updated in Updated_Objects_Containers collection
-            val updatedCollectionName = "Updated_Objects_Containers"
-            database.child(updatedCollectionName).child(userId).get()
-                .addOnSuccessListener { dataSnapshot ->
-                    if (dataSnapshot.exists()) {
-                        val updatedItems =
-                            dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
-                        updatedItems.forEach { updatedItem ->
-                            if (!itemList.contains(updatedItem)) {
-                                itemList.add(updatedItem)
-                            }
-                        }
-                        itemListAdapter.notifyDataSetChanged()
-                    }
-                }.addOnFailureListener { e ->
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Error checking updated data: ${e.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
         } else {
             Toast.makeText(
                 this@MainActivity,
@@ -345,4 +324,5 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
+
 }
