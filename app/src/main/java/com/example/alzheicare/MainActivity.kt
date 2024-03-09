@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
 
     private var isAddItemLayoutVisible = false
     private var isSearchItemVisible = false
-    private var isItemListVisible = false
     private lateinit var addItem: ImageButton
     private lateinit var searchItem: ImageButton
     private lateinit var sendItem: ImageButton
@@ -53,12 +51,11 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
         currentUser = auth.currentUser!!
+
         // Set event handlers and configure UI
         setEventHandlers()
         setupRecyclerView()
         checkInternetConnection()
-        itemListView.visibility = View.VISIBLE
-
     }
 
 
@@ -83,137 +80,41 @@ class MainActivity : AppCompatActivity() {
 
     private fun setEventHandlers() {
         findIdsOfElements()
+
         addItem.setOnClickListener {
-            if (addItemLayout.visibility == View.GONE) {
-                addItemLayout.visibility = View.VISIBLE // Show the form
-                isAddItemLayoutVisible = true
-            } else {
-                addItemLayout.visibility = View.GONE // Hide the form
-                isAddItemLayoutVisible = false
-            }
-            searchItemLayout.visibility = View.GONE
-            isSearchItemVisible = false
-            itemSearch.text = null
-            itemListView.visibility = View.GONE
+            toggleAddItemLayout()
         }
 
         searchItem.setOnClickListener {
-            if (searchItemLayout.visibility == View.GONE) {
-                searchItemLayout.visibility = View.VISIBLE // Show the search layout
-                isSearchItemVisible = true
-            } else {
-                searchItemLayout.visibility = View.GONE
-                isSearchItemVisible = false
-            }
-            addItemLayout.visibility = View.GONE
-            itemListView.visibility = View.VISIBLE
-
+            toggleSearchItemLayout()
         }
 
         itemSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // No implementation needed
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val searchText = s.toString().trim()
-                if (searchText.isNotEmpty()) {
-                    val filteredItems = itemList.filter {
-                        it.itemName.contains(searchText, ignoreCase = true) ||
-                                it.description.contains(searchText, ignoreCase = true) ||
-                                it.itemType.contains(searchText, ignoreCase = true)
-                    }
-
-                    filteredItemList.clear()
-                    filteredItemList.addAll(filteredItems)
-                    itemListAdapter.notifyDataSetChanged()
-                } else {
-                    filteredItemList.clear()
-                    filteredItemList.addAll(itemList)
-                    itemListAdapter.notifyDataSetChanged()
-                }
+                filterItemList(searchText)
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
         fabActionButton.setOnClickListener {
-            if (profileActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE) {
-                // Expand the buttons
-                profileActionButton.visibility = View.VISIBLE
-                listViewActionButton.visibility = View.VISIBLE
-            } else {
-                // Collapse the buttons
-                profileActionButton.visibility = View.GONE
-                listViewActionButton.visibility = View.GONE
-
-            }
+            toggleFabButtons()
         }
 
         profileActionButton.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
 
         listViewActionButton.setOnClickListener {
-            if (itemListView.visibility == View.VISIBLE) {
-                itemListView.visibility = View.GONE
-                isItemListVisible = false
-                Toast.makeText(
-                    this@MainActivity,
-                    "Item List View is now hidden",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                itemListView.visibility = View.VISIBLE
-                isItemListVisible = true
-                Toast.makeText(
-                    this@MainActivity,
-                    "Item List View is now visible",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            toggleItemListVisibility()
         }
-
 
         sendItem.setOnClickListener {
-            val itemNameText = itemName.text.toString()
-            val descriptionText = description.text.toString()
-            val itemType = when (itemTypeRadioGroup.checkedRadioButtonId) {
-                R.id.radioObject -> "OBJECT"
-                R.id.radioContainer -> "CONTAINER"
-                else -> ""
-            }
-            val isDuplicateItem =
-                itemList.any { it.itemName.equals(itemNameText, ignoreCase = true) }
-
-            if (itemNameText.isEmpty() || descriptionText.isEmpty()) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Item name and description cannot be empty",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else if (isDuplicateItem) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Item already exists in the list",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                val item = Item(itemNameText, descriptionText, itemType,)
-                itemList.add(item)
-                itemListAdapter.notifyDataSetChanged()
-                Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG)
-                    .show()
-
-                itemName.text.clear()
-                description.text.clear()
-            }
-            setDataToFirebase()
-            itemListView.visibility = View.VISIBLE
-            addItemLayout.visibility = View.GONE
+            addItemToDatabase()
         }
-
 
         clearButton.setOnClickListener {
             itemSearch.text.clear()
@@ -224,25 +125,108 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView() {
-        itemList = mutableListOf()
-        filteredItemList = mutableListOf()
-        itemListAdapter = ItemListAdapter(filteredItemList)
-        itemListView.visibility = View.VISIBLE
-        itemListView.apply {
-            adapter = itemListAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
+    private fun toggleAddItemLayout() {
+        if (addItemLayout.visibility == View.GONE) {
+            addItemLayout.visibility = View.VISIBLE
+            isAddItemLayoutVisible = true
+        } else {
+            addItemLayout.visibility = View.GONE
+            isAddItemLayoutVisible = false
         }
-        getDataFromFirebase()
+        searchItemLayout.visibility = View.GONE
+        isSearchItemVisible = false
+        itemSearch.text = null
+        itemListView.visibility = View.GONE
     }
 
-    private fun setDataToFirebase() {
+    private fun toggleSearchItemLayout() {
+        if (searchItemLayout.visibility == View.GONE) {
+            searchItemLayout.visibility = View.VISIBLE
+            isSearchItemVisible = true
+        } else {
+            searchItemLayout.visibility = View.GONE
+            isSearchItemVisible = false
+        }
+        addItemLayout.visibility = View.GONE
+        itemListView.visibility = View.VISIBLE
+    }
+
+    private fun toggleFabButtons() {
+        if (profileActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE) {
+            profileActionButton.visibility = View.VISIBLE
+            listViewActionButton.visibility = View.VISIBLE
+        } else {
+            profileActionButton.visibility = View.GONE
+            listViewActionButton.visibility = View.GONE
+        }
+    }
+
+    private fun toggleItemListVisibility() {
+        if (itemListView.visibility == View.VISIBLE) {
+            itemListView.visibility = View.GONE
+            Toast.makeText(this, "Item List View is now hidden", Toast.LENGTH_SHORT).show()
+        } else {
+            itemListView.visibility = View.VISIBLE
+            Toast.makeText(this, "Item List View is now visible", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun filterItemList(searchText: String) {
+        val filteredItems = itemList.filter {
+            it.itemName.contains(searchText, ignoreCase = true) ||
+                    it.description.contains(searchText, ignoreCase = true) ||
+                    it.itemType.contains(searchText, ignoreCase = true)
+        }
+
+        filteredItemList.clear()
+        filteredItemList.addAll(filteredItems)
+        itemListAdapter.notifyDataSetChanged()
+    }
+
+    private fun addItemToDatabase() {
+        val itemNameText = itemName.text.toString()
+        val descriptionText = description.text.toString()
+        val itemType = when (itemTypeRadioGroup.checkedRadioButtonId) {
+            R.id.radioObject -> "OBJECT"
+            R.id.radioContainer -> "CONTAINER"
+            else -> ""
+        }
+        val isDuplicateItem = itemList.any { it.itemName.equals(itemNameText, ignoreCase = true) }
+
+        if (itemNameText.isEmpty() || descriptionText.isEmpty()) {
+            Toast.makeText(
+                this@MainActivity,
+                "Item name and description cannot be empty",
+                Toast.LENGTH_LONG
+            ).show()
+        } else if (isDuplicateItem) {
+            Toast.makeText(
+                this@MainActivity,
+                "Item already exists in the list",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            val item = Item(itemNameText, descriptionText, itemType)
+            itemList.add(item)
+            itemListAdapter.notifyDataSetChanged()
+            Toast.makeText(this@MainActivity, "Item added successfully", Toast.LENGTH_LONG).show()
+
+            itemName.text.clear()
+            description.text.clear()
+
+            setDataToFirebase(item)
+        }
+        itemListView.visibility = View.VISIBLE
+        addItemLayout.visibility = View.GONE
+    }
+
+    private fun setDataToFirebase(item: Item) {
         val userId = currentUser?.uid
         val database = FirebaseDatabase.getInstance().reference
         val collectionName = "Item_Container_Data"
         if (userId != null) {
-            val itemsMap = itemList.map { it.itemName to it }.toMap()
-            database.child(collectionName).child(userId).setValue(itemsMap)
+            val newItemRef = database.child(collectionName).child(userId).push()
+            newItemRef.setValue(item)
                 .addOnSuccessListener {
                     Toast.makeText(
                         this@MainActivity,
@@ -266,7 +250,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun getDataFromFirebase() {
         val userId = currentUser?.uid
         val database = FirebaseDatabase.getInstance().reference
@@ -280,8 +263,8 @@ class MainActivity : AppCompatActivity() {
                             dataSnapshot.children.mapNotNull { it.getValue(Item::class.java) }
                         itemList.clear()
                         itemList.addAll(items)
-                        itemListView.visibility=View.VISIBLE
-
+                        filteredItemList.clear()
+                        filteredItemList.addAll(itemList)
                         itemListAdapter.notifyDataSetChanged()
                     } else {
                         Toast.makeText(
@@ -303,6 +286,16 @@ class MainActivity : AppCompatActivity() {
                 "User not logged in. Data cannot be retrieved.",
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    private fun setupRecyclerView() {
+        itemList = mutableListOf()
+        filteredItemList = mutableListOf()
+        itemListAdapter = ItemListAdapter(filteredItemList)
+        itemListView.apply {
+            adapter = itemListAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
         }
     }
 
