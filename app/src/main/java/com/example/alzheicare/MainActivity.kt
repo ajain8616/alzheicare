@@ -39,9 +39,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabActionButton: FloatingActionButton
     private lateinit var profileActionButton: FloatingActionButton
     private lateinit var listViewActionButton: FloatingActionButton
+    private lateinit var cameraActionButton:FloatingActionButton
     private lateinit var clearButton: ImageButton
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         fabActionButton = findViewById(R.id.fabActionButton)
         profileActionButton = findViewById(R.id.profileActionButton)
         listViewActionButton = findViewById(R.id.listViewActionButton)
+        cameraActionButton = findViewById(R.id.cameraActionButton)
         clearButton = findViewById(R.id.clearButton)
     }
 
@@ -120,9 +123,17 @@ class MainActivity : AppCompatActivity() {
             itemSearch.text.clear()
         }
 
+        cameraActionButton.setOnClickListener {
+            openCamera()
+        }
+
         if (currentUser != null) {
             getDataFromFirebase()
         }
+    }
+
+    private fun openCamera() {
+        Toast.makeText(this, "Open Camera", Toast.LENGTH_SHORT).show()
     }
 
     private fun toggleAddItemLayout() {
@@ -132,11 +143,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             addItemLayout.visibility = View.GONE
             isAddItemLayoutVisible = false
+            itemListView.visibility = View.VISIBLE
+
         }
         searchItemLayout.visibility = View.GONE
         isSearchItemVisible = false
         itemSearch.text = null
-        itemListView.visibility = View.GONE
+        itemListView.visibility = View.VISIBLE
     }
 
     private fun toggleSearchItemLayout() {
@@ -152,12 +165,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleFabButtons() {
-        if (profileActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE) {
+        if (profileActionButton.visibility == View.GONE || listViewActionButton.visibility == View.GONE || cameraActionButton.visibility == View.GONE) {
             profileActionButton.visibility = View.VISIBLE
             listViewActionButton.visibility = View.VISIBLE
+            cameraActionButton.visibility = View.VISIBLE
         } else {
             profileActionButton.visibility = View.GONE
             listViewActionButton.visibility = View.GONE
+            cameraActionButton.visibility = View.GONE
         }
     }
 

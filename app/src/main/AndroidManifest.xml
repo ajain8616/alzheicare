@@ -11,13 +11,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.ItemsFinder"
-        tools:targetApi="31">
-        <activity
-            android:name=".ContainerCollectionsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TopLevelContainerActivity"
-            android:exported="false" />
+        tools:targetApi="34">
         <activity
             android:name=".ContainerChoiceActivity"
             android:exported="false" />
