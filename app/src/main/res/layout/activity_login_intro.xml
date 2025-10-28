@@ -4,62 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginIntroActivity">
+    android:background="@drawable/background_gradient"
+    tools:context=".activities.LoginIntroActivity">
 
-    <TextView
-        android:id="@+id/txtLoginSubHeader"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_width="wrap_content"
+    <!-- Background Wave -->
+    <ImageView
+        android:id="@+id/bottomWave"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_wave"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Main Content Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="In the vast expanse of life, the finder is a beacon of curiosity, unearthing gems that illuminate the world."
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="16dp"
+        app:cardMaxElevation="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
-    <TextView
-        android:id="@+id/txtLoginHeader"
-        style="@style/TextAppearance.AppCompat.Headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Alzhei Care"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtLoginSubHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <!-- Glass background effect -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_glass"
+            android:padding="40dp">
 
+            <!-- App Icon/Image -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:src="@drawable/import_documents"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_marginBottom="8dp"
-        android:id="@+id/imageView"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:src="@drawable/import_documents"
-        app:layout_constraintBottom_toTopOf="@+id/txtLoginHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <!-- Main Header -->
+            <TextView
+                android:id="@+id/txtLoginHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="Welcome to Alzhei Care"
+                android:textColor="@color/colorPrimary"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView" />
 
-    <Button
-        android:textColor="@color/colorPrimary"
-        android:background="@drawable/btn_primary"
-        android:id="@+id/btnGetStarted"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:text="Get Started"
-        app:layout_constraintEnd_toEndOf="@+id/txtLoginSubHeader"
-        app:layout_constraintStart_toStartOf="@+id/txtLoginSubHeader"
-        app:layout_constraintTop_toBottomOf="@+id/txtLoginSubHeader" />
+            <!-- Sub Header -->
+            <TextView
+                android:id="@+id/txtLoginSubHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="In the vast expanse of life, the finder is a beacon of curiosity unearthing gems that illuminate the world"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLoginHeader" />
 
-    <ImageView
-        android:src="@drawable/ic_wave"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <!-- Get Started Button -->
+            <Button
+                android:id="@+id/btnGetStarted"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/btn_gradient"
+                android:text="Get Started"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLoginSubHeader" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

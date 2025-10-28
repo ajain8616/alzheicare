@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">Alzhei Care</string>
+    <string name="log_in">Log In</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="email_address">Email Address</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="join_us_today_and_get_started">Join us today and get started</string>
+    <string name="in_the_vast_expanse_of_life_the_finder_is_a_beacon_of_curiosity_unearthing_gems_that_illuminate_the_world">In the vast expanse of life, the finder is a beacon of curiosity, unearthing gems that illuminate the world.</string>
+    <string name="welcome_to_alzhei_care">Welcome to Alzhei Care</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_your_email_address_and_we_ll_send_you_a_link_to_reset_your_password">Enter your email address and we\'ll send you a link to reset your password</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="_2h_ago">2h ago</string>
+    <string name="object">OBJECT</string>
+    <string name="item_description_goes_here_with_detailed_information_about_the_product">Item description goes here with detailed information about the product</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="resend_verification_link">Resend Verification Link</string>
+    <string name="camera_image">Camera Image</string>
+    <string name="image_caption">You may be disconnected due to Internet connectivity issues..</string>
+    <string name="camera_action_button_text">Check</string>
+
+    <string name="please_verify_your_email_to_continue_check_your_inbox">Please verify your email to continue. Check your inbox.</string>
+    <string name="add_new_item">Add New Item</string>
+    <string name="container">CONTAINER</string>
+    <string name="item_type">Item Type</string>
+    <string name="item_description">Item Description</string>
+    <string name="container_name">Container Name</string>
+    <string name="object_name">Object Name</string>
+    <string name="in">IN</string>
+    <string name="update">Update</string>
+    <string name="set_container">Set Container</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="cancel">Cancel</string>
+    <string name="description">Description</string>
+    <string name="item_name">Item Name</string>
+    <string name="current_item">Current Item</string>
+    <string name="item_details">Item Details</string>
+    <string name="confirm_selection">Confirm Selection</string>
+    <string name="logout">Logout</string>
+    <string name="user_name">User Name</string>
+    <string name="user_example_com">user@example.com</string>
 </resources>

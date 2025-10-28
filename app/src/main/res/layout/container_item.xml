@@ -1,63 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cardContainer"
-    android:background="@color/colorPrimary"
-    android:elevation="16dp"
-    android:layout_margin="8dp">
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="12dp">
 
-    <LinearLayout
+    <!-- Glassmorphism Background -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_glass"
+        android:padding="20dp">
 
+        <!-- Container Icon with Gradient Background -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="184dp"
+            android:id="@+id/iconContainer"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/icon_gradient_container"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/containerIcon"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
-                android:src="@drawable/ic_container" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_container"
+                app:tint="@color/colorWhite" />
 
+            <!-- Container Type Badge -->
+            <TextView
+                android:id="@+id/containerTypeBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/badge_container"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="CONTAINER"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="none" />
+
+        </LinearLayout>
+
+        <!-- Content Area -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/iconContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iconContainer"
+            app:layout_constraintTop_toTopOf="@id/iconContainer">
+
+            <!-- Container Name -->
+            <TextView
+                android:id="@+id/containerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Container Name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="none" />
+
+            <!-- Container Description -->
+            <TextView
+                android:id="@+id/containerDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Container description goes here with detailed information"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="14sp"
+                android:maxLines="3"
+                android:ellipsize="end" />
+
+            <!-- Metadata Row -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="5dp">
+                android:gravity="center_vertical">
 
+                <!-- Created Time -->
                 <TextView
-                    android:id="@+id/containerSelectedView"
+                    android:id="@+id/createdTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorDarkRed"
-                    android:textSize="19sp"
-                    tools:hint="Selected Container" />
+                    android:gravity="center_vertical"
+                    android:text="2h ago"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="none" />
 
-                <CheckBox
-                    android:id="@+id/checkBox"
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/colorLightSilver" />
+
+                <!-- Items Count (Optional) -->
+                <TextView
+                    android:id="@+id/itemsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorFire"
-                    android:gravity="center"
-                    android:visibility="gone" />
+                    android:gravity="center_vertical"
+                    android:text="5 items"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="none" />
 
             </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+
+        <!-- Selection Indicator -->
+        <CheckBox
+            android:id="@+id/selectionCheckbox"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:buttonTint="@color/colorSecondary"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Selected State Overlay -->
+        <View
+            android:id="@+id/selectedOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/selected_item_background"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:alpha="0.1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

@@ -1,352 +1,660 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DataSetDetailsActivity">
+    android:background="@drawable/background_gradient"
+    tools:context=".activities.DataSetDetailsActivity">
 
-    <LinearLayout
-        android:id="@+id/cardView"
+    <!-- App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        android:padding="9dp">
-        <ImageView
-            android:id="@+id/itemTypeView"
-            android:layout_width="72dp"
-            android:layout_height="77dp"
-            android:src="@drawable/ic_block" />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="4dp">
-            <TextView
-                android:id="@+id/itemNameView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Item Name"
-                android:layout_marginBottom="14dp"
-                android:text=""
-                android:paddingBottom="1dp"
-                android:textColor="@color/colorDarkRed"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+        android:background="@drawable/appbar_background_bottom_radius"
+        android:elevation="12dp"
+        android:fitsSystemWindows="true">
 
-            <TextView
-                android:id="@+id/descriptionView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="Description"
-                android:text=""
-                android:textColor="@color/colorDarkRed"
-                android:textSize="19sp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp">
 
-            <LinearLayout
-                android:id="@+id/getContainerViews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="14dp"
-                android:paddingBottom="1dp">
-
-                <TextView
-                    android:id="@+id/ObjectSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Object Name"
-                    android:text=" "
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/InSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IN"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-                <TextView
-                    android:id="@+id/ContainerSelection"
-                    android:layout_width="223dp"
-                    android:layout_height="match_parent"
-                    android:hint="Container Name"
-                    android:text=" "
-                    android:textColor="@color/colorFireBrick"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-        <ImageButton
-            android:id="@+id/setContainerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="9dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_shift_container" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/updatedCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:layout_marginTop="16dp"
-        android:padding="9dp">
-        <ImageView
-            android:id="@+id/updatedItemType"
-            android:layout_width="72dp"
-            android:layout_height="77dp"
-            android:src="@drawable/ic_block" />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="4dp">
-            <TextView
-                android:id="@+id/updatedItemName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Updated Name"
-                android:text=""
-                android:textColor="@color/colorDarkRed"
-                android:paddingBottom="1dp"
-                android:layout_marginBottom="14dp"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/updatedDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="Updated Description"
-                android:text=""
-                android:textColor="@color/colorDarkRed"
-                android:textSize="19sp" />
-            <LinearLayout
-                android:id="@+id/getContainerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="14dp"
-                android:paddingBottom="1dp">
-
-                <TextView
-                    android:id="@+id/ObjectViewSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Object Name"
-                    android:text=" "
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/InViewSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IN"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/ContainerViewSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Container Name"
-                    android:text=" "
-                    android:textColor="@color/colorFireBrick"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-        <ImageButton
-            android:id="@+id/setContainerImgButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="9dp"
-            android:src="@drawable/ic_shift_container" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linearLayoutForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/editItemName"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Item Name"
-            android:visibility="gone"
-            android:textColor="@color/colorPrimary" />
-        <EditText
-            android:id="@+id/editDescription"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:hint="Description"
-            android:textColor="@color/colorPrimary" />
-        <RadioGroup
-            android:id="@+id/radioGroupItemType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/radioItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OBJECT"
-                android:textColor="@color/colorPrimary" />
-            <RadioButton
-                android:id="@+id/radioContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CONTAINER"
-                android:textColor="@color/colorPrimary" />
-        </RadioGroup>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/saveChangesButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_primary"
-                android:padding="15dp"
-                android:src="@drawable/ic_save" />
+            <!-- Back Button -->
             <ImageButton
                 android:id="@+id/backButton"
-                android:layout_width="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/icon_gradient_background"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/colorPrimaryButtonBg" />
+
+            <!-- Item Title -->
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/item_details"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02"
+                app:layout_constraintBottom_toBottomOf="@id/backButton"
+                app:layout_constraintEnd_toStartOf="@+id/menuOptionsButton"
+                app:layout_constraintStart_toEndOf="@id/backButton"
+                app:layout_constraintTop_toTopOf="@id/backButton" />
+
+            <!-- Menu Options Button -->
+            <ImageButton
+                android:id="@+id/menuOptionsButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/icon_gradient_background"
+                android:src="@drawable/ic_more_vert"
+                app:layout_constraintBottom_toBottomOf="@id/backButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/backButton"
+                app:tint="@color/colorPrimaryButtonBg" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Blur Overlay - Hidden by default -->
+    <View
+        android:id="@+id/blurOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blurBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    <!-- Main Content - Centered Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Current Item Card - Centered -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/currentItemCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:elevation="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="16dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_glass"
+                android:padding="24dp">
+
+                <!-- Header -->
+                <TextView
+                    android:id="@+id/currentItemTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_item"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Item Icon with Gradient Background -->
+                <LinearLayout
+                    android:id="@+id/iconContainer"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_gradient_background"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/currentItemTitle">
+
+                    <ImageView
+                        android:id="@+id/itemTypeView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_block"
+                        app:tint="@color/colorWhite" />
+
+                    <!-- Item Type Badge -->
+                    <TextView
+                        android:id="@+id/itemTypeBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/badge_background"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="2dp"
+                        android:text="@string/object"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="none" />
+
+                </LinearLayout>
+
+                <!-- Content Area -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="@id/iconContainer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iconContainer"
+                    app:layout_constraintTop_toTopOf="@id/iconContainer">
+
+                    <!-- Item Name Row with Container Name on the right -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- Item Name -->
+                        <TextView
+                            android:id="@+id/itemNameView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Item Name"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <!-- Container Name (Visible only when item has container) -->
+                        <TextView
+                            android:id="@+id/currentItemContainerName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="@string/container_name"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:ellipsize="none"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <!-- Description -->
+                    <TextView
+                        android:id="@+id/descriptionView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/description"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="14sp"
+                        android:maxLines="3"
+                        android:ellipsize="end" />
+
+                    <!-- Metadata Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- Created Time -->
+                        <TextView
+                            android:id="@+id/createdTimeView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/_2h_ago"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="12sp"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:ellipsize="none" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="12dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:background="@color/colorLightSilver" />
+
+                        <!-- Item Type -->
+                        <TextView
+                            android:id="@+id/currentItemType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/object"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:ellipsize="none" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <!-- Edit Form Card (Initially Hidden) - Also Centered -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/editFormCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="24dp"
+        android:elevation="16dp"
+        android:visibility="gone"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_glass"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/editFormTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_item"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Item Name Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itemNameInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/colorPrimary"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editFormTitle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editItemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/item_name"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorDarkGray"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Description Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_primary"
-                android:padding="15dp"
-                android:src="@drawable/ic_back" />
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/colorPrimary"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemNameInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorDarkGray"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Item Type Selection -->
+            <TextView
+                android:id="@+id/itemTypeLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/item_type"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descriptionInputLayout" />
+
+            <!-- Radio Group for Item Type -->
+            <RadioGroup
+                android:id="@+id/radioGroupItemType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemTypeLabel">
+
+                <!-- Object Radio Button -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardObject"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="12dp">
+
+                        <RadioButton
+                            android:id="@+id/radioItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorBlue"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@string/object"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Container Radio Button -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="@color/colorSecondary"
+                    app:strokeWidth="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="12dp">
+
+                        <RadioButton
+                            android:id="@+id/radioContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorBlue"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@string/container"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </RadioGroup>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radioGroupItemType">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveChangesButton"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_gradient"
+                    android:text="@string/update"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_save"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/colorWhite" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_secondary"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_clear"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/colorPrimary"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Menu Options Layout -->
+    <LinearLayout
+        android:id="@+id/menuOptionsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_glass"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:elevation="24dp">
+
+        <!-- Edit Option -->
+        <LinearLayout
+            android:id="@+id/menuEditOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/edit_item"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
+
+        <!-- Delete Option -->
+        <LinearLayout
+            android:id="@+id/menuDeleteOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/colorBoundaryRed" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/delete_item"
+                android:textColor="@color/colorBoundaryRed"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Set Container Option -->
+        <LinearLayout
+            android:id="@+id/menuSetContainerOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_shift_container"
+                app:tint="@color/colorBlue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/set_container"
+                android:textColor="@color/colorBlue"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
+    <!-- Lottie Animation Views -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/updateMessage"
-        android:layout_width="386dp"
-        android:layout_height="468dp"
-        android:layout_below="@+id/linearLayoutForm"
-        android:visibility="gone"
-        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
         android:background="@android:color/transparent"
-        android:layout_alignParentEnd="true"
+        android:visibility="gone"
         app:lottie_autoPlay="false"
         app:lottie_fileName="update_message.json"
         app:lottie_speed="2" />
-    <RelativeLayout
-        android:layout_width="374dp"
-        android:layout_height="403dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="52dp">
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/containerChoice"
-            android:layout_width="409dp"
-            android:layout_height="731dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:lottie_autoPlay="false"
-            app:lottie_fileName="container_storing_data.json"
-            app:lottie_speed="2" />
-    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/containerChoice"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="container_storing_data.json"
+        app:lottie_speed="2" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/deleteMessage"
         android:layout_width="match_parent"
-        android:layout_height="720dp"
-        android:layout_below="@+id/cardView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="-193dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="11dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:visibility="gone"
         app:lottie_autoPlay="false"
         app:lottie_fileName="delete_message.json"
         app:lottie_speed="2" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_more_vert" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/editActionButton"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/floatingActionButton"
-        android:layout_alignStart="@+id/floatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="6dp"
-        android:src="@drawable/ic_edit" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/deleteActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/editActionButton"
-        android:visibility="gone"
-        android:layout_alignStart="@+id/floatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="17dp"
-        android:src="@drawable/ic_delete" />
-</RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

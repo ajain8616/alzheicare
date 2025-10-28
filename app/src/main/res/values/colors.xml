@@ -10,6 +10,7 @@
     <color name="blue_light">#81D4FA</color>
     <color name="colorPrimary">#18206F</color>
     <color name="colorAccent">#00FFDC</color>
+    <color name="colorSecondary">#018878</color>
     <color name="colorPrimaryButtonBg">#18206F</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBrightYellow">#FFD700</color>
@@ -76,5 +77,9 @@
     <color name="colorBoundaryPink">#FFC0CB</color>
     <color name="colorBoundaryGray">#2D1C1C</color>
     <color name="colorBoundaryTeal">#00695B</color>
-</resources>
+    <color name="background">#FAFAFA</color>
+    <color name="blurBackground">#80000000</color>
 
+    <!-- Added missing colors -->
+    <color name="colorPurple">#800080</color>
+</resources>
