@@ -6,15 +6,18 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alzheicare.R
 import com.example.alzheicare.adapters.ContainerListAdapter
 import com.example.alzheicare.data_models.Item
 import com.example.alzheicare.databinding.ActivityContainerChoiceBinding
+import com.example.alzheicare.databinding.DialogNoWifiBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,6 +36,7 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     private var selectedContainer: Item? = null
     private var originalItemId: String? = null
     private var originalItemName: String? = null
+    private var noWifiDialog: AlertDialog? = null
 
     // Collection names matching your Firestore structure
     companion object {
@@ -238,8 +242,29 @@ class ContainerChoiceActivity : AppCompatActivity(), ContainerListAdapter.OnItem
     }
 
     private fun showNoWifiDialog() {
-        Toast.makeText(this, "No internet connection. Please check your WiFi or mobile data.", Toast.LENGTH_LONG).show()
+        noWifiDialog?.dismiss()
+        val dialogBinding = DialogNoWifiBinding.inflate(layoutInflater)
+        val builder = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .setCancelable(false)
+
+        noWifiDialog = builder.create()
+        noWifiDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        noWifiDialog?.show()
+
+        // Modified: Open WiFi settings when action button is clicked
+        dialogBinding.customButton.setOnClickListener {
+            val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(intent)
+            noWifiDialog?.dismiss()
+        }
+
+        // Close dialog when cross icon is clicked
+        dialogBinding.crossIcon.setOnClickListener {
+            noWifiDialog?.dismiss()
+        }
     }
+
 
     override fun onItemClick(container: Item) {
         Log.d(TAG, "Container selected: ${container.itemName}")

@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -289,32 +290,29 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showNoWifiDialog() {
         noWifiDialog?.dismiss()
-
         val dialogBinding = DialogNoWifiBinding.inflate(layoutInflater)
-        val dialogBuilder = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar)
+        val builder = AlertDialog.Builder(this)
             .setView(dialogBinding.root)
             .setCancelable(false)
 
-        noWifiDialog = dialogBuilder.create()
+        noWifiDialog = builder.create()
         noWifiDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         noWifiDialog?.show()
 
-        dialogBinding.imageCaption.text = "Internet connection required for login. Please check your WiFi or mobile data and try again."
-        dialogBinding.customButton.text = "Try Again"
-
+        // Modified: Open WiFi settings when action button is clicked
         dialogBinding.customButton.setOnClickListener {
-            if (isInternetAvailable()) {
-                noWifiDialog?.dismiss()
-                retryAfterConnectionRestored()
-            } else {
-                Toast.makeText(this, "Still no internet connection. Please check your WiFi or mobile data.", Toast.LENGTH_SHORT).show()
-            }
+            val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(intent)
+            noWifiDialog?.dismiss()
+            retryAfterConnectionRestored()
+
         }
 
-        noWifiDialog?.setOnDismissListener {
-            if (!isInternetAvailable()) {
-                Toast.makeText(this, "Internet connection required to login", Toast.LENGTH_SHORT).show()
-            }
+        // Close dialog when cross icon is clicked
+        dialogBinding.crossIcon.setOnClickListener {
+            noWifiDialog?.dismiss()
+            retryAfterConnectionRestored()
+
         }
     }
 

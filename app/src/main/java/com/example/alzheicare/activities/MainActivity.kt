@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.clearButton.setOnClickListener {
             binding.itemSearch.text?.clear()
-            hideSearchItemLayout() // Add this line to hide the layout
+            hideSearchItemLayout()
         }
 
         binding.profileImg.setOnClickListener {
@@ -402,15 +403,22 @@ class MainActivity : AppCompatActivity() {
         noWifiDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         noWifiDialog?.show()
 
+        // Modified: Open WiFi settings when action button is clicked
         dialogBinding.customButton.setOnClickListener {
-            if (isInternetAvailable()) {
-                noWifiDialog?.dismiss()
-                retryPendingOperations()
-            } else {
-                Toast.makeText(this, "Still no internet connection", Toast.LENGTH_SHORT).show()
-            }
+            val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(intent)
+            noWifiDialog?.dismiss()
+            retryPendingOperations()
+
+        }
+
+        // Close dialog when cross icon is clicked
+        dialogBinding.crossIcon.setOnClickListener {
+            noWifiDialog?.dismiss()
+            retryPendingOperations()
         }
     }
+
 
     private fun retryPendingOperations() {
         setupFirestoreListener()

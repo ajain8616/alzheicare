@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -569,7 +570,6 @@ class DataSetDetailsActivity : AppCompatActivity() {
     }
 
     private fun showNoWifiDialog() {
-        Log.d(TAG, "showNoWifiDialog: Showing no WiFi dialog")
         noWifiDialog?.dismiss()
         val dialogBinding = DialogNoWifiBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(this)
@@ -580,14 +580,20 @@ class DataSetDetailsActivity : AppCompatActivity() {
         noWifiDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         noWifiDialog?.show()
 
+        // Modified: Open WiFi settings when action button is clicked
         dialogBinding.customButton.setOnClickListener {
-            Log.d(TAG, "showNoWifiDialog: Retry button clicked")
-            if (isInternetAvailable()) {
-                noWifiDialog?.dismiss()
-                retryPendingOperations()
-            } else {
-                Toast.makeText(this, "Still no internet connection", Toast.LENGTH_SHORT).show()
-            }
+            val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(intent)
+            noWifiDialog?.dismiss()
+            retryPendingOperations()
+
+        }
+
+        // Close dialog when cross icon is clicked
+        dialogBinding.crossIcon.setOnClickListener {
+            noWifiDialog?.dismiss()
+            retryPendingOperations()
+
         }
     }
 

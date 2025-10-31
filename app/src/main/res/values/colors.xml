@@ -79,7 +79,8 @@
     <color name="colorBoundaryTeal">#00695B</color>
     <color name="background">#FAFAFA</color>
     <color name="blurBackground">#80000000</color>
-
-    <!-- Added missing colors -->
     <color name="colorPurple">#800080</color>
+    <color name="colorPrimaryDark">#0F1A5A</color>
+    <color name="transparent">#00000000</color>
+    <color name="cardBackground">#e4e9f9</color>
 </resources>
